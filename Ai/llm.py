@@ -2,7 +2,9 @@ import os
 
 
 def generate(prompt):
-    api_key = 'REMOVED'
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable not set")
 
     from google import genai
     from google.genai import types
