@@ -1,40 +1,152 @@
-import json
-from datetime import date, timedelta
-from typing import Any
-
-from profile_engine import DAYS, profile_summary_for_prompt
-
-
-def next_study_week(start: date | None = None) -> list[dict[str, str]]:
-    today = start or date.today()
-    days_until_saturday = (5 - today.weekday()) % 7
-    first_day = today + timedelta(days=days_until_saturday)
-    return [
-        {
-            "day": day_name,
-            "date": (first_day + timedelta(days=index)).isoformat(),
-        }
-        for index, day_name in enumerate(DAYS)
-    ]
-
-
-def build_planning_prompt(student_profile: dict[str, Any], courses_data: dict[str, Any] | None = None) -> str:
-    week_dates = next_study_week()
-    payload = {
-        "student_profile": profile_summary_for_prompt(student_profile),
-        "courses_catalog": courses_data or {},
-        "week_dates": week_dates,
-    }
-    profile_json = json.dumps(payload, ensure_ascii=False, indent=2)
-
-    return f"""
 شما یک مشاور تحصیلی خبره برای داوطلبان کنکور ایران هستید.
 وظیفه شما تولید یک برنامه هفتگی شخصی‌سازی‌شده، قابل اجرا و قابل پیگیری است.
 
 داده ورودی زیر شامل پروفایل دانش‌آموز، ظرفیت زمانی، وضعیت هر درس، عقب‌افتادگی، و تاریخچه عملکرد اخیر است:
 
 ```json
-{profile_json}
+{
+  "student_profile": {
+    "student_id": "رادین",
+    "created_at": "2026-06-08T13:13:07",
+    "updated_at": "2026-06-08T13:13:07",
+    "student": {
+      "name": "رادین",
+      "grade": "دوازدهم",
+      "major": "ریاضی",
+      "exam_year": "1405",
+      "goal": "افزایش تراز و جمع‌بندی منظم"
+    },
+    "availability": {
+      "daily_hours": {
+        "شنبه": 4.0,
+        "یکشنبه": 5.0,
+        "دوشنبه": 6.0,
+        "سه‌شنبه": 4.0,
+        "چهارشنبه": 3.0,
+        "پنجشنبه": 4.0,
+        "جمعه": 2.0
+      },
+      "weekly_hours": 28.0,
+      "preferred_session_minutes": 60,
+      "rest_minutes_between_sessions": 20,
+      "constraints": []
+    },
+    "courses": {
+      "حسابان": {
+        "base_difficulty": 4,
+        "student_weakness": 1,
+        "target_importance": 4,
+        "interest": 2,
+        "last_test_percent": 60.0,
+        "backlog_hours": 0.0,
+        "notes": "",
+        "priority_score": 8.6,
+        "recommended_weekly_hours": 4.0
+      },
+      "شیمی": {
+        "base_difficulty": 3,
+        "student_weakness": 2,
+        "target_importance": 3,
+        "interest": 4,
+        "last_test_percent": 45.0,
+        "backlog_hours": 5.0,
+        "notes": "",
+        "priority_score": 9.1,
+        "recommended_weekly_hours": 4.0
+      },
+      "فیزیک": {
+        "base_difficulty": 4,
+        "student_weakness": 5,
+        "target_importance": 3,
+        "interest": 2,
+        "last_test_percent": 50.0,
+        "backlog_hours": 5.0,
+        "notes": "",
+        "priority_score": 14.7,
+        "recommended_weekly_hours": 7.0
+      },
+      "گسسته": {
+        "base_difficulty": 5,
+        "student_weakness": 3,
+        "target_importance": 3,
+        "interest": 3,
+        "last_test_percent": 50.0,
+        "backlog_hours": 0.0,
+        "notes": "",
+        "priority_score": 11.25,
+        "recommended_weekly_hours": 5.0
+      },
+      "هندسه": {
+        "base_difficulty": 4,
+        "student_weakness": 3,
+        "target_importance": 3,
+        "interest": 3,
+        "last_test_percent": 50.0,
+        "backlog_hours": 0.0,
+        "notes": "",
+        "priority_score": 10.35,
+        "recommended_weekly_hours": 5.0
+      }
+    },
+    "progress_history": [],
+    "planner_state": {
+      "version": 1,
+      "last_plan_summary": null
+    }
+  },
+  "courses_catalog": {
+    "حسابان": {
+      "base_difficulty": 4,
+      "weekly_hours_required": 10
+    },
+    "فیزیک": {
+      "base_difficulty": 4,
+      "weekly_hours_required": 8
+    },
+    "شیمی": {
+      "base_difficulty": 3,
+      "weekly_hours_required": 6
+    },
+    "گسسته": {
+      "base_difficulty": 5,
+      "weekly_hours_required": 5
+    },
+    "هندسه": {
+      "base_difficulty": 4,
+      "weekly_hours_required": 5
+    }
+  },
+  "week_dates": [
+    {
+      "day": "شنبه",
+      "date": "2026-06-13"
+    },
+    {
+      "day": "یکشنبه",
+      "date": "2026-06-14"
+    },
+    {
+      "day": "دوشنبه",
+      "date": "2026-06-15"
+    },
+    {
+      "day": "سه‌شنبه",
+      "date": "2026-06-16"
+    },
+    {
+      "day": "چهارشنبه",
+      "date": "2026-06-17"
+    },
+    {
+      "day": "پنجشنبه",
+      "date": "2026-06-18"
+    },
+    {
+      "day": "جمعه",
+      "date": "2026-06-19"
+    }
+  ]
+}
 ```
 
 قواعد برنامه‌ریزی:
@@ -66,21 +178,3 @@ def build_planning_prompt(student_profile: dict[str, Any], courses_data: dict[st
 - دقیق بگو دانش‌آموز آخر هفته چه چیزهایی را گزارش کند تا پروفایل آپدیت شود: ساعت مطالعه واقعی، کیفیت مطالعه، درصد آزمون/تمرین، عقب‌افتادگی، و توضیح کوتاه.
 
 خروجی نهایی را فقط به زبان فارسی و با Markdown تمیز تولید کن.
-""".strip()
-
-
-def build_profile_update_summary(profile: dict[str, Any]) -> str:
-    courses = profile.get("courses", {})
-    rows = []
-    for course_name, course in sorted(courses.items(), key=lambda item: item[1].get("priority_score", 0), reverse=True):
-        rows.append(
-            {
-                "course": course_name,
-                "weakness": course.get("student_weakness"),
-                "priority_score": course.get("priority_score"),
-                "recommended_weekly_hours": course.get("recommended_weekly_hours"),
-                "backlog_hours": course.get("backlog_hours"),
-                "last_test_percent": course.get("last_test_percent"),
-            }
-        )
-    return json.dumps(rows, ensure_ascii=False, indent=2)

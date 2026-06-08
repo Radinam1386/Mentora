@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from typing import Any
 
+from DataStore import SUPPORTED_GRADES, SUPPORTED_MAJORS, get_courses, normalize_grade, normalize_major
 from profile_engine import DAYS, build_profile
+
+
+Number = int | float
 
 
 def ask_text(label: str, default: str | None = None) -> str:
@@ -11,38 +16,37 @@ def ask_text(label: str, default: str | None = None) -> str:
     return value or (default or "")
 
 
-def ask_int(label: str, default: int, minimum: int | None = None, maximum: int | None = None) -> int:
+def ask_number(
+    label: str,
+    default: Number,
+    cast: Callable[[str], Number],
+    minimum: Number | None = None,
+    maximum: Number | None = None,
+) -> Number:
     while True:
         raw = ask_text(label, str(default))
         try:
-            value = int(raw)
+            value = cast(raw)
         except ValueError:
-            print("لطفا عدد صحیح وارد کن.")
+            print("لطفا عدد معتبر وارد کن.")
             continue
+
         if minimum is not None and value < minimum:
             print(f"عدد باید حداقل {minimum} باشد.")
             continue
         if maximum is not None and value > maximum:
             print(f"عدد باید حداکثر {maximum} باشد.")
             continue
+
         return value
+
+
+def ask_int(label: str, default: int, minimum: int | None = None, maximum: int | None = None) -> int:
+    return int(ask_number(label, default, int, minimum, maximum))
 
 
 def ask_float(label: str, default: float, minimum: float | None = None, maximum: float | None = None) -> float:
-    while True:
-        raw = ask_text(label, str(default))
-        try:
-            value = float(raw)
-        except ValueError:
-            print("لطفا عدد وارد کن.")
-            continue
-        if minimum is not None and value < minimum:
-            print(f"عدد باید حداقل {minimum} باشد.")
-            continue
-        if maximum is not None and value > maximum:
-            print(f"عدد باید حداکثر {maximum} باشد.")
-            continue
-        return value
+    return float(ask_number(label, default, float, minimum, maximum))
 
 
 def ask_rating(label: str, default: int = 3) -> int:
@@ -54,45 +58,61 @@ def ask_csv(label: str) -> list[str]:
     return [part.strip() for part in raw.split(",") if part.strip()]
 
 
-def collect_profile(courses_data: dict[str, dict[str, Any]]) -> dict[str, Any]:
+def ask_choice(label: str, options: tuple[str, ...], default: str, normalizer: Callable[[str], str]) -> str:
+    options_text = " / ".join(options)
+    while True:
+        value = ask_text(f"{label} ({options_text})", default)
+        try:
+            return normalizer(value)
+        except ValueError as exc:
+            print(exc)
+
+
+def collect_student_info() -> dict[str, Any]:
     print("\n--- ساخت پروفایل دانش‌آموز ---")
-    name = ask_text("نام دانش‌آموز", "student")
-    student = {
-        "name": name,
-        "grade": ask_text("پایه/سال تحصیلی", "دوازدهم"),
-        "major": ask_text("رشته", "ریاضی"),
+    return {
+        "name": ask_text("نام دانش‌آموز", "student"),
+        "grade": ask_choice("پایه/سال تحصیلی", SUPPORTED_GRADES, "دوازدهم", normalize_grade),
+        "major": ask_choice("رشته", SUPPORTED_MAJORS, "ریاضی", normalize_major),
         "exam_year": ask_text("سال کنکور", "1405"),
         "goal": ask_text("هدف اصلی", "افزایش تراز و جمع‌بندی منظم"),
     }
 
+
+def collect_availability() -> dict[str, Any]:
     print("\n--- زمان آزاد مطالعه ---")
-    daily_hours = {}
-    for day in DAYS:
-        daily_hours[day] = ask_float(f"چند ساعت در {day} می‌تواند مطالعه کند؟", 4, 0, 16)
-    weekly_hours = round(sum(daily_hours.values()), 1)
-    availability = {
+    daily_hours = {day: ask_float(f"چند ساعت در {day} می‌تواند مطالعه کند؟", 4, 0, 16) for day in DAYS}
+    return {
         "daily_hours": daily_hours,
-        "weekly_hours": weekly_hours,
+        "weekly_hours": round(sum(daily_hours.values()), 1),
         "preferred_session_minutes": ask_int("طول مناسب هر پارت مطالعه به دقیقه", 90, 30, 180),
         "rest_minutes_between_sessions": ask_int("استراحت بین پارت‌ها به دقیقه", 15, 5, 60),
         "constraints": ask_csv("محدودیت‌ها یا زمان‌های ممنوعه، با کاما جدا کن"),
     }
 
+
+def collect_course_status(course_name: str) -> dict[str, Any]:
+    print(f"\nدرس: {course_name}")
+    return {
+        "student_weakness": ask_rating("میزان ضعف", 3),
+        "target_importance": ask_rating("اهمیت برای هدف کنکور", 3),
+        "interest": ask_rating("علاقه/انگیزه", 3),
+        "backlog_hours": ask_float("عقب‌افتادگی فعلی به ساعت", 0, 0, 100),
+        "last_test_percent": ask_float("آخرین درصد آزمون", 50, 0, 100),
+        "notes": ask_text("نکته خاص درباره این درس", ""),
+    }
+
+
+def collect_profile() -> dict[str, Any]:
+    student = collect_student_info()
+    availability = collect_availability()
+    courses_data = get_courses(student["major"])
+
     print("\n--- وضعیت دروس ---")
     print("ضعف: 1 یعنی خیلی خوب، 5 یعنی خیلی ضعیف/نیازمند زمان زیاد.")
-    course_inputs = {}
-    for course_name in courses_data:
-        print(f"\nدرس: {course_name}")
-        course_inputs[course_name] = {
-            "student_weakness": ask_rating("میزان ضعف", 3),
-            "target_importance": ask_rating("اهمیت برای هدف کنکور", 3),
-            "interest": ask_rating("علاقه/انگیزه", 3),
-            "backlog_hours": ask_float("عقب‌افتادگی فعلی به ساعت", 0, 0, 100),
-            "last_test_percent": ask_float("آخرین درصد آزمون", 50, 0, 100),
-            "weak_topics": ask_csv("مباحث ضعیف، با کاما جدا کن"),
-            "notes": ask_text("نکته خاص درباره این درس", ""),
-        }
+    print(f"دروس رشته {student['major']}: {', '.join(courses_data)}")
 
+    course_inputs = {course_name: collect_course_status(course_name) for course_name in courses_data}
     return build_profile(student, availability, course_inputs, courses_data)
 
 

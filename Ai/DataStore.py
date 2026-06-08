@@ -7,32 +7,43 @@ ROOT_DIR = Path(__file__).resolve().parent
 DATA_DIR = ROOT_DIR / "data"
 PROFILES_DIR = DATA_DIR / "profiles"
 
+SUPPORTED_GRADES = ("دهم", "یازدهم", "دوازدهم")
+SUPPORTED_MAJORS = ("ریاضی", "تجربی")
 
-COURSES_DATA = {
-    "حسابان": {
-        "base_difficulty": 4,
-        "weekly_hours_required": 10,
-        "topics": ["تابع", "مثلثات", "حد و پیوستگی", "مشتق"],
+MAJOR_ALIASES = {
+    "ریاضی": "ریاضی",
+    "رياضی": "ریاضی",
+    "ریاضی فیزیک": "ریاضی",
+    "تجربی": "تجربی",
+    "علوم تجربی": "تجربی",
+}
+
+GRADE_ALIASES = {
+    "10": "دهم",
+    "دهم": "دهم",
+    "پایه دهم": "دهم",
+    "11": "یازدهم",
+    "یازدهم": "یازدهم",
+    "يازدهم": "یازدهم",
+    "پایه یازدهم": "یازدهم",
+    "12": "دوازدهم",
+    "دوازدهم": "دوازدهم",
+    "پایه دوازدهم": "دوازدهم",
+}
+
+COURSES_BY_MAJOR = {
+    "ریاضی": {
+        "حسابان": {"base_difficulty": 4, "weekly_hours_required": 10},
+        "فیزیک": {"base_difficulty": 4, "weekly_hours_required": 8},
+        "شیمی": {"base_difficulty": 3, "weekly_hours_required": 6},
+        "گسسته": {"base_difficulty": 5, "weekly_hours_required": 5},
+        "هندسه": {"base_difficulty": 4, "weekly_hours_required": 5},
     },
-    "شیمی": {
-        "base_difficulty": 3,
-        "weekly_hours_required": 6,
-        "topics": ["استوکیومتری", "ترمودینامیک", "تعادل", "شیمی آلی"],
-    },
-    "فیزیک": {
-        "base_difficulty": 4,
-        "weekly_hours_required": 8,
-        "topics": ["حرکت‌شناسی", "دینامیک", "الکتریسیته", "مغناطیس"],
-    },
-    "گسسته": {
-        "base_difficulty": 5,
-        "weekly_hours_required": 5,
-        "topics": ["گراف", "ترکیبیات", "نظریه اعداد", "احتمال"],
-    },
-    "هندسه": {
-        "base_difficulty": 4,
-        "weekly_hours_required": 5,
-        "topics": ["بردار", "مقاطع مخروطی", "تبدیلات", "هندسه فضایی"],
+    "تجربی": {
+        "شیمی": {"base_difficulty": 3, "weekly_hours_required": 7},
+        "فیزیک": {"base_difficulty": 4, "weekly_hours_required": 6},
+        "ریاضی": {"base_difficulty": 4, "weekly_hours_required": 6},
+        "زیست": {"base_difficulty": 5, "weekly_hours_required": 10},
     },
 }
 
@@ -41,12 +52,32 @@ def ensure_data_dirs() -> None:
     PROFILES_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def get_courses() -> dict[str, dict[str, Any]]:
-    return COURSES_DATA.copy()
+def normalize_major(major: str) -> str:
+    normalized = MAJOR_ALIASES.get(major.strip())
+    if not normalized:
+        raise ValueError(f"رشته باید یکی از این موارد باشد: {', '.join(SUPPORTED_MAJORS)}")
+    return normalized
+
+
+def normalize_grade(grade: str) -> str:
+    normalized = GRADE_ALIASES.get(grade.strip())
+    if not normalized:
+        raise ValueError(f"پایه باید یکی از این موارد باشد: {', '.join(SUPPORTED_GRADES)}")
+    return normalized
+
+
+def get_courses(major: str = "ریاضی") -> dict[str, dict[str, Any]]:
+    normalized_major = normalize_major(major)
+    return {course: data.copy() for course, data in COURSES_BY_MAJOR[normalized_major].items()}
+
+
+def get_profile_courses(profile: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    major = profile.get("student", {}).get("major", "ریاضی")
+    return get_courses(major)
 
 
 def get_courses_summary(courses: dict[str, Any] | None = None) -> str:
-    return json.dumps(courses or COURSES_DATA, ensure_ascii=False, indent=2)
+    return json.dumps(courses or get_courses(), ensure_ascii=False, indent=2)
 
 
 def profile_path(student_id: str) -> Path:
