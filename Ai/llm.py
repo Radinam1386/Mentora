@@ -34,8 +34,8 @@ from openai import OpenAI
 
 def generate(prompt):
     client = OpenAI(
-        api_key="ng-d6676ad2e642e62e69d672e9d39da3b1",
-        base_url="https://api.hormouz.net/v1"
+        api_key = os.environ.get("MODEL_API"),
+        base_url = "https://api.hormouz.net/v1"
     )
 
     response = client.chat.completions.create(
