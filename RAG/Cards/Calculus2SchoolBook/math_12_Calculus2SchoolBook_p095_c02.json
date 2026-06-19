@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p095_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی شرایط کلی عدم مشتق‌پذیری یک تابع در یک نقطه.",
+  "key_points": [
+    "عدم پیوستگی در نقطه a منجر به عدم مشتق‌پذیری می‌شود.",
+    "در صورت پیوستگی، نابرابر بودن مشتق چپ و راست (در حالت‌های متناهی یا نامتناهی) باعث عدم مشتق‌پذیری می‌شود."
+  ],
+  "main_text": "تابع f در x=a مشتق‌پذیر نیست هرگاه حداقل یکی از شرایط زیر برقرار باشد:\n1. f در a پیوسته نباشد.\n2. f در a پیوسته باشد و مشتق راست و مشتق چپ در x=a:\nالف) هر دو موجود (متناهی) ولی نابرابر باشند (نقطه گوشه‌ای).\nب) یکی متناهی و دیگری نامتناهی باشد (نقطه گوشه‌ای).\nپ) هر دو نامتناهی باشند.",
+  "other_details": [],
+  "source_page": 95,
+  "image_path": "books/Calculus2SchoolBook/page_095.png",
+  "confidence": 0.95
+}

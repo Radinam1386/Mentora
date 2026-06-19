@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p094_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی عدم مشتق‌پذیری تابع در نقاطی که دارای مماس قائم هستند، حتی در صورت پیوستگی تابع.",
+  "key_points": [
+    "تابعی که در نقطه‌ای دارای مماس قائم باشد، در آن نقطه مشتق‌پذیر نیست."
+  ],
+  "main_text": "مثال: بررسی مشتق‌پذیری تابع f(x) = \\sqrt[3]{x} در x = 0:\nf'(0) = \\lim_{x \\to 0} \\frac{\\sqrt[3]{x} - 0}{x} = \\lim_{x \\to 0} \\frac{\\sqrt[3]{x}}{x} = \\lim_{x \\to 0} \\frac{1}{\\sqrt[3]{x^2}} = +\\infty\nبنابراین تابع f در صفر مشتق‌پذیر نیست. در این حالت، خط x = 0 را مماس قائم منحنی می‌نامیم.",
+  "other_details": [
+    "نمودارهای تابع f(x) = \\sqrt[3]{x} نشان می‌دهند که وقتی از سمت راست یا چپ به نقطه صفر نزدیک می‌شویم، خط‌های قاطع به خط عمودی x = 0 نزدیک می‌شوند."
+  ],
+  "source_page": 94,
+  "image_path": "books/Calculus2SchoolBook/page_094.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p048_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "یافتن جواب‌های کلی معادله tan x = tan alpha با استفاده از دایره مثلثاتی و حل یک مثال کاربردی.",
+  "key_points": [
+    "جواب‌های کلی معادله tan x = tan alpha به صورت x = k*pi + alpha است، به شرطی که k یک عدد صحیح باشد."
+  ],
+  "main_text": "از دایره مثلثاتی و محور تانژانت در شکل مقابل می‌توان دریافت که رابطه بین زوایای x و alpha به صورت x = k*pi + alpha به صورت که k یک عدد صحیح است، صحیح می‌باشد.\nدر نمودار بالا اگر a = 1 باشد، داریم:\ntan x = 1 => tan x = tan(pi/4) => x = k*pi + pi/4 (k in Z)\n\nجواب‌های کلی معادله tan x = tan alpha به صورت x = k*pi + alpha می‌باشد که k یک عددی صحیح است.\n\nمثال: معادله tan x = tan 5x را حل کنید.\nحل: x = k*pi + 5x => 4x = k*pi => x = (k*pi)/4 (k in Z)",
+  "other_details": [
+    "تصویری از دایره مثلثاتی که محورهای sin، cos و tan را نشان می‌دهد و زوایای alpha، pi + alpha و k*pi + alpha را مشخص کرده است."
+  ],
+  "source_page": 48,
+  "image_path": "books/Calculus2SchoolBook/page_048.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p033_c01",
+  "main_subject": "chemistry",
+  "subsubject": "acids_and_bases",
+  "tag": "chemistry/acids_and_bases",
+  "summary": "معرفی رابطه ریاضی pH بر اساس غلظت یون هیدرونیوم با استفاده از تابع لگاریتم و روش محاسبه آن.",
+  "key_points": [
+    "رابطه بیان کمیت pH توسط شیمی‌دان‌ها: pH = -log [H+]",
+    "استفاده از قوانین لگاریتم در محاسبات: log_a x = b <-> x = a^b، log ab = log a + log b، log (a/b) = log a - log b و log a^n = n log a",
+    "شیر ترش شده دارای خاصیت اسیدی و pH کمتر از ۷ است."
+  ],
+  "main_text": "شیمی‌دان‌ها کمیت pH را با تابع لگاریتم به صورت زیر بیان می‌کنند:\npH = -log [H+]\nمثال حل شده برای محاسبه غلظت یون هیدرونیوم برای شیر ترش شده با pH = ۲/۷:\npH = -log [H+] -> [H+] = 10^-... -> [H+] = 10^-۲/۷ = 10^۰/۳ x 10^-۳ = ...",
+  "other_details": "شیر ترش شده، خاصیت اسیدی داشته و pH < ۷ دارد.",
+  "source_page": 33,
+  "image_path": "Books/Chemistry3SchoolBook/page_033.png",
+  "confidence": 0.95
+}

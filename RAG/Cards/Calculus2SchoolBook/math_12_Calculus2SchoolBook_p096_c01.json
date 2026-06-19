@@ -1,0 +1,19 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p096_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "معرفی مفهوم تابع مشتق و نحوه محاسبه مشتق در نقاط مختلف برای تابع f(x) = x^2 با استفاده از تعریف حد.",
+  "key_points": [
+    "مشتق تابع در یک نقطه (در صورت وجود) برابر با شیب خط مماس بر منحنی در آن نقطه است.",
+    "از آنجا که مماس بر منحنی در هر نقطه یکتاست، f'(x) تابعی از x است."
+  ],
+  "main_text": "محاسبه مشتق در نقاط مختلف برای تابع f(x) = x^2 با استفاده از تعریف حد:\n\nf'(-2) = \\lim_{x \\to -2} \\frac{f(x) - f(-2)}{x - (-2)} = \\lim_{x \\to -2} \\frac{x^2 - 4}{x + 2} = \\lim_{x \\to -2} (x - 2) = -4\n\nf'(\\sqrt{3}) = \\lim_{x \\to \\sqrt{3}} \\frac{f(x) - f(\\sqrt{3})}{x - \\sqrt{3}} = \\lim_{x \\to \\sqrt{3}} \\frac{x^2 - 3}{x - \\sqrt{3}} = \\lim_{x \\to \\sqrt{3}} \\frac{(x + \\sqrt{3})(x - \\sqrt{3})}{x - \\sqrt{3}} = 2\\sqrt{3}\n\nf'(0) = \\lim_{x \\to 0} \\frac{f(x) - f(0)}{x - 0} = \\lim_{x \\to 0} \\frac{x^2}{x} = 0",
+  "other_details": [
+    "نمودار تابع f(x) = x^2 به همراه خطوط مماس در نقاط مختلف.",
+    "جدولی که مقادیر x و مشتق متناظر آن‌ها f'(x) را نشان می‌دهد؛ به طور مثال برای x = -2 مقدار f'(-2) = -4 و برای x = \\sqrt{3} مقدار f'(\\sqrt{3}) = 2\\sqrt{3} است."
+  ],
+  "source_page": 96,
+  "image_path": "books/Calculus2SchoolBook/page_096.png",
+  "confidence": 0.95
+}

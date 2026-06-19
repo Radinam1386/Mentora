@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p047_c02",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "تحلیل گرافیکی برای حل معادله tan x = a و تبدیل آن به فرم tan x = tan alpha.",
+  "key_points": [
+    "جواب‌های معادله tan x = a همان طول نقاط تلاقی نمودار تابع y = tan x و خط y = a هستند.",
+    "امکان بازنویسی معادله tan x = a به صورت tan x = tan alpha به شرطی که tan alpha = a باشد."
+  ],
+  "main_text": "در شکل زیر نمودار تابع y = tan x و خط y = a که a یک عدد حقیقی است رسم شده‌اند. از روی نمودار این دو تابع می‌توان مشاهده کرد که جواب‌های معادله tan x = a همان طول نقاط تلاقی دو نمودار است. در واقع همواره برای هر عدد حقیقی a، زاویه‌ای مانند alpha وجود دارد که tan alpha = a باشد. بنابراین معادله tan x = a به صورت tan x = tan alpha بازنویسی می‌شود.",
+  "other_details": [
+    "نمودار شامل منحنی‌های سبز رنگ (تابع tan x) و یک خط افقی قرمز رنگ (y = a) است که نقاط تلاقی آن‌ها جواب‌های معادله را نشان می‌دهد."
+  ],
+  "source_page": 47,
+  "image_path": "books/Calculus2SchoolBook/page_047.png",
+  "confidence": 0.95
+}

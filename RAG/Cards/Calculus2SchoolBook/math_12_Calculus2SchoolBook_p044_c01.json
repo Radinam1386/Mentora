@@ -1,0 +1,22 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p044_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "روش یافتن جواب‌های کلی برای معادله مثلثاتی cos x = a با استفاده از زاویه کمانی alpha و دایره مثلثاتی.",
+  "key_points": [
+    "شرط وجود جواب برای معادله cos x = a: -1 <= a <= 1",
+    "فرمول جواب‌های کلی معادله cos x = cos alpha:",
+    "x = 2k*pi + alpha",
+    "x = 2k*pi - alpha",
+    "صورت کلی: x = 2k*pi +/- alpha , k in Z"
+  ],
+  "main_text": "برای هر عدد حقیقی a به گونه‌ای که -1 <= a <= 1 در معادله cos x = a زاویه‌ای چون alpha وجود دارد که cos alpha = a باشد.\n\nبنابراین برای حل معادله فوق کافی است ابتدا آن را به صورت cos x = cos alpha بنویسیم و سپس رابطه بین زاویه‌های x و alpha را با توجه به دایره مثلثاتی به صورت زیر به دست آوریم:\ncos x = cos alpha => x = 2k*pi + alpha و x = 2k*pi - alpha , k in Z\n\nجواب‌های کلی معادله cos x = cos alpha به صورت x = 2k*pi +/- alpha می باشند که k in Z.",
+  "other_details": [
+    "نمودار تابع y = cos x و خط y = sqrt(3)/2 برای یافتن نقاط تلاقی و جواب‌های معادله.",
+    "دایره مثلثاتی که محل تلاقی خط x = sqrt(3)/2 با دایره را نشان داده و جواب‌ها را بر اساس زاویه alpha مشخص کرده است."
+  ],
+  "source_page": 44,
+  "image_path": "books/Calculus2SchoolBook/page_044.png",
+  "confidence": 0.95
+}

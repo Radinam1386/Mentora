@@ -1,0 +1,16 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p131_c01",
+  "main_subject": "chemistry",
+  "subsubject": "acids_and_bases",
+  "tag": "chemistry/acids_and_bases",
+  "summary": "تعاریف مربوط به ثابت‌های یونش اسیدها و بازها در محلول آبی.",
+  "key_points": [
+    "ثابت یونش اسید (Ka): مقدار ثابت تعادل برای یونش یک اسید در محلول آبی و دمای معین.",
+    "ثابت یونش باز (Kb): مقدار ثابت تعادل برای یونش یک باز در محلول آبی و دمای معین."
+  ],
+  "main_text": "ثابت یونش اسید (Ka): مقدار ثابت تعادل برای یونش یک اسید در محلول آبی و دمای معین است.\nثابت یونش باز (Kb): مقدار ثابت تعادل برای یونش یک باز در محلول آبی و دمای معین است.",
+  "other_details": [],
+  "source_page": 131,
+  "image_path": "Books/Chemistry3SchoolBook/page_131.png",
+  "confidence": 0.95
+}

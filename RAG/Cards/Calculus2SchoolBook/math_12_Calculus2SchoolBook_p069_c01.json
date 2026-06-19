@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p069_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "تعریف و بررسی حد‌های نامتناهی توابع وقتی x به سمت بی‌نهایت میل می‌کند.",
+  "key_points": [
+    "اگر با میل کردن x به سمت +\\infty، مقادیر f(x) از هر عدد دلخواه مثبت بزرگ‌تر شوند، می‌گوییم حد تابع برابر +\\infty است: \\lim_{x \\to +\\infty} f(x) = +\\infty",
+    "اگر با میل کردن x به سمت +\\infty، مقادیر f(x) به سمت -\\infty میل کنند، می‌گوییم حد تابع برابر -\\infty است: \\lim_{x \\to +\\infty} f(x) = -\\infty"
+  ],
+  "main_text": "در حالت کلی برای یک تابع f که در یک بازه (a, +\\infty) تعریف شده است، اگر با میل کردن x به سمت +\\infty، f(x) نیز به سمت +\\infty میل کند، می‌گوییم حد این تابع در +\\infty برابر +\\infty است و می‌نویسیم:\n\\lim_{x \\to +\\infty} f(x) = +\\infty\nبرای مثال:\n\\lim_{x \\to +\\infty} x = +\\infty و \\lim_{x \\to +\\infty} x^2 = +\\infty\n\nهمچنین اگر با میل کردن x به سمت +\\infty، f(x) به سمت -\\infty میل کند، می‌گوییم حد این تابع در +\\infty برابر -\\infty است و می‌نویسیم:\n\\lim_{x \\to +\\infty} f(x) = -\\infty\nبه عنوان مثال:\n\\lim_{x \\to +\\infty} -x^2 = -\\infty",
+  "other_details": [
+    "نمودار تابع f(x) = x و g(x) = x^2 نشان می‌دهد که با افزایش مقادیر x، مقادیر توابع نیز از هر عدد مثبت دلخواهی بزرگ‌تر می‌شوند."
+  ],
+  "source_page": 69,
+  "image_path": "books/Calculus2SchoolBook/page_069.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p122_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بیان قضیه وجود مقادیر اکسترمم مطلق برای توابع پیوسته در بازه‌های بسته.",
+  "key_points": [
+    "توابع پیوسته در بازه بسته [a, b] همواره دارای ماکزیمم مطلق و مینیمم مطلق هستند."
+  ],
+  "main_text": "قضیه: اگر تابع f در بازه بسته [a, b] پیوسته باشد، آنگاه تابع در این بازه هم ماکزیمم مطلق و هم مینیمم مطلق دارد.",
+  "other_details": [],
+  "source_page": 122,
+  "image_path": "books/Calculus2SchoolBook/page_122.png",
+  "confidence": 0.95
+}

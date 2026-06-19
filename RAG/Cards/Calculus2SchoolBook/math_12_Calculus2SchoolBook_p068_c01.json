@@ -1,0 +1,19 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p068_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "بررسی حد توابع در بی‌نهایت و قواعد عملیاتی حدها شامل مجموع، تفاضل، ضرب و تقسیم.",
+  "key_points": [
+    "قضیه ۶: حد عبارت a/x^n وقتی x به سمت مثبت یا منفی بی‌نهایت میل می‌کند برابر صفر است: \\lim_{x \\to \\pm\\infty} \\frac{a}{x^n} = 0",
+    "قضیه ۷: قواعد عملیاتی حدها در بی‌نهایت برای مجموع، تفاضل، ضرب و تقسیم توابعی که حدشان وجود دارد.",
+    "حد مجموع یا تفاضل دو تابع برابر است با مجموع یا تفاضل حد آن‌ها.",
+    "حد ضرب دو تابع برابر است با ضرب حد آن‌ها.",
+    "حد تقسیم دو تابع برابر است با تقسیم حد آن‌ها، به شرطی که حد مخرج صفر نباشد."
+  ],
+  "main_text": "قضیه ۶: اگر a عددی حقیقی و n عددی طبیعی باشد آنگاه:\n\\lim_{x \\to \\pm\\infty} \\frac{a}{x^n} = 0\nمثال: حاصل هر یک از حدود \\lim_{x \\to \\pm\\infty} \\frac{-5}{2x} و \\lim_{x \\to \\pm\\infty} \\frac{\\sqrt{2}}{x} برابر صفر است.\n\nقضیه ۷: اگر \\lim_{x \\to +\\infty} f(x) = L_1 و \\lim_{x \\to +\\infty} g(x) = L_2 و L_1, L_2 اعداد حقیقی باشند آنگاه:\nالف) \\lim_{x \\to +\\infty} (f \\pm g)(x) = \\lim_{x \\to +\\infty} f(x) \\pm \\lim_{x \\to +\\infty} g(x) = L_1 \\pm L_2\nب) \\lim_{x \\to +\\infty} (f \\cdot g)(x) = \\lim_{x \\to +\\infty} f(x) \\cdot \\lim_{x \\to +\\infty} g(x) = L_1 \\cdot L_2\nپ) \\lim_{x \\to +\\infty} \\frac{f(x)}{g(x)} = \\frac{\\lim_{x \\to +\\infty} f(x)}{\\lim_{x \\to +\\infty} g(x)} = \\frac{L_1}{L_2} (با فرض L_2 \\neq 0)\n\nتذکر: قضیه فوق وقتی x به سمت -\\infty میل می‌کند نیز برقرار است.\n\nمثال‌های حل‌شده:\nالف) \\lim_{x \\to +\\infty} (3 + \\frac{5}{x}) = \\lim_{x \\to +\\infty} 3 + \\lim_{x \\to +\\infty} \\frac{5}{x} = 3 + 0 = 3\nب) \\lim_{x \\to -\\infty} \\frac{2 + \\frac{3}{x^2}}{\\frac{5}{x} + 4} = \\frac{\\lim_{x \\to -\\infty} 2 + \\lim_{x \\to -\\infty} \\frac{3}{x^2}}{\\lim_{x \\to -\\infty} \\frac{5}{x} + \\lim_{x \\to -\\infty} 4} = \\frac{2 + 0}{0 + 4} = \\frac{2}{4} = \\frac{1}{2}",
+  "other_details": [],
+  "source_page": 68,
+  "image_path": "books/Calculus2SchoolBook/page_068.png",
+  "confidence": 0.95
+}

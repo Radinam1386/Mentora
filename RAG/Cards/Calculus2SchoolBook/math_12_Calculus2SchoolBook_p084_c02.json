@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p084_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "معرفی فرمول جایگزین برای محاسبه مشتق در یک نقطه با استفاده از نماد $\\Delta x$.",
+  "key_points": [
+    "فرمول شیب خط قاطع گذرنده از نقاط A و B: $m_{AB} = \\frac{\\Delta y}{\\Delta x} = \\frac{f(a + \\Delta x) - f(a)}{\\Delta x}$",
+    "تعریف مشتق در نقطه a بر اساس $\\Delta x$: $f'(a) = \\lim_{\\Delta x \\to 0} \\frac{f(a + \\Delta x) - f(a)}{\\Delta x}$"
+  ],
+  "main_text": "برای محاسبه مشتق در یک نقطه می‌توان از دستورهای معادل دیگری استفاده کرد:\nشیب خط قاطع گذرنده از نقاط A و B:\n$m_{AB} = \\frac{\\Delta y}{\\Delta x} = \\frac{f(a + \\Delta x) - f(a)}{\\Delta x}$\nو از آنجا:\n$f'(a) = \\lim_{\\Delta x \\to 0} \\frac{f(a + \\Delta x) - f(a)}{\\Delta x}$\n\nمثال: اگر $f(x) = -x^2 + 10x$ باشد، محاسبه $f'(2)$:\n$f'(2) = \\lim_{\\Delta x \\to 0} \\frac{f(2 + \\Delta x) - f(2)}{\\Delta x} = \\lim_{\\Delta x \\to 0} \\frac{-(2 + \\Delta x)^2 + 10(2 + \\Delta x) - 16}{\\Delta x}$\n$= \\lim_{\\Delta x \\to 0} \\frac{-4 - 4\\Delta x - \\Delta x^2 + 20 + 10\\Delta x - 16}{\\Delta x} = \\lim_{\\Delta x \\to 0} \\frac{-\\Delta x^2 + 6\\Delta x}{\\Delta x} = \\lim_{\\Delta x \\to 0} \\frac{\\Delta x(-\\Delta x + 6)}{\\Delta x} = \\lim_{\\Delta x \\to 0} (-\\Delta x + 6) = 6$",
+  "other_details": [],
+  "source_page": 84,
+  "image_path": "books/Calculus2SchoolBook/page_084.png",
+  "confidence": 0.95
+}

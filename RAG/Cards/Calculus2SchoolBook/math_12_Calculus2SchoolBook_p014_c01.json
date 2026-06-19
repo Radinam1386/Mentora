@@ -1,0 +1,17 @@
+{
+  "card_id": "Math_12_Calculus2SchoolBook_p014_c01",
+  "main_subject": "math",
+  "subsubject": "function",
+  "tag": "Math/function",
+  "summary": "تمرین کاربردی برای رسم نمودار تابع با استفاده از ترکیبی از تبدیل‌های انتقال افقی، قرینه‌سازی نسبت به محور x و انتقال عمودی.",
+  "key_points": [
+    "مراحل تبدیل نمودار $f(x)$ به $-f(x-1)+2$ شامل انتقال ۱ واحد به راست، قرینه‌سازی نسبت به محور $x$ و سپس انتقال ۲ واحد به بالا است."
+  ],
+  "main_text": "۳ نمودار تابع $f(x) = y$ در زیر رسم شده است. با انجام مراحل زیر، نمودار تابع $y = -f(x-1) + 2$ را رسم کنید.",
+  "other_details": [
+    "نمودارهای توالی تبدیل‌ها به ترتیب زیر نمایش داده شده‌اند: $y=f(x) \\rightarrow y=f(x-1) \\rightarrow y=-f(x-1) \\rightarrow y=-f(x-1)+2$"
+  ],
+  "source_page": 14,
+  "image_path": "books/Calculus2SchoolBook/page_014.png",
+  "confidence": 0.95
+}

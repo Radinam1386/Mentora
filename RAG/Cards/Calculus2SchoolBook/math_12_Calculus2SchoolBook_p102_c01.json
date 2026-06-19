@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p102_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "محاسبه مشتق تابع تانژانت با استفاده از قاعده تقسیم و اتحادهای مثلثاتی.",
+  "key_points": [
+    "f(x) = \\tan x \\implies f'(x) = \\frac{1}{\\cos^2 x} = 1 + \\tan^2 x"
+  ],
+  "main_text": "مثال: مشتق f(x) = \\tan x را به دست آورید.\nf(x) = \\tan x = \\frac{\\sin x}{\\cos x} \\implies f'(x) = \\frac{(\\cos x)(\\cos x) + (\\sin x)(\\sin x)}{\\cos^2 x} = \\frac{1}{\\cos^2 x} = 1 + \\tan^2 x",
+  "other_details": [],
+  "source_page": 102,
+  "image_path": "books/Calculus2SchoolBook/page_102.png",
+  "confidence": 0.95
+}

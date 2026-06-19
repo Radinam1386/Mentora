@@ -1,0 +1,52 @@
+[
+  {
+    "page": 52,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_052.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='cQsmaqjeOZOZ-8YPoOaX-AE' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=5236,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=4978\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=3214,\n  total_token_count=8450\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 62,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_062.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='2g8mar2pLZaW-8YPzsi5oAo' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=4607,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=4349\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=2320,\n  total_token_count=6927\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 84,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_084.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='ORgmavXpDr6ZjMcP69nX2Ao' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=4639,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=4381\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=1540,\n  total_token_count=6179\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 87,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_087.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='wBkmapqXDcLN-sAP94-CwAk' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=4975,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=4717\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=1413,\n  total_token_count=6388\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 93,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_093.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='_xwmaqfdL5Gl1MkPze7gqQs' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=4819,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=4561\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=1689,\n  total_token_count=6508\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 100,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_100.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='pSEmaoe9F-HRjMcPmYCbwAY' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=3013,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=2755\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=1795,\n  total_token_count=4808\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 102,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_102.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='sCImatzAAs6i1MkPp_3g8A4' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=3526,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=3268\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=2120,\n  total_token_count=5646\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  },
+  {
+    "page": 103,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_103.png",
+    "error": "500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}"
+  },
+  {
+    "page": 109,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_109.png",
+    "error": "500 INTERNAL. {'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}"
+  },
+  {
+    "page": 110,
+    "image": "/home/runner/work/Mentora/Mentora/RAG/Books/Physics3SchoolBook/page_110.png",
+    "error": "Google API returned no text. Raw response: sdk_http_response=HttpResponse(\n  headers=<dict len=12>\n) candidates=[Candidate(\n  content=Content(),\n  finish_reason=<FinishReason.RECITATION: 'RECITATION'>,\n  index=0\n)] create_time=None model_version='gemma-4-31b-it' prompt_feedback=None response_id='lCYmavYq0NKMxw-rn9HYBg' usage_metadata=GenerateContentResponseUsageMetadata(\n  prompt_token_count=3905,\n  prompt_tokens_details=[\n    ModalityTokenCount(\n      modality=<MediaModality.TEXT: 'TEXT'>,\n      token_count=3647\n    ),\n    ModalityTokenCount(\n      modality=<MediaModality.IMAGE: 'IMAGE'>,\n      token_count=258\n    ),\n  ],\n  thoughts_token_count=1338,\n  total_token_count=5243\n) model_status=None automatic_function_calling_history=[] parsed=None"
+  }
+]

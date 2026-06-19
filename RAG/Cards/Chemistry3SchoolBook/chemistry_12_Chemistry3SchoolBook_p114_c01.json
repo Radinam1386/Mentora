@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p114_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_equilibrium",
+  "tag": "chemistry/chemical_equilibrium",
+  "summary": "بررسی اثر تغییر دما بر مقدار ثابت تعادل (K) برای واکنش تجزیه SO3 بر اساس داده‌های تجربی.",
+  "key_points": [
+    "با افزایش دما، مقدار ثابت تعادل (K) برای واکنش تجزیه SO3 افزایش می‌یابد."
+  ],
+  "main_text": "جدول داده شده اثر دما را بر ثابت تعادل واکنش زیر نشان می‌دهد:\n2SO3(g) ⇌ 2SO2(g) + O2(g)",
+  "other_details": [
+    "داده‌های جدول: در دمای ۲۵ درجه سانتی‌گراد K=2.5 × 10^-25، در دمای ۲۲۵ درجه سانتی‌گراد K=4 × 10^-11 و در دمای ۴۳۵ درجه سانتی‌گراد K=4 × 10^-5 است."
+  ],
+  "source_page": 114,
+  "image_path": "Books/Chemistry3SchoolBook/page_114.png",
+  "confidence": 0.95
+}

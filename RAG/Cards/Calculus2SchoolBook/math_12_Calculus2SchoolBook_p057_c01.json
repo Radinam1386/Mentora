@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p057_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "بررسی قضایای مربوط به حد توابع در نقاطی که حد آن‌ها بی‌نهایت است، به‌ویژه برای توابع به فرم 1/x^n و شرط یکسان بودن حد راست و چپ برای تعیین حد کلی.",
+  "key_points": [
+    "قضیه ۱: تعیین حد تابع 1/x^n وقتی x به صفر میل می‌کند بر اساس زوج یا فرد بودن n.",
+    "قضیه ۲: حد کلی تابع در نقطه a برابر با بی‌نهایت است اگر و تنها اگر حد راست و چپ هر دو برابر با همان بی‌نهایت (مثبت یا منفی) باشند."
+  ],
+  "main_text": "قضیه ۱: اگر n یک عدد طبیعی باشد، آنگاه:\n\\lim_{x \\to 0^+} \\frac{1}{x^n} = +\\infty\nو \\lim_{x \\to 0^-} \\frac{1}{x^n} = \\begin{cases} +\\infty & n \\text{ عددی زوج باشد} \\\\ -\\infty & n \\text{ عددی فرد باشد} \\end{cases}\n\nمثال: با توجه به قضیه فوق می‌توان نوشت:\n\\lim_{x \\to 0^+} \\frac{1}{x^4} = +\\infty\n\\lim_{x \\to 0^-} \\frac{1}{x^4} = +\\infty\n\\lim_{x \\to 0^-} \\frac{1}{x^3} = -\\infty\n\nقضیه ۲:\nالف) اگر \\lim_{x \\to a^+} f(x) = +\\infty و \\lim_{x \\to a^-} f(x) = +\\infty آنگاه \\lim_{x \\to a} f(x) = +\\infty و برعکس.\nب) اگر \\lim_{x \\to a^+} f(x) = -\\infty و \\lim_{x \\to a^-} f(x) = -\\infty آنگاه \\lim_{x \\to a} f(x) = -\\infty و برعکس.\n\nمثال: \\lim_{x \\to 1^+} \\frac{2}{|x-1|} = +\\infty و \\lim_{x \\to 1^-} \\frac{2}{|x-1|} = +\\infty و در نتیجه \\lim_{x \\to 1} \\frac{2}{|x-1|} = +\\infty",
+  "other_details": [],
+  "source_page": 57,
+  "image_path": "books/Calculus2SchoolBook/page_057.png",
+  "confidence": 0.95
+}

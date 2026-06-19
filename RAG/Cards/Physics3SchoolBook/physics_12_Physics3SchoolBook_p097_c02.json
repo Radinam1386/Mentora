@@ -1,0 +1,18 @@
+{
+  "card_id": "physics_12_Physics3SchoolBook_p097_c02",
+  "main_subject": "physics",
+  "subsubject": "oscillation_and_waves",
+  "tag": "physics/oscillation_and_waves",
+  "summary": "کاربرد امواج فراصوتی در سونوگرافی و ویژگی‌های تراگذار فراصوتی.",
+  "key_points": [
+    "در سونوگرافی از کاوه‌ای دستی به نام تراگذار فراصوتی (Ultrasonic Transducer) برای تشخیص پزشکی استفاده می‌شود.",
+    "تراگذار فراصوتی در بسامدهای بالا، مانند $6.7 \\text{ MHz}$، عمل می‌کند."
+  ],
+  "main_text": "در سونوگرافی معمولاً از کاوه ای دستی موسوم به تراگذار فراصوتی برای تشخیص پزشکی استفاده می شود که دقیقاً روی ناحیه مورد نظر از بدن بیمار گذاشته و حرکت داده می شود. این کاوه در بسامد $6.7 \\text{ MHz}$ عمل می کند.",
+  "other_details": [
+    "تصویری از دستگاه سونوگرافی در حال استفاده برای بیمار نمایش داده شده است."
+  ],
+  "source_page": 97,
+  "image_path": "Books/Physics3SchoolBook/page_097.png",
+  "confidence": 0.95
+}

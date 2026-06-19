@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p048_c02",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "معرفی و استخراج فرمول‌های تانژانت مجموع و تفاضل دو زاویه بر اساس روابط سینوس و کسینوس.",
+  "key_points": [
+    "فرمول تانژانت مجموع: tan(alpha + beta) = (tan alpha + tan beta) / (1 - tan alpha tan beta)",
+    "فرمول تانژانت تفاضل: tan(alpha - beta) = (tan alpha - tan beta) / (1 + tan alpha tan beta)"
+  ],
+  "main_text": "از روابط مجموع و تفاضل زوایا برای نسبت‌های مثلثاتی سینوس و کسینوس می‌توان روابط مجموع و تفاضل زوایا را برای تانژانت به صورت زیر به دست آورد:\ntan(alpha + beta) = sin(alpha + beta) / cos(alpha + beta) = (sin alpha cos beta + cos alpha sin beta) / (cos alpha cos beta - sin alpha sin beta)\n= (sin alpha cos beta / cos alpha cos beta) + (cos alpha sin beta / cos alpha cos beta) / (1 - sin alpha sin beta / cos alpha cos beta)\n= (tan alpha + tan beta) / (1 - tan alpha tan beta)\n\nهمچنین با تغییر beta به -beta در رابطه فوق رابطه تفاضل زوایا به صورت زیر به دست می‌آید:\ntan(alpha - beta) = (tan alpha - tan beta) / (1 + tan alpha tan beta)",
+  "other_details": [],
+  "source_page": 48,
+  "image_path": "books/Calculus2SchoolBook/page_048.png",
+  "confidence": 0.95
+}

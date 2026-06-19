@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p059_c02",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "معرفی قضیه ۲ برای محاسبه حد توابعی که در آن‌ها حد مخرج برابر بی‌نهایت و حد صورت برابر یک عدد ثابت است.",
+  "key_points": [
+    "قضیه ۲: اگر حد صورت یک کسر برابر L و حد مخرج برابر بی‌نهایت (مثبت یا منفی) باشد، حد کل کسر برابر صفر است.",
+    "این قضیه برای حد‌های یک‌طرفه (راست و چپ) نیز برقرار است."
+  ],
+  "main_text": "قضیه ۲: اگر \\lim_{x \\to a} f(x) = L و \\lim_{x \\to a} g(x) = +\\infty (و یا \\lim_{x \\to a} g(x) = -\\infty) آنگاه \\lim_{x \\to a} \\frac{f(x)}{g(x)} = 0.\n\nتذکر: قضیه فوق در حالتی که x \\to a^+ یا x \\to a^- نیز برقرار است.\n\nمثال: حاصل \\lim_{x \\to \\frac{\\pi}{2}} \\frac{x+1}{\\pi \\tan x} را به دست آورید.\nحل: در کارهای قبلی دیده شد که \\lim_{x \\to \\frac{\\pi}{2}^+} \\tan x = -\\infty و \\lim_{x \\to \\frac{\\pi}{2}^-} \\tan x = +\\infty. از طرفی \\lim_{x \\to \\frac{\\pi}{2}} (x+1) = \\frac{\\pi}{2} + 1. طبق قضیه فوق:\n\\lim_{x \\to \\frac{\\pi}{2}} \\frac{x+1}{\\pi \\tan x} = 0",
+  "other_details": [],
+  "source_page": 59,
+  "image_path": "books/Calculus2SchoolBook/page_059.png",
+  "confidence": 0.95
+}

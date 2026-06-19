@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p084_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "محاسبه مشتق تابع در یک نقطه و کاربرد آن در یافتن معادله خط مماس بر منحنی.",
+  "key_points": [
+    "محاسبه مشتق در یک نقطه با استفاده از حد: $f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$",
+    "شیب خط مماس بر منحنی در نقطه A برابر با مشتق تابع در آن نقطه است.",
+    "معادله خط مماس با داشتن شیب و یک نقطه به صورت $y - y_1 = m(x - x_1)$ به دست می‌آید."
+  ],
+  "main_text": "محاسبه مشتق برای تابع $f(x) = -x^2 + 10x$ در نقطه $x=3$:\n$f'(3) = \\lim_{h \\to 0} \\frac{f(3+h) - f(3)}{h} = \\lim_{h \\to 0} \\frac{-(3+h)^2 + 10(3+h) - 21}{h} = \\lim_{h \\to 0} \\frac{-9 - 6h - h^2 + 30 + 10h - 21}{h} = \\lim_{h \\to 0} \\frac{-h^2 + 4h}{h} = \\lim_{h \\to 0} (-h + 4) = 4$\n\nمثال: یافتن معادله خط مماس بر منحنی تابع $f(x) = -x^2 + 10x$ در نقطه $A(2, f(2))$:\nبا توجه به اینکه $f'(2) = 6$ است، شیب خط مماس در نقطه A برابر با 6 می‌باشد.\nنقطه $A(2, f(2)) = (2, 16)$\nمعادله خط مماس:\n$y - 16 = 6(x - 2) \\Rightarrow y = 6x + 4$",
+  "other_details": [],
+  "source_page": 84,
+  "image_path": "books/Calculus2SchoolBook/page_084.png",
+  "confidence": 0.95
+}

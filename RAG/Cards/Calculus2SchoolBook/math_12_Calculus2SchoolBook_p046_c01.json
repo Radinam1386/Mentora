@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p046_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "حل معادلات مثلثاتی با استفاده از اتحادها، تغییر متغیر و روش‌های جبری برای یافتن جواب‌های کلی و خاص.",
+  "key_points": [
+    "استفاده از اتحاد sin 2x = 2 sin x cos x برای ساده‌سازی معادلات.",
+    "استفاده از تغییر متغیر (مانند t = cos x) برای تبدیل معادلات مثلثاتی به معادلات درجه دوم.",
+    "بررسی شرط وجود جواب برای توابع مثلثاتی: -1 <= cos x <= 1 و -1 <= sin x <= 1.",
+    "روش حل معادلات از طریق توان‌رسانی دوطرفه برای استفاده از اتحادهای فیثاغورسی مانند sin^2 x = 1 - cos^2 x."
+  ],
+  "main_text": "حل معادله sin 2theta = 1/2:\n{ 2theta = 2k*pi + pi/6, k in Z \n{ 2theta = (2k+1)*pi - pi/6, k in Z \nبا توجه به شکل، جواب قابل قبول theta = pi/12 می باشد.\n\nمثال ۱: جواب‌های معادله sin x cos x = sqrt(3)/4 را به دست آورید.\n2 sin x cos x = 2 * (sqrt(3)/4) = sqrt(3)/2\nsin 2x = sqrt(3)/2 => sin 2x = sin(pi/3)\n{ 2x = 2k*pi + pi/3 => x = k*pi + pi/6, k in Z\n{ 2x = (2k+1)*pi - pi/3 => x = ((2k+1)*pi)/2 - pi/6, k in Z\n\nمثال ۲: معادله 5 = (9 - 2cos x) cos x را حل کنید.\nابتدا معادله را به صورت 2cos^2 x - 9cos x + 5 = 0 می‌نویسیم. با تغییر متغیر t = cos x، معادله به صورت 2t^2 - 9t + 5 = 0 در می‌آید که جواب‌های آن t = 5 و t = -1/2 است.\nاز آنجا که cos x = 5 جواب ندارد، فقط جواب‌های cos x = -1/2 را به دست می‌آوریم:\ncos x = -1/2 => cos x = cos(2pi/3) => x = 2k*pi +/- 2pi/3, k in Z\n\nمثال ۳: معادله sin x + cos x = 1 را در بازه 0 <= x <= 2pi حل کنید.\nsin x = 1 - cos x\nطرفین را به توان ۲ می‌رسانیم:\nsin^2 x = (1 - cos x)^2\nsin^2 x = 1 - 2cos x + cos^2 x\nبا استفاده از رابطه sin^2 x = 1 - cos^2 x:\n1 - cos^2 x = 1 - 2cos x + cos^2 x",
+  "other_details": [],
+  "source_page": 46,
+  "image_path": "books/Calculus2SchoolBook/page_046.png",
+  "confidence": 0.95
+}

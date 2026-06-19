@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p060_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "معرفی قضیه ۵ برای محاسبه حد مجموع و حاصل‌ضرب توابعی که یکی از آن‌ها به بی‌نهایت میل می‌کند و بررسی مثال‌های مربوط به آن.",
+  "key_points": [
+    "قضیه ۵: اگر حد f(x) برابر +بی‌نهایت و حد g(x) برابر L باشد، حد مجموع آن‌ها برابر +بی‌نهایت است.",
+    "در حاصل‌ضرب این دو تابع، اگر L مثبت باشد حد برابر +بی‌نهایت و اگر L منفی باشد حد برابر -بی‌نهایت خواهد بود.",
+    "این قضیه برای حد‌های یک‌طرفه (راست و چپ) نیز صادق است."
+  ],
+  "main_text": "قضیه ۵: اگر \\lim_{x \\to a} f(x) = +\\infty و \\lim_{x \\to a} g(x) = L آنگاه:\nالف) \\lim_{x \\to a} (f(x) + g(x)) = +\\infty\nب) اگر L > 0 آنگاه \\lim_{x \\to a} (f(x).g(x)) = +\\infty\nپ) اگر L < 0 آنگاه \\lim_{x \\to a} (f(x).g(x)) = -\\infty\n\nتذکر: قضیه فوق برای حالتی که x \\to a^+ یا x \\to a^- نیز برقرار است.\n\nمثال: برای به دست آوردن حاصل \\lim_{x \\to 0} (2x + 1 + \\frac{1}{x}) از آنجا که \\lim_{x \\to 0} 2x + 1 = 1 و \\lim_{x \\to 0} \\frac{1}{x} = +\\infty، با توجه به بند الف قضیه فوق حاصل حد برابر +\\infty می‌شود.\n\nمثال: حاصل \\lim_{x \\to 0^+} \\frac{x + \\sin^2 x}{x^2} را به دست آورید.\nحل: می‌توان نوشت \\frac{x + \\sin^2 x}{x^2} = \\frac{1}{x} + \\frac{\\sin^2 x}{x^2}. از طرفی \\lim_{x \\to 0^+} \\frac{\\sin^2 x}{x^2} = 1 و \\lim_{x \\to 0^+} \\frac{1}{x} = +\\infty و با توجه به بند الف قضیه فوق حاصل حد برابر +\\infty خواهد شد.",
+  "other_details": [],
+  "source_page": 60,
+  "image_path": "books/Calculus2SchoolBook/page_060.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p104_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "تعریف مشتق مرتبه دوم و نحوه محاسبه آن با استفاده از مشتق اول به همراه مثال حل‌شده.",
+  "key_points": [
+    "اگر تابع مشتق f'(x) مشتق‌پذیر باشد، مشتق آن مشتق مرتبه دوم نامیده شده و با f''(x) یا y'' نمایش داده می‌شود.",
+    "برای محاسبه مشتق مرتبه دوم، از تابع مشتق اول نسبت به x مجدداً مشتق گرفته می‌شود."
+  ],
+  "main_text": "مشتق مرتبه دوم:\nمشتق تابع f(x) = y با نماد f'(x) = y' نمایش داده شد. به همین ترتیب اگر تابع مشتق، مشتق‌پذیر باشد، مشتق مرتبه دوم y = f(x) را به f''(x) = y'' نمایش می‌دهیم و برای محاسبه آن از تابع f'(x) = y' نسبت به x مشتق می‌گیریم.\n\nمثال: اگر y = 3x^4 + 2x^2 - 1 آنگاه:\ny' = 12x^3 + 4x\ny'' = 36x^2 + 4",
+  "other_details": [],
+  "source_page": 104,
+  "image_path": "books/Calculus2SchoolBook/page_104.png",
+  "confidence": 0.95
+}

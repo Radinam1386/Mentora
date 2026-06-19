@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p015_c02",
+  "main_subject": "math",
+  "subsubject": "function",
+  "tag": "math/function",
+  "summary": "توضیح قرینه کردن نمودار تابع نسبت به محور $y$ از طریق تغییر علامت ورودی تابع.",
+  "key_points": [
+    "نمودار تابع $y = f(-x)$ قرینه نمودار تابع $y = f(x)$ نسبت به محور $y$ است."
+  ],
+  "main_text": "اگر طول نقاط تابع $y = f(x)$ را قرینه کنیم، نقاط تابع $y = f(-x)$ به دست می‌آیند. بنابراین نمودار تابع $y = f(-x)$ قرینه نمودار تابع $y = f(x)$ نسبت به محور $y$ است.",
+  "other_details": [],
+  "source_page": 15,
+  "image_path": "books/Calculus2SchoolBook/page_015.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,20 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p030_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "تعریف توابع متناوب و معرفی مفهوم دوره تناوب با بررسی توابع سینوس و کسینوس.",
+  "key_points": [
+    "مقادیر توابع سینوس و کسینوس برای هر دو نقطه به فاصله 2\\pi روی محور x یکسان است.",
+    "sin(x \\pm 2k\\pi) = sin x",
+    "cos(x \\pm 2k\\pi) = cos x",
+    "تعریف تابع متناوب و دوره تناوب T به عنوان کوچک‌ترین عدد مثبت با خاصیت تکرار مقادیر."
+  ],
+  "main_text": "در توابع مثلثاتی f(x) = sin x و f(x) = cos x، مقادیر تابع برای هر دو نقطه به فاصله 2\\pi روی محور x ها یکسان است: \nsin(x \\pm 2k\\pi) = sin x و cos(x \\pm 2k\\pi) = cos x.\n\nتعریف: تابع f را متناوب می‌نامیم هرگاه یک عدد حقیقی مثبت مانند T موجود باشد به طوری که برای هر x \\in D_f داشته باشیم x \\pm T \\in D_f و f(x \\pm T) = f(x). کوچک‌ترین عدد مثبت T با این خاصیت را دوره تناوب f می‌نامیم.",
+  "other_details": [
+    "نمودارهای توابع y = sin(x) و y = cos(x) که تکرار شدن شکل نمودار در بازه‌های 2\\pi، 4\\pi، 6\\pi و ... را نشان می‌دهند."
+  ],
+  "source_page": 30,
+  "image_path": "books/Calculus2SchoolBook/page_030.png",
+  "confidence": 0.95
+}

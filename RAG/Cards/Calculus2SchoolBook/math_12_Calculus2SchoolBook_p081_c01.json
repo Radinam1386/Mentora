@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p081_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی تغییرات شیب خط قاطع با نزدیک شدن نقطه دوم به نقطه اول بر روی منحنی یک تابع.",
+  "key_points": [
+    "فرمول محاسبه شیب خط قاطع: $m_{AB} = \\frac{\\Delta y}{\\Delta x}$",
+    "تحلیل تغییرات $\\Delta x$ و $\\Delta y$ با جابجایی نقطه B روی منحنی به سمت نقطه A."
+  ],
+  "main_text": "برای محاسبه شیب خط AB، نسبت تغییر عمودی ($\\Delta y$) به تغییر افقی ($\\Delta x$) به دست می‌آید:\n$m_{AB} = \\frac{\\Delta y}{\\Delta x}$\n\nمثال محاسباتی برای تابع $f(x) = -x^{2} + 10x$ و نقطه $A(2, 16)$:\n- در بازه $[2, 6]$: $\\Delta x = 6 - 2 = 4$ و $\\Delta y = 24 - 16 = 8$\n- در بازه $[2, 5]$: $\\Delta x = 5 - 2 = 3$ و $\\Delta y = 25 - 16 = 9$\n- در بازه $[2, 4]$: $\\Delta x = 4 - 2 = 2$ و $\\Delta y = 24 - 16 = 8$\n- در بازه $[2, 3]$: $\\Delta x = 3 - 2 = 1$ و $\\Delta y = 21 - 16 = 5$",
+  "other_details": [
+    "نمودار تابع $f(x) = -x^{2} + 10x$ که نقاط A، B، C، D و E را روی منحنی نشان می‌دهد و خطوط قاطع گذرنده از نقطه A را به نقاط دیگر رسم کرده است تا تغییرات شیب ($m_{AB}$ تا $m_{AE}$) را نمایش دهد."
+  ],
+  "source_page": 81,
+  "image_path": "books/Calculus2SchoolBook/page_081.png",
+  "confidence": 0.95
+}

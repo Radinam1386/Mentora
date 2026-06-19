@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p098_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی مشتق تابع ثابت و اثبات آن با استفاده از تعریف مشتق.",
+  "key_points": [
+    "مشتق تابع ثابت در هر نقطه برابر صفر است: اگر f(x) = c آنگاه f'(x) = 0."
+  ],
+  "main_text": "قاعده: اگر f(x) = c آنگاه f'(x) = 0. به عبارت دیگر مشتق تابع ثابت در هر نقطه برابر صفر است.\n\nاثبات:\nf'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h} = \\lim_{h \\to 0} \\frac{c - c}{h} = \\lim_{h \\to 0} \\frac{0}{h} = \\lim_{h \\to 0} 0 = 0\n\nمثال:\nاگر f(x) = 7 آنگاه f'(x) = 0\nاگر g(x) = -\\frac{2}{5} آنگاه g'(x) = 0",
+  "other_details": [
+    "نمودار تابع ثابت f(x) = c به صورت یک خط افقی نمایش داده شده است که نشان می‌دهد شیب خط مماس بر آن در هر نقطه صفر است."
+  ],
+  "source_page": 98,
+  "image_path": "books/Calculus2SchoolBook/page_098.png",
+  "confidence": 0.95
+}

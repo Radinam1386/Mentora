@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p097_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "تعریف مشتق تابع با استفاده از حد و بررسی مثال‌های حل شده برای توابع x^2 و 1/x.",
+  "key_points": [
+    "تعریف مشتق تابع f در نقطه x: f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}",
+    "دامنه f' مجموعه‌ای از تمام نقاطی از دامنه f است که برای آن‌ها حد تعریف شده موجود باشد."
+  ],
+  "main_text": "تعریف: اگر x عضوی از دامنه تابع f باشد، تابع مشتق f در x را با f'(x) نمایش می‌دهیم و آن را به صورت زیر تعریف می‌کنیم:\nf'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}\nمشروط بر آنکه حد فوق موجود باشد. مجموعه تمام نقاطی از دامنه f که برای آن‌ها f' موجود باشد را دامنه f' می‌نامیم.\n\nمثال ۱: برای تابع f(x) = x^2\nf'(x) = \\lim_{h \\to 0} \\frac{(x+h)^2 - x^2}{h} = \\lim_{h \\to 0} \\frac{x^2 + 2xh + h^2 - x^2}{h} = \\lim_{h \\to 0} \\frac{h(2x + h)}{h} = \\lim_{h \\to 0} (2x + h) = 2x\nبر این اساس: f'(-1/5) = -2/5، f'(\\sqrt{7}) = 2\\sqrt{7} و f'(50) = 100.\n\nمثال ۲: اگر f(x) = 1/x باشد، تابع مشتق و دامنه آن به صورت زیر است:\nf'(x) = \\lim_{h \\to 0} \\frac{\\frac{1}{x+h} - \\frac{1}{x}}{h} = \\lim_{h \\to 0} \\frac{x - (x+h)}{hx(x+h)} = \\lim_{h \\to 0} \\frac{-h}{hx(x+h)} = \\lim_{h \\to 0} \\frac{-1}{x(x+h)} = -\\frac{1}{x^2}\nدامنه f' برابر با \\mathbb{R} - \\{0\\} است.",
+  "other_details": [
+    "نمودار تابع f(x) = 1/x در صفحه رسم شده است."
+  ],
+  "source_page": 97,
+  "image_path": "books/Calculus2SchoolBook/page_097.png",
+  "confidence": 0.95
+}

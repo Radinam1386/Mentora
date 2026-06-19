@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p114_c02",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_equilibrium",
+  "tag": "chemistry/chemical_equilibrium",
+  "summary": "بررسی اثر تغییر دما بر درصد مولی آمونیاک در سامانه تعادلی سنتز آمونیاک بر اساس نمودار.",
+  "key_points": [
+    "در واکنش سنتز آمونیاک، با افزایش دما، درصد مولی آمونیاک در سامانه تعادلی کاهش می‌یابد."
+  ],
+  "main_text": "نمودار درصد مولی آمونیاک را برای سامانه تعادلی زیر در فشار ثابت نشان می‌دهد:\nN2(g) + 3H2(g) ⇌ 2NH3(g)",
+  "other_details": [
+    "طبق نمودار، با افزایش دما از ۲۰۰ درجه سانتی‌گراد به ۵۰۰ درجه سانتی‌گراد، درصد مولی آمونیاک از حدود ۸۰٪ به حدود ۱۰٪ کاهش می‌یابد."
+  ],
+  "source_page": 114,
+  "image_path": "Books/Chemistry3SchoolBook/page_114.png",
+  "confidence": 0.95
+}

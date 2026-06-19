@@ -1,0 +1,16 @@
+{
+  "card_id": "physics_12_Physics3SchoolBook_p078_c01",
+  "main_subject": "physics",
+  "subsubject": "oscillation_and_waves",
+  "tag": "physics/oscillation_and_waves",
+  "summary": "محاسبه شتاب گرانشی (g) با استفاده از دوره تناوب آونگ ساده در یک مثال حل شده.",
+  "key_points": [
+    "رابطه محاسبه شتاب گرانشی از روی دوره تناوب: g = \\frac{4\\pi^2 L}{T^2}",
+    "روش محاسبه دوره تناوب: T = \\frac{\\text{زمان}}{\\text{تعداد نوسان‌ها}}"
+  ],
+  "main_text": "پاسخ : رابطه دوره تناوب آونگ ساده را برای g حل می‌کنیم :\ng = \\frac{4\\pi^2 L}{T^2}\nکه در آن T دوره تناوب این آونگ است :\nT = \\frac{\\text{زمان}}{\\text{تعداد نوسان‌ها}} = \\frac{60.0\\text{ s}}{72.0} = 0.833\\text{ s}\nدر نتیجه g چنین به دست می‌آید :\ng = \\frac{4\\pi^2 L}{T^2} = \\frac{4\\pi^2 (0.171\\text{ m})}{(0.833\\text{ s})^2} = 9.73\\text{ m/s}^2",
+  "other_details": [],
+  "source_page": 78,
+  "image_path": "Books/Physics3SchoolBook/page_078.png",
+  "confidence": 0.95
+}

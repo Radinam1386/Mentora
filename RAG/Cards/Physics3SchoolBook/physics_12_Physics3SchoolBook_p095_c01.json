@@ -1,0 +1,18 @@
+{
+  "card_id": "physics_12_Physics3SchoolBook_p095_c01",
+  "main_subject": "physics",
+  "subsubject": "oscillation_and_waves",
+  "tag": "physics/oscillation_and_waves",
+  "summary": "معرفی معادله کلی و نمودار جابجایی در حرکت هماهنگ ساده.",
+  "key_points": [
+    "معادله جابجایی در حرکت هماهنگ ساده به صورت $x(t) = A \\cos(\\omega t + \\phi)$ است.",
+    "نمودار تغییرات مکان نسبت به زمان برای یک نوسانگر هماهنگ ساده به صورت سینوسی یا کسینوسی است."
+  ],
+  "main_text": "معادله حرکت هماهنگ ساده یک نوسانگر در SI به صورت $x = 0.50 \\text{ m} \\cos(20\\pi t)$ است.",
+  "other_details": [
+    "نموداری که محور عمودی آن مکان (x بر حسب cm) و محور افقی آن زمان (t بر حسب s) است و یک موج کسینوسی را نمایش می‌دهد."
+  ],
+  "source_page": 95,
+  "image_path": "Books/Physics3SchoolBook/page_095.png",
+  "confidence": 0.9
+}

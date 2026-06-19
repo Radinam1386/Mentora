@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p098_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "محاسبه مشتق تابع در یک نقطه با استفاده از تعریف حد برای تابعی که در صفحات قبل معرفی شده است.",
+  "key_points": [
+    "استفاده از تعریف مشتق در یک نقطه: f'(a) = \\lim_{x \\to a} \\frac{f(x) - f(a)}{x - a}"
+  ],
+  "main_text": "محاسبه مشتق در نقطه x=3:\nf'(3) = \\lim_{x \\to 3} \\frac{f(x) - f(3)}{x - 3} = \\lim_{x \\to 3} \\frac{\\frac{1}{x} - \\frac{1}{3}}{x - 3} = \\lim_{x \\to 3} \\frac{3 - x}{3x(x - 3)} = \\lim_{x \\to 3} \\frac{-(x - 3)}{3x(x - 3)} = -\\frac{1}{9}",
+  "other_details": [],
+  "source_page": 98,
+  "image_path": "books/Calculus2SchoolBook/page_098.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p112_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "آموزش محاسبه آهنگ متوسط تغییر نرخ باروری در یک بازه زمانی مشخص با استفاده از داده‌های نمودار.",
+  "key_points": [
+    "آهنگ متوسط تغییر در یک بازه زمانی از طریق تفاضل مقادیر تابع تقسیم بر تفاضل زمان‌ها محاسبه می‌شود."
+  ],
+  "main_text": "مثال محاسبه آهنگ متوسط تغییر نرخ باروری در بازه زمانی [۱۳۳۹، ۱۳۸۹] در مدت ۵۰ سال:\n\n\\frac{1.67 - 7}{1389 - 1339} = \\frac{-5.4}{50} = -0.108",
+  "other_details": [
+    "نموداری از روند کاهش نرخ باروری در ایران از سال ۱۳۳۹ تا ۱۳۸۹ رسم شده است که مقدار نرخ باروری در سال ۱۳۸۹ برابر با ۱.۶۷ است."
+  ],
+  "source_page": 112,
+  "image_path": "books/Calculus2SchoolBook/page_112.png",
+  "confidence": 0.95
+}

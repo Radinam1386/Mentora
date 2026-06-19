@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p061_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "تعریف و معرفی مجانب قائم نمودار توابع بر اساس حد توابع در نزدیکی نقاط بحرانی.",
+  "key_points": [
+    "خط x = a مجانب قائم نمودار تابع f(x) است اگر حد تابع در نزدیکی a از سمت راست یا چپ برابر با مثبت یا منفی بی‌نهایت باشد."
+  ],
+  "main_text": "تعریف: خط x = a را مجانب قائم نمودار تابع f(x) گویند هرگاه حداقل یکی از شرایط زیر برقرار باشد:\n\\lim_{x \\to a^+} f(x) = +\\infty\n\\lim_{x \\to a^-} f(x) = +\\infty\n\\lim_{x \\to a^+} f(x) = -\\infty\n\\lim_{x \\to a^-} f(x) = -\\infty",
+  "other_details": [
+    "نمودارهای توابع f(x) = 1/x^2 و g(x) = 1/x در اطراف نقطه صفر نشان داده شده‌اند که در هر دو مورد خط x = 0 مجانب قائم است. برای تابع g(x) داریم: \\lim_{x \\to 0^-} g(x) = -\\infty و \\lim_{x \\to 0^+} g(x) = +\\infty و برای تابع f(x) داریم: \\lim_{x \\to 0} f(x) = +\\infty."
+  ],
+  "source_page": 61,
+  "image_path": "books/Calculus2SchoolBook/page_061.png",
+  "confidence": 0.95
+}

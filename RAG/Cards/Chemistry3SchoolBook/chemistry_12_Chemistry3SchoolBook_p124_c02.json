@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p124_c02",
+  "main_subject": "chemistry",
+  "subsubject": "organic_chemistry",
+  "tag": "chemistry/organic_chemistry",
+  "summary": "فرایند کلی سنتز پلی اتیلن ترفتالات (PET) از مواد اولیه.",
+  "key_points": [
+    "پلی اتیلن ترفتالات (PET) از واکنش اتیلن گلیکول و ترفتالیک اسید (مونومرهای سازنده) سنتز می‌شود.",
+    "اتیلن گلیکول از اتن و ترفتالیک اسید از پارازایلن تهیه می‌گردد."
+  ],
+  "main_text": "اکنون می‌توان با انجام واکنش اتیلن گلیکول با ترفتالیک اسید (مونومرهای سازنده پلیمر) پلی اتیلن ترفتالات را سنتز کرد (شکل ۱۲).",
+  "other_details": [
+    "شکل ۱۲- فرایند کلی سنتز PET: اتن $\\rightarrow$ اتیلن گلیکول و پارازایلن $\\rightarrow$ ترفتالیک اسید $\\rightarrow$ (ترکیب این دو) $\\rightarrow$ PET"
+  ],
+  "source_page": 124,
+  "image_path": "Books/Chemistry3SchoolBook/page_124.png",
+  "confidence": 0.95
+}

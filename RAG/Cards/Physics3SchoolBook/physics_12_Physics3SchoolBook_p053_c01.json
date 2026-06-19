@@ -1,0 +1,16 @@
+{
+  "card_id": "physics_12_Physics3SchoolBook_p053_c01",
+  "main_subject": "physics",
+  "subsubject": "dynamics",
+  "tag": "physics/dynamics",
+  "summary": "حل مثالی در مورد محاسبه نیروی اصطکاک جنبشی و شتاب جسم با استفاده از قانون دوم نیوتن.",
+  "key_points": [
+    "رابطه نیروی اصطکاک جنبشی: f_k = \\mu_k F_N",
+    "رابطه محاسبه شتاب بر اساس برآیند نیروهای افقی: F - f_k = ma"
+  ],
+  "main_text": "با استفاده از رابطه ۲-۶ داریم :\n f_k = \\mu_k F_N \\Rightarrow f_k = 0/400 \\times 735N \\Rightarrow f_k = 294N\n ب) برآیند نیروهای افقی وارد بر جسم برابر با حاصلضرب جرم در شتاب است.\n F - f_k = ma \\Rightarrow a = \\frac{F - f_k}{m} \\Rightarrow a = \\frac{309 N - 294 N}{7.50 kg} = 0.20 m/s^2",
+  "other_details": [],
+  "source_page": 53,
+  "image_path": "Books/Physics3SchoolBook/page_053.png",
+  "confidence": 0.95
+}

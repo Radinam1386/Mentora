@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p083_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "تعریف کلی شیب خط مماس بر منحنی و معرفی مفهوم مشتق در یک نقطه.",
+  "key_points": [
+    "تعریف شیب خط مماس بر منحنی f در نقطه $A(a, f(a))$ بر اساس حد.",
+    "تعریف مشتق تابع f در نقطه a به عنوان حد شیب خط قاطع.",
+    "نماد مشتق در نقطه a برابر با $f'(a)$ است."
+  ],
+  "main_text": "شیب خط مماس بر منحنی f در نقطه $A(a, f(a))$ به صورت زیر تعریف می‌شود:\nشیب خط مماس بر منحنی در نقطه A = $\\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$\nبه شرط آنکه این حد موجود و متناهی باشد.\n\nاین حد (در صورت وجود) مشتق تابع f در نقطه a نامیده شده و با $f'(a)$ نمایش داده می‌شود، یعنی:\n$f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$\nهمچنین حد مذکور را شیب منحنی در a نیز می‌نامند.",
+  "other_details": [],
+  "source_page": 83,
+  "image_path": "books/Calculus2SchoolBook/page_083.png",
+  "confidence": 0.95
+}

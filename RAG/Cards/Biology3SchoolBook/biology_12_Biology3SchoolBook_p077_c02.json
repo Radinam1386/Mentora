@@ -1,0 +1,16 @@
+{
+  "card_id": "biology_12_Biology3SchoolBook_p077_c02",
+  "main_subject": "biology",
+  "subsubject": "photosynthesis_and_cellular_respiration",
+  "tag": "biology/photosynthesis_and_cellular_respiration",
+  "summary": "معرفی نحوه تولید ATP بیشتر از طریق زنجیره انتقال الکترون در غشای درونی راکیزه.",
+  "key_points": [
+    "مولکول‌های NADH و FADH2 برای تولید ATP مصرف می‌شوند.",
+    "زنجیره انتقال الکترون در غشای درونی راکیزه قرار دارد و مسئول تولید ATP و تشکیل آب در فرایند تنفس یاخته‌ای است."
+  ],
+  "main_text": "تشکیل ATP بیشتر\nدیدیم که در تنفس یاخته‌ای ATP به وجود می‌آید. جالب است بدانیم که مولکول‌های NADH و FADH2 نیز برای تولید ATP مصرف می‌شوند. چگونه انرژی مولکول‌های حامل الکترون برای تولید ATP به کار می‌رود؟\nهمچنین بر اساس رابطه کلی تنفس یاخته‌ای می‌دانیم که در این فرایند آب نیز تشکیل می‌شود. آب چگونه در این فرایند تولید می‌شود؟ پاسخ این پرسش‌ها در زنجیره انتقال الکترون در غشای درونی راکیزه نهفته است.",
+  "other_details": [],
+  "source_page": 77,
+  "image_path": "books/Biology3SchoolBook/page_077.png",
+  "confidence": 0.95
+}

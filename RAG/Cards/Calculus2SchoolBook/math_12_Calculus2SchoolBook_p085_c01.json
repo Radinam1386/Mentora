@@ -1,0 +1,20 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p085_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "معرفی دو روش مختلف برای محاسبه مشتق در یک نقطه با استفاده از حد و حل یک مثال برای تابع درجه دوم.",
+  "key_points": [
+    "روش اول محاسبه مشتق در نقطه a: $f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$",
+    "روش دوم محاسبه مشتق در نقطه a: $f'(a) = \\lim_{x \\to a} \\frac{f(x) - f(a)}{x-a}$",
+    "مشتق در نقطه a برابر با حد شیب خط قاطع است در حالی که نقطه دوم به نقطه a نزدیک می‌شود."
+  ],
+  "main_text": "برای محاسبه مشتق تابع f در نقطه a دو روش وجود دارد:\n\nروش اول (بر اساس نمودار الف):\nشیب خط AB برابر است با: $m_{AB} = \\frac{f(a+h) - f(a)}{h}$\nشیب خط مماس بر منحنی در A عبارت است از: $\\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$\n\nروش دوم (بر اساس نمودار ب):\nاگر نقطه B را به مختصات $(x, f(x))$ در نظر بگیریم، شیب خط AB برابر است با:\n$m_{AB} = \\frac{f(x) - f(a)}{x-a}$\nبرای محاسبه شیب خط مماس، x را مرتباً به a نزدیک می‌کنیم:\n$f'(a) = \\lim_{x \\to a} \\frac{f(x) - f(a)}{x-a}$\n\nمثال: اگر $f(x) = x^2$ باشد، $f'(3)$ را به دو روش به دست آورید.\nحل:\nروش اول:\n$f'(3) = \\lim_{h \\to 0} \\frac{f(3+h) - f(3)}{h} = \\lim_{h \\to 0} \\frac{(h+3)^2 - 9}{h} = \\lim_{h \\to 0} \\frac{h^2 + 6h + 9 - 9}{h} = \\lim_{h \\to 0} \\frac{h^2 + 6h}{h} = \\lim_{h \\to 0} \\frac{h(h+6)}{h} = \\lim_{h \\to 0}(h+6) = 6$\n\nروش دوم:\n$f'(3) = \\lim_{x \\to 3} \\frac{f(x) - f(3)}{x-3} = \\lim_{x \\to 3} \\frac{x^2 - 9}{x-3} = \\lim_{x \\to 3} \\frac{(x-3)(x+3)}{x-3} = \\lim_{x \\to 3} (x+3) = 6$",
+  "other_details": [
+    "نمودار (الف) تغییرات شیب خط قاطع را با تغییر h نشان می‌دهد.",
+    "نمودار (ب) تغییرات شیب خط قاطع را با نزدیک شدن x به a نشان می‌دهد."
+  ],
+  "source_page": 85,
+  "image_path": "books/Calculus2SchoolBook/page_085.png",
+  "confidence": 0.95
+}

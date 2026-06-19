@@ -1,0 +1,19 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p147_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "آموزش توابع هموگرافیک، شامل تعریف، روش یافتن مجانب‌های افقی و قائم، و مثال حل‌شده برای رسم نمودار با استفاده از حد و مشتقات.",
+  "key_points": [
+    "تعریف تابع هموگرافیک به صورت f(x) = (ax + b) / (cx + d) با شرط c ≠ 0",
+    "مجانب افقی تابع هموگرافیک در y = a/c و مجانب قائم آن در x = -d/c قرار دارد",
+    "استفاده از مشتق اول برای تعیین بازه‌های صعودی یا نزولی و مشتق دوم برای بررسی تقعر نمودار"
+  ],
+  "main_text": "تعریف: تابع f(x) = \\frac{ax + b}{cx + d} را که در آن c \\neq 0 است، تابع هموگرافیک می‌نامیم.\nشرایط خاص:\n۱. اگر c = 0 و d \\neq 0 باشد، تابع به صورت y = \\frac{a}{d}x + \\frac{b}{d} تبدیل می‌شود که معادله یک خط راست است.\n۲. اگر c \\neq 0 و \\frac{a}{c} = \\frac{b}{d} باشد، تابع به یک تابع ثابت تبدیل می‌شود.\n\nیافتن مجانب‌ها:\n- مجانب افقی: \\lim_{x \\to \\pm\\infty} \\frac{ax + b}{cx + d} = \\frac{a}{c} \\implies y = \\frac{a}{c}\n- مجانب قائم: \\lim_{x \\to -\\frac{d}{c}} \\frac{ax + b}{cx + d} = \\pm\\infty \\implies x = -\\frac{d}{c}\n\nمثال حل‌شده: رسم نمودار تابع f(x) = \\frac{x + 2}{x - 1}\n- دامنه: D_f = \\mathbb{R} - \\{1\\}\n- مجانب افقی: \\lim_{x \\to \\pm\\infty} f(x) = 1 \\implies y = 1\n- مجانب قائم: \\lim_{x \\to 1^-} f(x) = -\\infty \\text{ و } \\lim_{x \\to 1^+} f(x) = +\\infty \\implies x = 1\n- نقاط تلاقی با محور مختصات: (0, -2) و (-2, 0)\n- مشتق اول: f'(x) = \\frac{-3}{(x - 1)^2}, x \\neq 1. چون مشتق در بازه‌های (-\\infty, 1) و (1, +\\infty) همواره منفی است، تابع در این بازه‌ها نزولی است.\n- مشتق دوم: f''(x) = \\frac{6(x - 1)}{(x - 1)^4} = \\frac{6}{(x - 1)^3}, x \\neq 1",
+  "other_details": [
+    "در مثال رسم نمودار، از تحلیل حدها برای یافتن مجانب‌ها و از علامت مشتق اول برای تعیین بازه‌های نزولی استفاده شده است."
+  ],
+  "source_page": 147,
+  "image_path": "books/Calculus2SchoolBook/page_147.png",
+  "confidence": 0.95
+}

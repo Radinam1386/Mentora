@@ -1,0 +1,21 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p078_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_bonding_and_molecular_geometry",
+  "tag": "chemistry/chemical_bonding_and_molecular_geometry",
+  "summary": "بررسی ویژگی‌های فیزیکی و ترمودینامیکی جامدات کووالانسی شامل الماس، گرافیت و سیلیسیم.",
+  "key_points": [
+    "الماس به دلیل سختی بالا در ساخت مته‌ها و ابزار برش شیشه استفاده می‌شود.",
+    "گرافیت در مغز مداد به کار می‌رود.",
+    "میانگین آنتالپی پیوند C-C برابر 348 kJ/mol و میانگین آنتالپی پیوند Si-Si برابر 226 kJ/mol است.",
+    "آنتالپی پیوند Si-O بیشتر از پیوند Si-Si است.",
+    "سیلیسیم در طبیعت به طور عمده به شکل سیلیس یافت می‌شود."
+  ],
+  "main_text": "الماس در ساخت مته‌ها و ابزار برش شیشه استفاده می‌شود. گرافیت در مغز مداد به کار می‌رود. آنتالپی پیوند Si-O بیشتر از پیوند Si-Si است و سیلیسیم در طبیعت عمدتاً به شکل سیلیس یافت می‌شود.",
+  "other_details": [
+    "جدول مقایسه‌ای میانگین آنتالپی پیوندها: C-C (348 kJ/mol) و Si-Si (226 kJ/mol)."
+  ],
+  "source_page": 78,
+  "image_path": "Books/Chemistry3SchoolBook/page_078.png",
+  "confidence": 0.95
+}

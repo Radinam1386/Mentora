@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p022_c01",
+  "main_subject": "chemistry",
+  "subsubject": "acids_and_bases",
+  "tag": "chemistry/acids_and_bases",
+  "summary": "تأثیر حل شدن اسیدها و بازها در آب بر غلظت یون‌ها و نمایش ذره‌ای آن‌ها.",
+  "key_points": [
+    "با حل شدن اسیدها یا بازها در آب، مقدار یون‌های موجود در آب افزایش می‌یابد."
+  ],
+  "main_text": "با حل شدن اسیدها یا بازها در آب، مقدار یون‌های موجود در آب افزایش می‌یابد.",
+  "other_details": [
+    "نمایش ذره‌ای محلول (۱) شامل یون‌های $\\text{Na}^+$ و $\\text{OH}^-$ است.",
+    "نمایش ذره‌ای محلول (۲) شامل یون‌های $\\text{H}_3\\text{O}^+$ و $\\text{F}^-$ و مولکول‌های $\\text{HF}$ است."
+  ],
+  "source_page": 22,
+  "image_path": "Books/Chemistry3SchoolBook/page_022.png",
+  "confidence": 0.95
+}

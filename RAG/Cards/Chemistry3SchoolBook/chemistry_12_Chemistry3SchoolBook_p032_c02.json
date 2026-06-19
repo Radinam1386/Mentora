@@ -1,0 +1,16 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p032_c02",
+  "main_subject": "chemistry",
+  "subsubject": "acids_and_bases",
+  "tag": "chemistry/acids_and_bases",
+  "summary": "بررسی پیوند بین شیمی و ریاضی در تعریف pH از طریق معرفی تابع لگاریتم.",
+  "key_points": [
+    "برای بیان رابطه بین pH و غلظت یون هیدرونیوم از تابع لگاریتم استفاده می‌شود.",
+    "رابطه لگاریتم در مبنای ۱۰ به صورت log10 x = log x بیان می‌شود."
+  ],
+  "main_text": "پیوند با ریاضی\nدر درس ریاضی با لگاریتم آشنا شدید. تابعی که به صورت زیر بیان می‌شود:\nlog10 x = log x",
+  "other_details": "این مفهوم ریاضی برای محاسبه غلظت یون هیدرونیوم در محلول‌هایی با pH مشخص (مانند pH = ۳/۷) مورد استفاده قرار می‌گیرد.",
+  "source_page": 32,
+  "image_path": "Books/Chemistry3SchoolBook/page_032.png",
+  "confidence": 0.9
+}

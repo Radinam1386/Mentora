@@ -1,0 +1,15 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p131_c05",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_equilibrium",
+  "tag": "chemistry/chemical_equilibrium",
+  "summary": "تعریف عبارت ثابت تعادل در تعادل شیمیایی.",
+  "key_points": [
+    "عبارت ثابت تعادل: رابطه‌ای ریاضی برای نسبت حاصل‌ضرب غلظت‌های تعادلی فراورده‌ها به واکنش‌دهنده‌ها (با توان ضریب استوکیومتری) در دمای معین."
+  ],
+  "main_text": "عبارت ثابت تعادل: رابطه ای ریاضی است که نسبت حاصل ضرب غلظت تعادلی فراورده ها (ها) به توان ضریب استوکیومتری آن (ها) به حاصل ضرب غلظت تعادلی واکنش دهنده ها (ها) به توان ضریب استوکیومتری آن (ها) را در دمای معین نشان می دهد.",
+  "other_details": [],
+  "source_page": 131,
+  "image_path": "Books/Chemistry3SchoolBook/page_131.png",
+  "confidence": 0.95
+}

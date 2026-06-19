@@ -1,0 +1,16 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p071_c02",
+  "main_subject": "chemistry",
+  "subsubject": "electrochemistry",
+  "tag": "chemistry/electrochemistry",
+  "summary": "معرفی باتری‌های دکمه‌ای روی - نقره و واکنش شیمیایی کلی انجام شده در آن‌ها.",
+  "key_points": [
+    "باتری‌های روی - نقره از جمله باتری‌های دکمه‌ای هستند.",
+    "واکنش کلی باتری روی - نقره: Zn(s) + Ag2O(s) -> ZnO(s) + 2Ag(s)"
+  ],
+  "main_text": "باتری‌های روی - نقره از جمله باتری‌های دکمه‌ای هستند که در آن‌ها واکنش زیر انجام می‌شود:\nZn(s) + Ag2O(s) -> ZnO(s) + 2Ag(s)",
+  "other_details": [],
+  "source_page": 71,
+  "image_path": "Books/Chemistry3SchoolBook/page_071.png",
+  "confidence": 0.9
+}

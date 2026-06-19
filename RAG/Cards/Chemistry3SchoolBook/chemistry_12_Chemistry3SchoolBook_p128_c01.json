@@ -1,0 +1,16 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p128_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_equilibrium",
+  "tag": "chemistry/chemical_equilibrium",
+  "summary": "بررسی تأثیر دما بر ثابت تعادل در واکنش‌های گرماگیر و معرفی برخی واکنش‌های تعادلی گازی.",
+  "key_points": [
+    "در تعادل‌های گازی گرماگیر، با افزایش دما در فشار ثابت، مقدار ثابت تعادل (K) افزایش می‌یابد.",
+    "نمونه‌هایی از واکنش‌های تعادلی گازی: $2\\text{NO(g)} + \\text{O}_2\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$، $\\text{N}_2\\text{O}_4\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$ و $\\text{CO(g)} + \\text{H}_2\\text{O(g)} \\rightleftharpoons \\text{CO}_2\\text{(g)} + \\text{H}_2\\text{(g)}$"
+  ],
+  "main_text": "در تعادل‌های گازی گرماگیر با افزایش دما در فشار ثابت، K افزایش می‌یابد. واکنش‌های تعادلی گازی مورد بررسی شامل موارد زیر است:\n$2\\text{NO(g)} + \\text{O}_2\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$\n$\\text{N}_2\\text{O}_4\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$\n$\\text{CO(g)} + \\text{H}_2\\text{O(g)} \\rightleftharpoons \\text{CO}_2\\text{(g)} + \\text{H}_2\\text{(g)}$",
+  "other_details": [],
+  "source_page": 128,
+  "image_path": "Books/Chemistry3SchoolBook/page_128.png",
+  "confidence": 0.9
+}

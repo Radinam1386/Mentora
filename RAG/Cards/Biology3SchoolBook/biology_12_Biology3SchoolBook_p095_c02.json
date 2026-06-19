@@ -1,0 +1,16 @@
+{
+  "card_id": "biology_12_Biology3SchoolBook_p095_c02",
+  "main_subject": "biology",
+  "subsubject": "photosynthesis_and_cellular_respiration",
+  "tag": "biology/photosynthesis_and_cellular_respiration",
+  "summary": "معرفی گیاهان CAM و سازوکار آن‌ها برای بقا در محیط‌های گرم و خشک از طریق مدیریت باز و بسته شدن روزنه‌ها.",
+  "key_points": [
+    "گیاهان CAM در مناطقی با دما و نور شدید و کمبود آب زندگی می‌کنند.",
+    "برای جلوگیری از هدر رفتن آب، روزنه‌های این گیاهان در طول روز بسته و در شب باز هستند."
+  ],
+  "main_text": "فتوسنتز در گیاهان CAM: بعضی گیاهان در مناطقی زندگی می کنند که با مسئله دما و نور شدید در طول روز و کمبود آب مواجه اند. در این گیاهان برای جلوگیری از هدر رفتن آب، روزنه ها در طول روز بسته و در شب بازند.",
+  "other_details": [],
+  "source_page": 95,
+  "image_path": "books/Biology3SchoolBook/page_095.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,21 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p043_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "روش یافتن جواب‌های کلی برای معادله مثلثاتی sin x = a با استفاده از زاویه کمانی alpha و دایره مثلثاتی.",
+  "key_points": [
+    "شرط وجود جواب برای معادله sin x = a: -1 <= a <= 1",
+    "فرمول جواب‌های کلی معادله sin x = sin alpha:",
+    "x = 2k*pi + alpha",
+    "x = (2k+1)*pi - alpha",
+    "در این فرمول‌ها k یک عدد صحیح است (k in Z)."
+  ],
+  "main_text": "برای هر عدد حقیقی a به گونه‌ای که -1 <= a <= 1، زاویه‌ای مانند alpha وجود دارد که sin alpha = a باشد. بنابراین معادله sin x = a به صورت sin x = sin alpha بازنویسی می‌شود.\n\nجواب‌های کلی معادله sin x = sin alpha به صورت زیر است:\n- x = 2k*pi + alpha\n- x = (2k+1)*pi - alpha\nکه در آن k در Z است.\n\nمثال: معادله sin x = -1/2 را حل کنید.\nsin x = sin(-pi/6)\nجواب‌ها عبارتند از:\n- x = 2k*pi - pi/6 , k in Z\n- x = 2k*pi + 7*pi/6 , k in Z",
+  "other_details": [
+    "تصویری از دایره مثلثاتی که نقاط تلاقی خط y = a با دایره را نشان می‌دهد و دو جواب اصلی (alpha و pi - alpha) را مشخص کرده است."
+  ],
+  "source_page": 43,
+  "image_path": "books/Calculus2SchoolBook/page_043.png",
+  "confidence": 0.95
+}

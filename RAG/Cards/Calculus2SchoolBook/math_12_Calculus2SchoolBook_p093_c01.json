@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p093_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "تعریف مشتق راست و چپ تابع در یک نقطه و بررسی هندسی آن از طریق شیب نیم‌خط‌های مماس.",
+  "key_points": [
+    "مشتق راست و چپ تابع f در نقطه a با نمادهای f'_+(a) و f'_-(a) نمایش داده می‌شوند.",
+    "شیب نیم‌خط مماس راست و چپ به ترتیب برابر با مشتق راست و چپ تابع در آن نقطه است."
+  ],
+  "main_text": "بررسی هندسی مشتق راست و چپ:\nشیب نیم مماس چپ = f'_-(1)\nشیب نیم مماس راست = f'_+(1)\nمعادله این نیم مماس‌ها به ترتیب عبارت‌اند از:\nنیم مماس راست: y - 0 = 2(x - 1) یا y = 2x - 2 ، x >= 1\nنیم مماس چپ: y - 0 = -2(x - 1) یا y = -2x + 2 ، x <= 1\n\nتعریف: مشتق راست و مشتق چپ تابع f در x = a را با f'_+(a) و f'_-(a) نمایش می‌دهیم و آن را به صورت زیر تعریف می‌کنیم:\nf'_+(a) = \\lim_{x \\to a^+} \\frac{f(x) - f(a)}{x - a} , f'_-(a) = \\lim_{x \\to a^-} \\frac{f(x) - f(a)}{x - a}\nیا به طور معادل:\nf'_+(a) = \\lim_{h \\to 0^+} \\frac{f(a+h) - f(a)}{h} , f'_-(a) = \\lim_{h \\to 0^-} \\frac{f(a+h) - f(a)}{h}",
+  "other_details": [],
+  "source_page": 93,
+  "image_path": "books/Calculus2SchoolBook/page_093.png",
+  "confidence": 0.95
+}

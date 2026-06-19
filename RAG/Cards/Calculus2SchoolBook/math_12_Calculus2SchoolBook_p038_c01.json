@@ -1,0 +1,19 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p038_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "تعریف تابع تانژانت، بررسی دامنه، برد، دوره تناوب و رسم نمودار آن.",
+  "key_points": [
+    "دامنه تابع تانژانت: D = { x \\in \\mathbb{R} | x \\neq k\\pi + \\frac{\\pi}{2}, k \\in \\mathbb{Z} }",
+    "برد تابع تانژانت: مجموعه اعداد حقیقی",
+    "دوره تناوب تابع تانژانت: \\pi زیرا tan(\\pi + x) = tan x"
+  ],
+  "main_text": "به ازای هر زاویه دلخواه در دایره مثلثاتی (به جز x = k\\pi + \\frac{\\pi}{2}, k \\in \\mathbb{Z})، عددی حقیقی به عنوان tan \\alpha داریم و تابعی با ضابطه y = tan \\alpha مشخص می‌شود. دامنه این تابع مجموعه D = { x \\in \\mathbb{R} | x \\neq k\\pi + \\frac{\\pi}{2}, k \\in \\mathbb{Z} } است و برد آن مجموعه اعداد حقیقی است. به سادگی می‌توان دید تابع y = tan \\alpha تابعی متناوب است و دوره تناوب آن \\pi است، زیرا: tan(\\pi + x) = tan x",
+  "other_details": [
+    "نمودار تابع y = tan \\alpha رسم شده است که مقادیر تانژانت زوایا را از دایره مثلثاتی به محور y منتقل کرده و شکل منحنی تانژانت را در بازه [0, 2\\pi] نمایش می‌دهد."
+  ],
+  "source_page": 38,
+  "image_path": "books/Calculus2SchoolBook/page_038.png",
+  "confidence": 0.95
+}

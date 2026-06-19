@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p026_c01",
+  "main_subject": "math",
+  "subsubject": "function",
+  "tag": "math/function",
+  "summary": "معرفی اتحادهای کلی برای تجزیه عبارت‌های توانی به فرم x^n - a^n و x^n + a^n.",
+  "key_points": [
+    "فرمول کلی تجزیه تفاضل دو توان n-ام: x^n - a^n = (x - a)(x^{n-1} + ax^{n-2} + ... + a^{n-1})",
+    "تجزیه مجموع دو توان n-ام برای n فرد: x^n + a^n = (x + a)(x^{n-1} - ax^{n-2} + ... + a^{n-1})",
+    "تجزیه تفاضل دو توان n-ام برای n زوج: x^n - a^n = (x + a)(x^{n-1} - ax^{n-2} + ... - a^{n-1})"
+  ],
+  "main_text": "اتحادهای تجزیه عبارت‌های توانی:\n\n1. برای هر n طبیعی:\nx^n - a^n = (x - a)(x^{n-1} + ax^{n-2} + a^2x^{n-3} + \\dots + a^{n-2}x + a^{n-1})\n\n2. اگر n فرد باشد:\nx^n + a^n = (x + a)(x^{n-1} - ax^{n-2} + a^2x^{n-3} - \\dots - a^{n-2}x + a^{n-1})\n\n3. اگر n زوج باشد:\nx^n - a^n = (x + a)(x^{n-1} - ax^{n-2} + a^2x^{n-3} - \\dots + a^{n-2}x - a^{n-1})",
+  "other_details": [],
+  "source_page": 26,
+  "image_path": "books/Calculus2SchoolBook/page_026.png",
+  "confidence": 0.95
+}

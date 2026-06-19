@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p025_c01",
+  "main_subject": "math",
+  "subsubject": "function",
+  "tag": "math/function",
+  "summary": "بیان قضیه باقی‌مانده برای تقسیم یک چندجمله‌ای بر یک عبارت خطی.",
+  "key_points": [
+    "باقی‌مانده تقسیم چندجمله‌ای f(x) بر عبارت ax + b برابر است با r(x) = f(-b/a)."
+  ],
+  "main_text": "قضیه: باقی مانده تقسیم چند جمله‌ای f(x) بر ax + b عبارت است از r(x) = f(-b/a).",
+  "other_details": [],
+  "source_page": 25,
+  "image_path": "books/Calculus2SchoolBook/page_025.png",
+  "confidence": 0.95
+}

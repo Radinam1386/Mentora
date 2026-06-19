@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p089_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_bonding_and_molecular_geometry",
+  "tag": "chemistry/chemical_bonding_and_molecular_geometry",
+  "summary": "بررسی رابطه آنتالپی فروپاشی شبکه با بار یون‌ها و ارائه داده‌های مقایسه‌ای برای برخی ترکیبات یونی.",
+  "key_points": [
+    "آنتالپی فروپاشی شبکه با بار الکتریکی کاتیون و آنیون رابطه مستقیم دارد.",
+    "میان آنتالپی فروپاشی شبکه و نقطه ذوب جامدهای یونی رابطه وجود دارد."
+  ],
+  "main_text": "آنتالپی فروپاشی شبکه هم با بار الکتریکی کاتیون و هم با بار الکتریکی آنیون، رابطه مستقیم دارد.",
+  "other_details": [
+    "جدول مقادیر آنتالپی فروپاشی شبکه:\n- ترکیب Na+ و F-: 926\n- ترکیب Na+ و O2-: 2488\n- ترکیب Mg2+ و F-: 2965\n- ترکیب Mg2+ و O2-: 3798"
+  ],
+  "source_page": 89,
+  "image_path": "Books/Chemistry3SchoolBook/page_089.png",
+  "confidence": 0.95
+}

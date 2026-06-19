@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p102_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "آموزش قاعده زنجیری برای محاسبه مشتق توابع مرکب به همراه مثال‌های حل‌شده.",
+  "key_points": [
+    "فرمول اصلی قاعده زنجیری: (fog)'(x) = g'(x) f'(g(x))",
+    "فرمول جایگزین: اگر y = f(u) و u تابعی از x باشد، آنگاه y' = u' f'(u)"
+  ],
+  "main_text": "مشتق تابع مرکب / قاعده زنجیری:\nاگر f و g دو تابع مشتق پذیر باشند، در این صورت تابع مرکب fog مشتق پذیر است و داریم:\n(fog)'(x) = g'(x) f'(g(x))\n\nمثال 1: اگر h(x) = (x^2 + 3x + 1)^7 باشد، مطلوب h'(x) است.\nحل: اگر f(x) = x^7 و g(x) = x^2 + 3x + 1، آنگاه h(x) = f(g(x)):\nh'(x) = g'(x) f'(g(x)) = (2x + 3) f'(g(x))\nاگر u = g(x) باشد، f'(u) را پیدا می‌کنیم:\nf(u) = u^7 \\implies f'(u) = 7u^6 = 7(g(x))^6 = 7(x^2 + 3x + 1)^6\nبنابراین:\nh'(x) = (2x + 3) (7) (x^2 + 3x + 1)^6\n\nدستور فوق را به صورت زیر نیز می‌توان ارائه کرد:\nاگر f تابعی برحسب u و u تابعی از x باشد:\ny = f(u) \\implies y' = u' f'(u)\n\nمثال 2: مشتق تابع y = \\sin^2 x را به دست آورید.\nحل: با فرض u = \\sin x داریم: y = u^2 و از آنجا:\ny' = u' \\cdot 2u = (\\cos x)(2)(\\sin x) = 2 \\sin x \\cos x",
+  "other_details": [],
+  "source_page": 102,
+  "image_path": "books/Calculus2SchoolBook/page_102.png",
+  "confidence": 0.95
+}

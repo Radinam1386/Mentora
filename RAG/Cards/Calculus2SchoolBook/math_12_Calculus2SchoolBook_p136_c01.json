@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p136_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "ادامه مثال بررسی جهت تقعر نمودار تابع g(x) = x^3 + 3x^2 + 1 با استفاده از مشتق دوم.",
+  "key_points": [
+    "برای تعیین جهت تقعر یک تابع، علامت مشتق دوم (f''(x)) بررسی می‌شود.",
+    "اگر مشتق دوم مثبت باشد، تقعر رو به بالاست و اگر منفی باشد، تقعر رو به پایین است."
+  ],
+  "main_text": "ب) $D_g = \\mathbb{R}$\n$g(x) = x^3 + 3x^2 + 1 \\implies g'(x) = 3x^2 + 6x \\implies g''(x) = 6x + 6$\n$g''(x) = 0 \\implies 6x + 6 = 0 \\implies x = -1$\n\nبنابراین:\nاگر $x > -1$ آنگاه $g''(x) > 0$ و لذا جهت تقعر نمودار این تابع بر بازه $(-1, +\\infty)$ به سمت بالاست.\nاگر $x < -1$ آنگاه $g''(x) < 0$ و لذا جهت تقعر نمودار این تابع بر بازه $(-\\infty, -1)$ به سمت پایین است.",
+  "other_details": [
+    "نمودار تابع g(x) که نقطه تغییر تقعر را در x = -1 نمایش می‌دهد."
+  ],
+  "source_page": 136,
+  "image_path": "books/Calculus2SchoolBook/page_136.png",
+  "confidence": 0.95
+}

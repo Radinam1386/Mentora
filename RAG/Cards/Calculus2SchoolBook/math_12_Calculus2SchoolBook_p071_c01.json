@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p071_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "بررسی حد توابع توانی، حاصل‌ضرب توابع با حد بی‌نهایت و روش محاسبه حد چندجمله‌ای‌ها در بی‌نهایت.",
+  "key_points": [
+    "حد توابع توانی x^n در بی‌نهایت بر اساس زوج یا فرد بودن n تعیین می‌شود.",
+    "حاصل‌ضرب حد یک تابع که به عدد حقیقی غیرصفر l میل می‌کند در تابعی که به بی‌نهایت میل می‌کند، علامت آن توسط l تعیین می‌شود.",
+    "حد یک چندجمله‌ای در بی‌نهایت برابر با حد جمله‌ای است که دارای بزرگ‌ترین درجه است."
+  ],
+  "main_text": "قضیه ۸: اگر n عددی طبیعی باشد آنگاه:\nالف) اگر n زوج باشد: \\lim_{x \\to \\pm\\infty} x^n = +\\infty\nب) اگر n فرد باشد: \\lim_{x \\to +\\infty} x^n = +\\infty و \\lim_{x \\to -\\infty} x^n = -\\infty\n\nقضیه ۹: اگر \\lim_{x \\to +\\infty} f(x) = l (عددی حقیقی غیرصفر) و \\lim_{x \\to +\\infty} g(x) = +\\infty باشد آنگاه:\n\\lim_{x \\to +\\infty} (f(x) \\cdot g(x)) = \\lim_{x \\to +\\infty} f(x) \\cdot \\lim_{x \\to +\\infty} g(x) = \\begin{cases} +\\infty & \\text{اگر } l \\text{ مثبت باشد} \\\\ -\\infty & \\text{اگر } l \\text{ منفی باشد} \\end{cases}\nتذکر: قضیه ۹ در حالتی که \\lim_{x \\to +\\infty} g(x) = -\\infty باشد نیز به طریق مشابه برقرار است.\n\nقضیه ۱۰: اگر \\lim_{x \\to -\\infty} f(x) = l (عددی حقیقی غیرصفر) و \\lim_{x \\to -\\infty} g(x) = +\\infty باشد آنگاه:\n\\lim_{x \\to -\\infty} (f(x) \\cdot g(x)) = \\lim_{x \\to -\\infty} f(x) \\cdot \\lim_{x \\to -\\infty} g(x) = \\begin{cases} +\\infty & \\text{اگر } l \\text{ مثبت باشد} \\\\ -\\infty & \\text{اگر } l \\text{ منفی باشد} \\end{cases}\nتذکر: قضیه ۱۰ در حالتی که \\lim_{x \\to -\\infty} g(x) = -\\infty باشد نیز به طریق مشابه برقرار است.\n\nمثال:\nالف) \\lim_{x \\to -\\infty} (-2x^3 + x - 1) = \\lim_{x \\to -\\infty} x^3(-2 + \\frac{1}{x^2} - \\frac{1}{x^3}) = \\lim_{x \\to -\\infty} -2x^3 = +\\infty\nب) \\lim_{x \\to +\\infty} (3 - 2x - 5x^4) = \\lim_{x \\to +\\infty} x^4(\\frac{3}{x^4} - \\frac{2}{x^3} - 5) = \\lim_{x \\to +\\infty} -5x^4 = -\\infty\n\nقاعده کلی حد چندجمله‌ای‌ها:\nبه طور کلی حد هر چندجمله‌ای به صورت f(x) = a_n x^n + a_{n-1} x^{n-1} + ... + a_1 x + a_0 در \\pm\\infty برابر حد جمله‌ای از آن است که دارای بزرگ‌ترین درجه است یعنی:\n\\lim_{x \\to \\pm\\infty} (a_n x^n + a_{n-1} x^{n-1} + ... + a_1 x + a_0) = \\lim_{x \\to \\pm\\infty} a_n x^n",
+  "other_details": [],
+  "source_page": 71,
+  "image_path": "books/Calculus2SchoolBook/page_071.png",
+  "confidence": 0.95
+}

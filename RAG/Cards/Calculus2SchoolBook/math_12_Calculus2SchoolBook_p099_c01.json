@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p099_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی قاعده مشتق توابع توانی با توان صحیح (مثبت و منفی) و اثبات آن.",
+  "key_points": [
+    "اگر f(x) = x^n و n عدد صحیح باشد، آنگاه f'(x) = nx^{n-1} است."
+  ],
+  "main_text": "قاعده: اگر f(x) = x^n و n \\in \\mathbb{N} باشد، آنگاه f'(x) = nx^{n-1}.\nمثال‌ها:\nاگر f(x) = x^2 آنگاه f'(x) = 2x.\nاگر f(x) = x^3 آنگاه f'(x) = 3x^2.\n\nاثبات برای f(x) = x^3:\nf'(x) = \\lim_{h \\to 0} \\frac{(x+h)^3 - x^3}{h} = \\lim_{h \\to 0} \\frac{(x+h-x)[(x+h)^2 + x(x+h) + x^2]}{h} = \\lim_{h \\to 0} [(x+h)^2 + x(x+h) + x^2] = x^2 + x^2 + x^2 = 3x^2\n\nقاعده کلی: اگر n یک عدد صحیح باشد و f(x) = x^n آنگاه f'(x) = nx^{n-1}.\n\nمثال: برای تابع f(x) = \\frac{1}{x} = x^{-1} داریم:\nf'(x) = -1 \\cdot x^{-1-1} = -x^{-2} = -\\frac{1}{x^2}",
+  "other_details": [],
+  "source_page": 99,
+  "image_path": "books/Calculus2SchoolBook/page_099.png",
+  "confidence": 0.95
+}

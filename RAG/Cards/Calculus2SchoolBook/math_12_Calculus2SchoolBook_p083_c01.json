@@ -1,0 +1,16 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p083_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "محاسبه حد عبارت شیب خط قاطع برای یافتن شیب خط مماس در یک نقطه خاص از طریق بررسی حد راست و چپ.",
+  "key_points": [
+    "محاسبه حد $\\lim_{h \\to 0^+} \\frac{f(2+h) - f(2)}{h}$ برای تابع $f(x) = -x^2 + 10x$.",
+    "بررسی حد از سمت راست و چپ برای تایید وجود حد کلی."
+  ],
+  "main_text": "برای بررسی حد $\\lim_{h \\to 0^+} \\frac{f(2+h) - f(2)}{h}$ با فرض $f(x) = -x^2 + 10x$ و $f(2) = 16$:\n$\\lim_{h \\to 0^+} \\frac{f(2+h) - f(2)}{h} = \\lim_{h \\to 0^+} \\frac{-(2+h)^2 + 10(2+h) - 16}{h} = \\lim_{h \\to 0^+} \\frac{-(h^2 + 4h + 4) + 20 + 10h - 16}{h}$\n$= \\lim_{h \\to 0^+} \\frac{-h^2 - 4h - 4 + 20 + 10h - 16}{h} = \\lim_{h \\to 0^+} \\frac{-h^2 + 6h}{h} = \\lim_{h \\to 0^+} \\frac{h(-h+6)}{h} = \\lim_{h \\to 0^+} (-h+6) = 6$\n\nبه طور مشابه برای سمت چپ:\n$\\lim_{h \\to 0^-} \\frac{f(2+h) - f(2)}{h} = 6$\nبنابراین به طور کلی:\n$\\lim_{h \\to 0} \\frac{f(2+h) - f(2)}{h} = 6$",
+  "other_details": [],
+  "source_page": 83,
+  "image_path": "books/Calculus2SchoolBook/page_083.png",
+  "confidence": 0.95
+}

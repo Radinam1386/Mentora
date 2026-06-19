@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p101_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "معرفی مشتق توابع مثلثاتی سینوس و کسینوس و اثبات آن‌ها با استفاده از تعریف حد.",
+  "key_points": [
+    "مشتق تابع سینوس: اگر f(x) = \\sin x باشد، آنگاه f'(x) = \\cos x است.",
+    "مشتق تابع کسینوس: اگر g(x) = \\cos x باشد، آنگاه g'(x) = -\\sin x است.",
+    "حد‌های کلیدی مورد استفاده در اثبات: \\lim_{h \\to 0} \\frac{\\sin h}{h} = 1 و \\lim_{h \\to 0} \\frac{\\cos h - 1}{h} = 0."
+  ],
+  "main_text": "توابع f(x) = \\sin x و g(x) = \\cos x مشتق پذیر هستند و داریم:\nf'(x) = \\cos x و g'(x) = -\\sin x\n\nاثبات مشتق تابع سینوس با استفاده از تعریف حد:\nf'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h} = \\lim_{h \\to 0} \\frac{\\sin(x+h) - \\sin x}{h}\n= \\lim_{h \\to 0} \\frac{\\sin x \\cos h + \\cos x \\sin h - \\sin x}{h} = \\lim_{h \\to 0} \\frac{\\sin x(\\cos h - 1) + \\cos x \\sin h}{h}\n= \\lim_{h \\to 0} (\\sin x \\frac{\\cos h - 1}{h}) + \\lim_{h \\to 0} (\\cos x \\frac{\\sin h}{h})\nبا استفاده از حد‌های \\lim_{h \\to 0} \\frac{\\cos h - 1}{h} = 0 و \\lim_{h \\to 0} \\frac{\\sin h}{h} = 1 داریم:\nf'(x) = (\\sin x)(0) + (\\cos x)(1) = \\cos x\n\nاثبات مشتق تابع کسینوس با استفاده از تعریف حد:\ng'(x) = \\lim_{h \\to 0} \\frac{g(x+h) - g(x)}{h} = \\lim_{h \\to 0} \\frac{\\cos(x+h) - \\cos x}{h}\n= \\lim_{h \\to 0} \\frac{\\cos x \\cos h - \\sin x \\sin h - \\cos x}{h} = \\lim_{h \\to 0} \\frac{\\cos x(\\cos h - 1) - \\sin x \\sin h}{h}\n= \\lim_{h \\to 0} \\cos x \\lim_{h \\to 0} \\frac{\\cos h - 1}{h} - \\lim_{h \\to 0} \\sin x \\lim_{h \\to 0} \\frac{\\sin h}{h}\n= (\\cos x)(0) - (\\sin x)(1) = -\\sin x",
+  "other_details": [],
+  "source_page": 101,
+  "image_path": "books/Calculus2SchoolBook/page_101.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p045_c01",
+  "main_subject": "math",
+  "subsubject": "trigonometry",
+  "tag": "math/trigonometry",
+  "summary": "حل معادلات مثلثاتی شامل معادلات ساده، معادلات با ضرایب زاویه و یافتن جواب‌ها در یک بازه مشخص.",
+  "key_points": [
+    "روش حل معادله cos x = a با استفاده از جواب کلی x = 2k*pi +/- alpha",
+    "روش حل معادله sin A = sin B با بررسی دو حالت: A = 2k*pi + B و A = (2k+1)*pi - B",
+    "یافتن جواب‌های خاص در یک بازه معین با جایگذاری مقادیر صحیح برای k"
+  ],
+  "main_text": "مثال ۱: جواب‌های معادله cos x = 1/2 را در بازه [-3*pi, pi] به دست آورید.\ncos x = cos(pi/3) => x = 2k*pi +/- pi/3, k in Z\nبا جایگذاری مقادیر صحیح k در عبارت فوق، جواب‌ها عبارتند از: x = -2*pi - pi/3, -2*pi + pi/3, -pi/3, pi/3\n\nمثال ۲: معادله sin 2x = sin 3x را حل کنید.\n{ 2x = 2k*pi + 3x => x = -2k*pi, k in Z\n{ 2x = (2k+1)*pi - 3x => 5x = (2k+1)*pi => x = (2k+1)*pi / 5, k in Z\n\nمثال ۳: معادله 2 sin 3x - sqrt(2) = 0 را حل کنید.\n2 sin 3x = sqrt(2) => sin 3x = sqrt(2)/2 => sin 3x = sin(pi/4)\n{ 3x = 2k*pi + pi/4 => x = 2k*pi/3 + pi/12, k in Z\n{ 3x = (2k+1)*pi - pi/4 => x = (2k+1)*pi/3 - pi/12, k in Z",
+  "other_details": [],
+  "source_page": 45,
+  "image_path": "books/Calculus2SchoolBook/page_045.png",
+  "confidence": 0.95
+}

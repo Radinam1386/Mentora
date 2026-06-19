@@ -1,0 +1,20 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p086_c02",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "بررسی و مقایسه اندازه شعاع برخی یون‌های متداول در گروه‌ها و دوره‌های مختلف جدول تناوبی.",
+  "key_points": [
+    "مقایسه شعاع یونی در گروه‌های ۱، ۲، ۱۶ و ۱۷ برای دوره‌های دوم و سوم جدول تناوبی."
+  ],
+  "main_text": "اندازه شعاع برخی یون‌های متداول در مقایسه با اندازه اتم سازنده آن‌ها در جدول تناوبی ارائه شده است.",
+  "other_details": [
+    "داده‌های شعاع برخی یون‌ها (بر حسب پیکومتراً):",
+    "دوره دوم: Li+ (76,2)، O2- (140,73)، F- (133,71)",
+    "دوره سوم: Na+ (102,186)، Mg2+ (72,160)، S2- (184,102)، Cl- (181,99)",
+    "گروه‌ها: گروه ۱ (Li, Na)، گروه ۲ (Mg)، گروه ۱۶ (O, S)، گروه ۱۷ (F, Cl)"
+  ],
+  "source_page": 86,
+  "image_path": "Books/Chemistry3SchoolBook/page_086.png",
+  "confidence": 0.9
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p094_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی رابطه بین پیوستگی و مشتق‌پذیری؛ تابعی که در نقطه‌ای پیوسته نباشد، در آن نقطه مشتق‌پذیر نیست.",
+  "key_points": [
+    "اگر تابعی در نقطه‌ای پیوسته نباشد، در آن نقطه مشتق‌پذیر نیست."
+  ],
+  "main_text": "مثال: توابع f(x) = [x] و g(x) = \\sqrt{x} در صفر پیوسته نیستند. بنابراین f'(0) و g'(0) موجود نیستند.",
+  "other_details": [
+    "نمودارهای توابع f(x) = [x] و g(x) = \\sqrt{x} نشان می‌دهند که به دلیل ناپیوستگی در نقطه x = 0، مشتق در این نقطه تعریف نشده است."
+  ],
+  "source_page": 94,
+  "image_path": "books/Calculus2SchoolBook/page_094.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,18 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p100_c02",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "قواعد کلی مشتق برای عملیات جمع، تفاضل، ضرب در عدد ثابت، ضرب و تقسیم توابع.",
+  "key_points": [
+    "مشتق مجموع و تفاضل: (f \\pm g)'(a) = f'(a) \\pm g'(a)",
+    "مشتق ضرب در عدد ثابت: (kf)'(a) = kf'(a)",
+    "مشتق حاصل‌ضرب دو تابع: (fg)'(a) = f'(a)g(a) + f(a)g'(a)",
+    "مشتق حاصل‌تقسیم دو تابع: (f/g)'(a) = \\frac{f'(a)g(a) - g'(a)f(a)}{(g(a))^2}"
+  ],
+  "main_text": "اگر توابع f و g در x=a مشتق پذیر باشند، آنگاه توابع kf، f \\pm g، fg و f/g (به شرط g(a) \\neq 0) نیز در x=a مشتق پذیرند و داریم:\nالف) (f \\pm g)'(a) = f'(a) \\pm g'(a)\nب) (kf)'(a) = kf'(a)\nپ) (fg)'(a) = f'(a)g(a) + f(a)g'(a)\nت) (f/g)'(a) = \\frac{f'(a)g(a) - g'(a)f(a)}{(g(a))^2}",
+  "other_details": [],
+  "source_page": 100,
+  "image_path": "books/Calculus2SchoolBook/page_100.png",
+  "confidence": 0.95
+}

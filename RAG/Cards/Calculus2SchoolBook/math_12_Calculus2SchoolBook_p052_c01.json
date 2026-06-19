@@ -1,0 +1,15 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p052_c01",
+  "main_subject": "math",
+  "subsubject": "limit_and_continuity",
+  "tag": "math/limit_and_continuity",
+  "summary": "مرور تعریف شهودی حد تابع در یک نقطه به عنوان مقدمه‌ای برای مبحث حد‌های نامتناهی.",
+  "key_points": [
+    "تعریف شهودی حد تابع در یک نقطه"
+  ],
+  "main_text": "دیدیم که l حد تابع f در نقطه a است هرگاه بتوانیم مقدارهای f(x) را به دلخواه (هر قدر که بخواهیم) به l نزدیک کنیم به شرطی که x را به اندازه کافی به a (از دو طرف a) نزدیک کرده باشیم اما x برابر a نشده باشد.",
+  "other_details": [],
+  "source_page": 52,
+  "image_path": "books/Calculus2SchoolBook/page_052.png",
+  "confidence": 0.9
+}

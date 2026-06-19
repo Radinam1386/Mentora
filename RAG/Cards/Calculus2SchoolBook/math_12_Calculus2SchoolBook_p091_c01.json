@@ -1,0 +1,17 @@
+{
+  "card_id": "math_12_Calculus2SchoolBook_p091_c01",
+  "main_subject": "math",
+  "subsubject": "derivative_and_applications_of_it",
+  "tag": "math/derivative_and_applications_of_it",
+  "summary": "بررسی رابطه بین مشتق‌پذیری و پیوستگی تابع و مثال‌هایی از عدم مشتق‌پذیری.",
+  "key_points": [
+    "اگر تابعی در یک نقطه مشتق‌پذیر باشد، الزاماً در آن نقطه باید پیوسته باشد."
+  ],
+  "main_text": "در بررسی مشتق‌پذیری تابع در نقطه x=2، اگر حد تعریف مشتق متناهی نباشد، مشتق وجود ندارد. برای مثال:\n \\lim_{x \\to 2^+} \\frac{x^2-1}{x-2} = +\\infty\n \\lim_{x \\to 2^-} \\frac{x^2-1}{x-2} = -\\infty\n بنابراین \\lim_{x \\to 2} \\frac{f(x) - f(2)}{x-2} موجود (و متناهی) نیست، پس f'(2) وجود ندارد.\n\nهمچنین برای تابع:\n g(x) = \\begin{cases} x^2 & x \\le 1 \\\\ x+1 & x > 1 \\end{cases}\nبه دلیل ناپیوستگی در x=1، مشتق g'(1) موجود نیست.\n\nقضیه: اگر تابعی در یک نقطه مشتق‌پذیر باشد، الزاماً در آن نقطه باید پیوسته باشد.",
+  "other_details": [
+    "نمودار تابع g(x) در صفحه، یک ناپیوستگی در نقطه x=1 را نشان می‌دهد که دلیل عدم وجود مشتق g'(1) است."
+  ],
+  "source_page": 91,
+  "image_path": "books/Calculus2SchoolBook/page_091.png",
+  "confidence": 0.95
+}

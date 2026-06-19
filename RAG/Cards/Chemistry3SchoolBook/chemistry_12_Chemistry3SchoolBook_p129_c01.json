@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_12_Chemistry3SchoolBook_p129_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_equilibrium",
+  "tag": "chemistry/chemical_equilibrium",
+  "summary": "بررسی تعادل شیمیایی در واکنش تبدیل دی‌نیتروژن تتر اکسید به نیتروژن دی اکسید.",
+  "key_points": [
+    "گاز $\\text{N}_2\\text{O}_4$ بی رنگ است.",
+    "گاز $\\text{NO}_2$ قهوه‌ای رنگ است.",
+    "واکنش تعادلی: $\\text{N}_2\\text{O}_4\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$"
+  ],
+  "main_text": "شکل زیر پیشرفت واکنش تبدیل گاز بی رنگ $\\text{N}_2\\text{O}_4$ به گاز قهوه‌ای رنگ $\\text{NO}_2$ را با گذشت زمان در دمای ثابت نشان می‌دهد:\n$\\text{N}_2\\text{O}_4\\text{(g)} \\rightleftharpoons 2\\text{NO}_2\\text{(g)}$",
+  "other_details": [
+    "تغییر رنگ از بی رنگ به قهوه‌ای نشان‌دهنده پیشرفت واکنش به سمت تولید $\\text{NO}_2$ است."
+  ],
+  "source_page": 129,
+  "image_path": "Books/Chemistry3SchoolBook/page_129.png",
+  "confidence": 0.95
+}

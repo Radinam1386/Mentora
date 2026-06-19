@@ -1,0 +1,16 @@
+{
+  "card_id": "physics_12_Physics3SchoolBook_p091_c01",
+  "main_subject": "physics",
+  "subsubject": "oscillation_and_waves",
+  "tag": "physics/oscillation_and_waves",
+  "summary": "حل مثالی در مورد محاسبه شدت صوت بر اساس تراز شدت صوتی و تعیین آهنگ متوسط انتقال انرژی از یک سطح.",
+  "key_points": [
+    "رابطه تراز شدت صوت: \\beta = (10\\text{ dB}) \\log(I/I_0)",
+    "رابطه آهنگ متوسط انتقال انرژی: P_{av} = I A"
+  ],
+  "main_text": "مثال ۳-۹: تراز شدت صوت یک مخلوط کن که انتشار صوت آن به صورت شکل ۳-۲۶ است در سطح ۲، 80.0 dB است. الف) شدت این صدا چقدر است؟ ب) اگر مساحت سطح ۲، برابر 4.00 m^2 باشد، آهنگ متوسط انتقال انرژی از این سطح را محاسبه کنید.\n\nپاسخ: با استفاده از رابطه ۳-۱۲ داریم:\nالف) \\beta = (10\\text{ dB}) \\log(I/I_0) \\Rightarrow 80.0\\text{ dB} = (10\\text{ dB}) \\log(I/I_0) \\Rightarrow \\log(I/I_0) = 8.00\n(I/I_0) = 10^{8.00} \\Rightarrow I = 10^{8.00}(1.00 \\times 10^{-12}\\text{ W/m}^2) = 1.00 \\times 10^{-4}\\text{ W/m}^2\nب) I = \\frac{P_{av}}{A} \\Rightarrow P_{av} = I A = (1.00 \\times 10^{-4}\\text{ W/m}^2)(4.00\\text{ m}^2) = 4.00 \\times 10^{-4}\\text{ W}",
+  "other_details": [],
+  "source_page": 91,
+  "image_path": "Books/Physics3SchoolBook/page_091.png",
+  "confidence": 0.95
+}
