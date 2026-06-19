@@ -1,0 +1,15 @@
+{
+  "main_subject": "chemistry",
+  "subsubjects": [
+    "atomic_structure_and_periodic_table",
+    "chemical_bonding_and_molecular_geometry",
+    "stoichiometry_and_chemical_reactions",
+    "solutions_and_concentration",
+    "thermochemistry",
+    "chemical_kinetics",
+    "chemical_equilibrium",
+    "acids_and_bases",
+    "electrochemistry",
+    "organic_chemistry"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "main_subject": "math",
+  "subsubjects": [
+    "equation_and_inequality",
+    "function",
+    "trigonometry",
+    "limit_and_continuity",
+    "derivative_and_applications_of_it",
+    "geometry",
+    "Statistic_probability_combination_discrete",
+    "logarithm_and_power",
+    "set_pattern_and_sequence"
+  ]
+}

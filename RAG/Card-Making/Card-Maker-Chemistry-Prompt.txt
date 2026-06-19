@@ -1,0 +1,165 @@
+You are creating Mentora Learning Cards from one Persian chemistry textbook page image.
+
+Return exactly one valid JSON object.
+Return JSON only.
+Do not write markdown.
+Do not write explanations.
+Do not write anything before or after the JSON.
+Do not use markdown formatting inside JSON string values.
+
+Top-level output rule:
+Return one JSON object with this shape:
+
+{
+  "cards": [
+    {
+      "card_id": "{MAIN_SUBJECT}_{GRADE}_{BOOK_CODE}_p{PAGE_NUMBER_3DIGITS}_c01",
+      "main_subject": "{MAIN_SUBJECT}",
+      "subsubject": "choose_only_from_allowed_list",
+      "tag": "{MAIN_SUBJECT}/choose_only_from_allowed_list",
+      "summary": "خلاصه کوتاه فارسی فقط بر اساس متن، فرمول، داده، یا مثال حل شده داخل صفحه.",
+      "key_points": [
+        "تعریف، قانون، فرمول، رابطه، داده یا نکته مهمی که دقیقا در صفحه دیده می شود."
+      ],
+      "main_text": "متن اصلی آموزشی صفحه، فرمول ها، داده های مهم شیمی، و مثال های حل شده خود کتاب.",
+      "other_details": [
+        "جزئیات مفید شکل، جدول، نمودار، واکنش، کپشن، یا داده های مهم مربوط به همان کارت."
+      ],
+      "source_page": {PAGE_NUMBER},
+      "image_path": "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png",
+      "confidence": 0.85
+    }
+  ]
+}
+
+If the page needs only one card, return exactly one item in "cards".
+If the page clearly contains two or more separate useful educational topics, return multiple card objects in "cards".
+
+If the page is unreadable, empty, or only contains ignored non-exam sections, return:
+
+{
+  "cards": [],
+  "page_status": "no_extract_worthy_content",
+  "reason": "No useful chemistry teaching text, formula, data, table, diagram, or solved example was found.",
+  "source_page": {PAGE_NUMBER},
+  "image_path": "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png",
+  "confidence": 0.85
+}
+
+If the page only contains unsolved exercises/tests and there is no useful standalone chemistry fact inside them, return:
+
+{
+  "cards": [],
+  "page_status": "no_extract_worthy_content",
+  "reason": "Only unsolved exercises/tests were found. No useful standalone chemistry fact, formula, data, or solved example.",
+  "source_page": {PAGE_NUMBER},
+  "image_path": "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png",
+  "confidence": 0.9
+}
+
+Previous cards context:
+{PREVIOUS_CARDS_CONTEXT}
+
+Use the previous cards only to understand the continuity of the lesson, chapter, topic, and subsubject.
+Do not copy previous card text into the current page cards.
+The current output cards must be based on the current page image.
+
+Very important rules:
+- Use only information that is visible in the current page image.
+- Do not add any fact, formula, reaction, example, definition, answer, or explanation from your own knowledge.
+- Keep the textbook's Persian text in Persian.
+- In main_text, preserve the original Persian wording as literally as possible.
+- In chemistry, small wording changes can damage exam accuracy. Do not paraphrase the main educational text unless direct reading is impossible.
+- If a part of the page is unclear, do not guess it.
+- Do not solve exercises or tests unless the book itself shows the answer or solution on the page.
+- Do not invent missing steps in solved examples.
+- summary may summarize, but only based on visible page content.
+- key_points must only include definitions, rules, formulas, reactions, conditions, quantities, or facts visible in the page.
+
+Chemistry extraction rules:
+- main_text should include important literal textbook text, important formulas, chemical equations, reactions, units, constants, definitions, rules, named substances, and solved examples.
+- If the page contains a teaching paragraph, extract the important original text as literally as possible.
+- If the page contains a formula, chemical equation, reaction, ion equation, structure, concentration relation, equilibrium expression, rate law, pH relation, thermochemical equation, electrochemical relation, or stoichiometry relation, write it clearly.
+- If the page contains a table or diagram with important chemical data, summarize the useful data in other_details or main_text.
+- If the page contains a solved example and the book itself solved it, include the example question and the visible solution steps.
+- If a solved example has missing or unreadable steps, include only the visible steps and do not complete it yourself.
+- If the page contains a molecular/structural formula or diagram, describe only what is visible and educationally useful.
+- For formulas, use readable plain text or valid escaped LaTeX. If using LaTeX in JSON, every backslash must be escaped, for example write "\\frac{n}{V}" not "\frac{n}{V}".
+- If you are not sure you can escape LaTeX correctly, write the formula in readable plain text.
+
+Unsolved question and test rules:
+- Do not create a card from an unsolved exercise/test just because it has a question.
+- Do not copy full unsolved questions into main_text.
+- Do not copy answer options as options.
+- Do not solve unsolved questions.
+- However, chemistry textbooks sometimes hide useful factual information inside an unsolved question stem or option. If a sentence contains a standalone chemistry fact, material property, real-world application, substance name, industrial use, or important data that can be learned independently, keep that useful fact in main_text or other_details.
+- Example of what to keep: if an unsolved question says titanium is used in airplane manufacturing or other industries, keep that application fact.
+- Example of what not to keep: the actual request of the question, the answer choices, or numerical values that only exist for solving that specific test and do not teach a reusable chemistry fact.
+- If a formula, reaction, graph, or table appears only as part of an unsolved question and has no standalone educational value, do not create a card from it.
+- If an unsolved question contains both a reusable factual statement and a problem to solve, keep only the reusable factual statement and ignore the problem.
+
+Ignored sections:
+These sections are not important and should not be included in cards:
+- «بیشتر بدانیم»
+- «خوب است بدانید»
+- «تاریخ علم»
+- «پانویس»
+- Any marginal, decorative, historical, or extra-information section that is not needed for exam learning.
+
+Do not include ignored sections in main_text, key_points, summary, or other_details.
+If the whole page is almost only ignored sections, return the no_extract_worthy_content object.
+
+Multi-card decision rules:
+- If the page has only one main concept, create only one card.
+- If the page has multiple independent chemistry concepts, create one card for each important independent concept.
+- If the page contains two different allowed subsubjects, create separate cards when the content is clearly separable.
+- If a formula, solved example, table, or diagram only explains the same main concept, keep it in the same card.
+- If a solved example teaches an important separate method, it may get its own card.
+- Do not create too many cards without a clear reason. Correct separation is more important than card count.
+- Do not create cards for unsolved exercises/tests, except for standalone reusable chemistry facts hidden inside them.
+- Do not create cards for «بیشتر بدانیم», «خوب است بدانید», «تاریخ علم», or «پانویس».
+
+Card numbering:
+- card_id of each card must end with a different card number.
+- The first card on the page must end with c01.
+- The second card on the page must end with c02.
+- The third card on the page must end with c03.
+- For every page, card numbering starts from c01.
+
+Subsubject rule:
+You must choose subsubject only from this allowed list:
+{ALLOWED_SUBSUBJECTS}
+
+Do not invent a new subsubject.
+Do not translate or rename the allowed subsubjects.
+If a useful page does not clearly match any allowed subsubject, use:
+"subsubject": "general"
+
+For each card:
+- tag must be "{MAIN_SUBJECT}/{subsubject}"
+- main_subject must be exactly "{MAIN_SUBJECT}"
+- source_page must be exactly {PAGE_NUMBER}
+- image_path must be exactly "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png"
+
+Metadata:
+main_subject = "{MAIN_SUBJECT}"
+grade = "{GRADE}"
+book_code = "{BOOK_CODE}"
+page_number = "{PAGE_NUMBER}"
+page_number_3digits = "{PAGE_NUMBER_3DIGITS}"
+
+Field rules:
+- summary: Short 1 to 3 sentence Persian summary based only on the same card's visible source content.
+- key_points: Only important definitions, rules, formulas, equations, reactions, units, constants, chemical facts, conditions, properties, or reusable facts visible on the page.
+- main_text: Literal Persian teaching text plus important formulas/reactions/data and solved examples. For unsolved questions, keep only reusable standalone chemistry facts, not the question itself.
+- other_details: Useful visible details from tables, figures, diagrams, captions, molecular structures, laboratory setup, graphs, or context facts related to the same card.
+- Do not use markdown such as ###, **bold**, bullet markdown, or code fences inside any field.
+- confidence: A number between 0 and 1.
+
+Confidence guide:
+- 0.90 to 1.00: The page is clear and extraction is highly reliable.
+- 0.70 to 0.89: Most of the page is clear, but there is a little uncertainty.
+- 0.40 to 0.69: Some content is unclear or subsubject choice is uncertain.
+- 0.00 to 0.39: The page is unreadable, low-value, or almost empty.
+
+Return JSON only.

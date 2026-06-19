@@ -1,0 +1,124 @@
+You are creating Mentora Learning Cards from one Persian textbook page image.
+
+Return exactly one valid JSON object.
+Return JSON only.
+Do not write markdown.
+Do not write explanations.
+Do not write anything before or after the JSON.
+
+Top-level output rule:
+Return one JSON object with this shape:
+
+{
+  "cards": [
+    {
+      "card_id": "{MAIN_SUBJECT}_{GRADE}_{BOOK_CODE}_p{PAGE_NUMBER_3DIGITS}_c01",
+      "main_subject": "{MAIN_SUBJECT}",
+      "subsubject": "choose_only_from_allowed_list",
+      "tag": "{MAIN_SUBJECT}/choose_only_from_allowed_list",
+      "summary": "خلاصه کوتاه فارسی فقط بر اساس متن اصلی صفحه.",
+      "key_points": [
+        "نکته مهمی که دقیقا در متن اصلی صفحه وجود دارد."
+      ],
+      "main_text": "متن اصلی آموزشی صفحه به فارسی و تا حد ممکن دقیق.",
+      "other_details": [
+        "جزئیات مفید شکل، جدول، نمودار یا کپشن، اگر وجود دارد."
+      ],
+      "source_page": {PAGE_NUMBER},
+      "image_path": "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png",
+      "confidence": 0.85
+    }
+  ]
+}
+
+If the page needs only one card, return exactly one item in "cards".
+If the page clearly contains two or more separate useful educational topics, return multiple card objects in "cards".
+If the page is unreadable, empty, or only contains ignored non-exam sections, return:
+
+{
+  "cards": []
+}
+
+Previous cards context:
+{PREVIOUS_CARDS_CONTEXT}
+
+Use the previous cards only to understand the continuity of the lesson, chapter, topic, and subsubject.
+Do not copy previous card text into the current page cards.
+The current output cards must be based on the current page image.
+
+Very important rules:
+- فقط و فقط از اطلاعاتی استفاده کن که در تصویر صفحه دیده می‌شود.
+- هیچ نکته، فرمول، مثال، تعریف، تست، یا توضیحی از دانش خودت اضافه نکن.
+- متن‌های اصلی کتاب را فارسی نگه دار.
+- در بخش main_text تا حد ممکن متن اصلی آموزشی را عین همان چیزی که در تصویر آمده استخراج کن.
+- مخصوصا در زیست‌شناسی، جمله‌ها را بازنویسی نکن مگر اینکه خواندن مستقیم ممکن نباشد.
+- اگر بخشی از متن واضح نیست، حدس نزن.
+- تمرین‌ها را حل نکن مگر اینکه پاسخ یا توضیح آن در خود صفحه دیده شود.
+- summary می‌تواند خلاصه‌سازی کند، اما فقط بر اساس متن اصلی دیده‌شده در صفحه.
+- key_points فقط باید شامل نکته‌هایی باشد که در متن اصلی صفحه دیده می‌شوند.
+
+Ignored sections:
+این بخش‌ها مهم نیستند و نباید وارد کارت شوند:
+- «بیشتر بدانیم»
+- «خوب است بدانید»
+- «تاریخ علم»
+- «پانویس»
+- هر بخش حاشیه‌ای یا اطلاعات اضافه‌ای که برای امتحان و یادگیری اصلی لازم نیست
+
+این بخش‌ها را در main_text، key_points، summary و other_details وارد نکن.
+اگر فقط عنوان این بخش‌ها دیده می‌شود، آن‌ها را نادیده بگیر.
+اگر کل صفحه تقریبا فقط از این بخش‌های غیرضروری تشکیل شده، مقدار "cards" را آرایه خالی برگردان.
+
+Multi-card decision rules:
+- اگر صفحه فقط یک مفهوم اصلی دارد، فقط یک کارت بساز.
+- اگر صفحه چند بخش آموزشی مستقل دارد، برای هر بخش مهم و مستقل یک کارت جدا بساز.
+- اگر یک صفحه شامل دو زیرموضوع متفاوت از لیست مجاز است، برای هر زیرموضوع یک کارت جدا بساز.
+- اگر مثال، شکل، جدول یا نمودار فقط برای توضیح همان مفهوم اصلی است، کارت جدا نساز؛ آن را در همان کارت و در other_details بیاور.
+- اگر مثال یا فعالیت آموزشی خودش یک روش یا مفهوم مستقل و مهم دارد، می‌توانی برای آن کارت جدا بسازی.
+- بی‌دلیل کارت‌های زیاد نساز. کیفیت و تفکیک درست مهم‌تر از تعداد کارت است.
+- هیچ کارتی برای بخش‌های «بیشتر بدانیم»، «خوب است بدانید»، «تاریخ علم» یا «پانویس» نساز.
+
+Card numbering:
+- card_id هر کارت باید با شماره کارت متفاوت تمام شود.
+- اولین کارت صفحه باید c01 باشد.
+- دومین کارت صفحه باید c02 باشد.
+- سومین کارت صفحه باید c03 باشد.
+- برای هر صفحه، شماره کارت از c01 شروع می‌شود.
+
+Subsubject rule:
+You must choose subsubject only from this allowed list:
+{ALLOWED_SUBSUBJECTS}
+
+Do not invent a new subsubject.
+Do not translate or rename the allowed subsubjects.
+If a useful page does not clearly match any allowed subsubject, use:
+"subsubject": "general"
+
+For each card:
+- tag must be "{MAIN_SUBJECT}/{subsubject}"
+- main_subject must be exactly "{MAIN_SUBJECT}"
+- source_page must be exactly {PAGE_NUMBER}
+- image_path must be exactly "Books/{BOOK_CODE}/page_{PAGE_NUMBER_3DIGITS}.png"
+
+Metadata:
+main_subject = "{MAIN_SUBJECT}"
+grade = "{GRADE}"
+book_code = "{BOOK_CODE}"
+page_number = "{PAGE_NUMBER}"
+page_number_3digits = "{PAGE_NUMBER_3DIGITS}"
+
+Field rules:
+- summary: خلاصه کوتاه ۲ تا ۴ جمله‌ای، فقط بر اساس متن اصلی همان کارت.
+- key_points: فقط تعریف‌ها، قواعد، فرمول‌ها، نکته‌های مهم یا جمله‌های مهمی که در متن اصلی دیده می‌شوند.
+- main_text: متن اصلی آموزشی مربوط به همان کارت، به فارسی و تا حد ممکن دقیق.
+- other_details: فقط جزئیات مفید مثل شکل، جدول، نمودار، عنوان تمرین، یا کپشن‌های مهم مربوط به همان کارت.
+- confidence: عددی بین 0 و 1.
+
+Confidence guide:
+- 0.90 تا 1.00: صفحه واضح است و استخراج بسیار قابل اعتماد است.
+- 0.70 تا 0.89: بیشتر صفحه واضح است، اما کمی عدم قطعیت وجود دارد.
+- 0.40 تا 0.69: بخشی از صفحه نامشخص است یا انتخاب زیرموضوع کمی نامطمئن است.
+- 0.00 تا 0.39: صفحه ناخوانا، کم‌فایده، یا تقریبا خالی است.
+
+Return JSON only.
+

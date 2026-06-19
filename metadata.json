@@ -1,0 +1,6 @@
+{
+  "name": "Mentora",
+  "description": "پلتفرم آمادگی شخصی‌سازی‌شده کنکور مبتنی بر هوش مصنوعی برای دانش‌آموزان ایرانی",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

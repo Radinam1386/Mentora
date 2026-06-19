@@ -1,0 +1,48 @@
+{
+  "math": [
+    "equation_and_inequality",
+    "function",
+    "trigonometry",
+    "limit_and_continuity",
+    "derivative_and_applications_of_it",
+    "geometry",
+    "Statistic_probability_combination_discrete",
+    "logarithm_and_power",
+    "set_pattern_and_sequence"
+  ],
+  "physics": [
+    "kinematics",
+    "dynamics",
+    "work_and_energy",
+    "electrostatics",
+    "current_electricity",
+    "atomic_and_nuclear_physics",
+    "oscillation_and_waves",
+    "temperature_heat_and_thermodynamics",
+    "magnetism_and_electromagnetic_induction",
+    "measurement_and_vectors"
+  ],
+  "biology": [
+    "human_body_systems",
+    "genetics",
+    "cell_biology",
+    "plant_biology",
+    "animal_biology",
+    "photosynthesis_and_cellular_respiration",
+    "immune_system",
+    "biotechnology",
+    "animal_behavior"
+  ],
+  "chemistry": [
+    "atomic_structure_and_periodic_table",
+    "chemical_bonding_and_molecular_geometry",
+    "stoichiometry_and_chemical_reactions",
+    "solutions_and_concentration",
+    "thermochemistry",
+    "chemical_kinetics",
+    "chemical_equilibrium",
+    "acids_and_bases",
+    "electrochemistry",
+    "organic_chemistry"
+  ]
+}

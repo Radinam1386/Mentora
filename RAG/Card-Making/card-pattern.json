@@ -1,0 +1,20 @@
+{
+  "card_id": "{main_subject}_{grade}_{book_code}_p{page_number_3digits}_c{card_number_2digits}",
+  "main_subject": "{main_subject}",
+  "subsubject": "{subsubject}",
+  "tag": "{main_subject}/{subsubject}",
+  "summary": "Short 2-4 sentence summary of what this card teaches.",
+  "key_points": [
+    "Important definition, rule, formula, or fact.",
+    "A useful exam-related point only if it is provided in the source image."
+  ],
+  "main_text": "Exact extracted text of the main paragraphs from the source image.",
+  "other_details": [
+    "Any side note shown in the page margin or edge of the book.",
+    "Other useful parts visible in the image but not part of the main paragraph."
+  ],
+  "source_page": 45,
+  "image_path": "Books/{book_code}/page_{page_number_3digits}.png",
+  "confidence": 0.85
+}
+

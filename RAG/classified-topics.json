@@ -1,0 +1,19 @@
+{
+  "main_subject": "physics",
+  "main_subject_confidence": 1.0,
+  "subsubjects": [
+    {
+      "subsubject": "oscillation_and_waves",
+      "score": 1.0,
+      "reason": "The question asks about the speed of a simple pendulum, which is a classic example of simple harmonic motion."
+    },
+    {
+      "subsubject": "work_and_energy",
+      "score": 0.7,
+      "reason": "The speed at the lowest point of a pendulum can be calculated using the conservation of mechanical energy."
+    }
+  ],
+  "question_type": "calculation",
+  "needs_image_reasoning": false,
+  "confidence": 1.0
+}

@@ -1,1 +1,6 @@
 secrets.txt
+.env
+node_modules/
+*.pyc
+__pycache__/
+backend/staticfiles/

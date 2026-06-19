@@ -1,0 +1,347 @@
+{
+  "book_code": "Chemistry3SchoolBook",
+  "main_subject": "chemistry",
+  "include": "both",
+  "groups": {
+    "atomic_structure_and_periodic_table": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p071_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p086_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p089_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p092_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p093_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p094_c01.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_071.png",
+        "Books/Chemistry3SchoolBook/page_086.png",
+        "Books/Chemistry3SchoolBook/page_089.png",
+        "Books/Chemistry3SchoolBook/page_092.png",
+        "Books/Chemistry3SchoolBook/page_093.png",
+        "Books/Chemistry3SchoolBook/page_094.png"
+      ]
+    },
+    "chemical_bonding_and_molecular_geometry": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p012_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p013_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p076_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p077_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p078_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p078_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p079_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p079_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p080_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p080_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p081_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p082_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p084_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p085_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p086_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p087_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p088_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p089_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p090_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p095_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p096_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p096_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p096_c03.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c04.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c02.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_012.png",
+        "Books/Chemistry3SchoolBook/page_013.png",
+        "Books/Chemistry3SchoolBook/page_076.png",
+        "Books/Chemistry3SchoolBook/page_077.png",
+        "Books/Chemistry3SchoolBook/page_078.png",
+        "Books/Chemistry3SchoolBook/page_079.png",
+        "Books/Chemistry3SchoolBook/page_080.png",
+        "Books/Chemistry3SchoolBook/page_081.png",
+        "Books/Chemistry3SchoolBook/page_082.png",
+        "Books/Chemistry3SchoolBook/page_084.png",
+        "Books/Chemistry3SchoolBook/page_085.png",
+        "Books/Chemistry3SchoolBook/page_086.png",
+        "Books/Chemistry3SchoolBook/page_087.png",
+        "Books/Chemistry3SchoolBook/page_088.png",
+        "Books/Chemistry3SchoolBook/page_089.png",
+        "Books/Chemistry3SchoolBook/page_090.png",
+        "Books/Chemistry3SchoolBook/page_095.png",
+        "Books/Chemistry3SchoolBook/page_096.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "stoichiometry_and_chemical_reactions": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p127_c02.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_127.png"
+      ]
+    },
+    "solutions_and_concentration": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p015_c01.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_015.png"
+      ]
+    },
+    "thermochemistry": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p128_c02.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_128.png"
+      ]
+    },
+    "chemical_kinetics": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p102_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p103_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p104_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p105_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p106_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p107_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p108_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c06.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c06.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_102.png",
+        "Books/Chemistry3SchoolBook/page_103.png",
+        "Books/Chemistry3SchoolBook/page_104.png",
+        "Books/Chemistry3SchoolBook/page_105.png",
+        "Books/Chemistry3SchoolBook/page_106.png",
+        "Books/Chemistry3SchoolBook/page_107.png",
+        "Books/Chemistry3SchoolBook/page_108.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "chemical_equilibrium": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p030_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p109_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p111_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p112_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p113_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p113_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p114_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p114_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p116_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p128_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p129_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c03.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c05.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_030.png",
+        "Books/Chemistry3SchoolBook/page_109.png",
+        "Books/Chemistry3SchoolBook/page_111.png",
+        "Books/Chemistry3SchoolBook/page_112.png",
+        "Books/Chemistry3SchoolBook/page_113.png",
+        "Books/Chemistry3SchoolBook/page_114.png",
+        "Books/Chemistry3SchoolBook/page_116.png",
+        "Books/Chemistry3SchoolBook/page_128.png",
+        "Books/Chemistry3SchoolBook/page_129.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "acids_and_bases": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p009_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p010_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p021_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p022_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p023_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p024_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p024_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p026_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p027_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p031_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p032_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p032_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p033_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p034_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p035_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p036_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p037_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p038_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p040_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p041_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p042_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c01.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_009.png",
+        "Books/Chemistry3SchoolBook/page_010.png",
+        "Books/Chemistry3SchoolBook/page_021.png",
+        "Books/Chemistry3SchoolBook/page_022.png",
+        "Books/Chemistry3SchoolBook/page_023.png",
+        "Books/Chemistry3SchoolBook/page_024.png",
+        "Books/Chemistry3SchoolBook/page_026.png",
+        "Books/Chemistry3SchoolBook/page_027.png",
+        "Books/Chemistry3SchoolBook/page_031.png",
+        "Books/Chemistry3SchoolBook/page_032.png",
+        "Books/Chemistry3SchoolBook/page_033.png",
+        "Books/Chemistry3SchoolBook/page_034.png",
+        "Books/Chemistry3SchoolBook/page_035.png",
+        "Books/Chemistry3SchoolBook/page_036.png",
+        "Books/Chemistry3SchoolBook/page_037.png",
+        "Books/Chemistry3SchoolBook/page_038.png",
+        "Books/Chemistry3SchoolBook/page_040.png",
+        "Books/Chemistry3SchoolBook/page_041.png",
+        "Books/Chemistry3SchoolBook/page_042.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "electrochemistry": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p025_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p045_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p046_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p047_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p048_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p049_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p050_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p051_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p052_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p053_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p054_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p055_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p056_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p057_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p058_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p058_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p059_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p060_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p061_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p062_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p063_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p065_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p066_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p067_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p067_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p068_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p069_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p069_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p070_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p070_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p071_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p072_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c03.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_025.png",
+        "Books/Chemistry3SchoolBook/page_045.png",
+        "Books/Chemistry3SchoolBook/page_046.png",
+        "Books/Chemistry3SchoolBook/page_047.png",
+        "Books/Chemistry3SchoolBook/page_048.png",
+        "Books/Chemistry3SchoolBook/page_049.png",
+        "Books/Chemistry3SchoolBook/page_050.png",
+        "Books/Chemistry3SchoolBook/page_051.png",
+        "Books/Chemistry3SchoolBook/page_052.png",
+        "Books/Chemistry3SchoolBook/page_053.png",
+        "Books/Chemistry3SchoolBook/page_054.png",
+        "Books/Chemistry3SchoolBook/page_055.png",
+        "Books/Chemistry3SchoolBook/page_056.png",
+        "Books/Chemistry3SchoolBook/page_057.png",
+        "Books/Chemistry3SchoolBook/page_058.png",
+        "Books/Chemistry3SchoolBook/page_059.png",
+        "Books/Chemistry3SchoolBook/page_060.png",
+        "Books/Chemistry3SchoolBook/page_061.png",
+        "Books/Chemistry3SchoolBook/page_062.png",
+        "Books/Chemistry3SchoolBook/page_063.png",
+        "Books/Chemistry3SchoolBook/page_065.png",
+        "Books/Chemistry3SchoolBook/page_066.png",
+        "Books/Chemistry3SchoolBook/page_067.png",
+        "Books/Chemistry3SchoolBook/page_068.png",
+        "Books/Chemistry3SchoolBook/page_069.png",
+        "Books/Chemistry3SchoolBook/page_070.png",
+        "Books/Chemistry3SchoolBook/page_071.png",
+        "Books/Chemistry3SchoolBook/page_072.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "organic_chemistry": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p013_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p014_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p016_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p017_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p018_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p019_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p019_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p119_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p120_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p121_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p121_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p122_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p122_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p123_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p124_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p124_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p124_c03.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p126_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p126_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p127_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p129_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p130_c05.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p131_c04.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_013.png",
+        "Books/Chemistry3SchoolBook/page_014.png",
+        "Books/Chemistry3SchoolBook/page_016.png",
+        "Books/Chemistry3SchoolBook/page_017.png",
+        "Books/Chemistry3SchoolBook/page_018.png",
+        "Books/Chemistry3SchoolBook/page_019.png",
+        "Books/Chemistry3SchoolBook/page_119.png",
+        "Books/Chemistry3SchoolBook/page_120.png",
+        "Books/Chemistry3SchoolBook/page_121.png",
+        "Books/Chemistry3SchoolBook/page_122.png",
+        "Books/Chemistry3SchoolBook/page_123.png",
+        "Books/Chemistry3SchoolBook/page_124.png",
+        "Books/Chemistry3SchoolBook/page_126.png",
+        "Books/Chemistry3SchoolBook/page_127.png",
+        "Books/Chemistry3SchoolBook/page_129.png",
+        "Books/Chemistry3SchoolBook/page_130.png",
+        "Books/Chemistry3SchoolBook/page_131.png"
+      ]
+    },
+    "general": {
+      "json_files": [
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p021_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p075_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p091_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p100_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p109_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p117_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p118_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p118_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p119_c01.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p123_c02.json",
+        "Cards/Chemistry3SchoolBook/chemistry_12_Chemistry3SchoolBook_p128_c03.json"
+      ],
+      "image_files": [
+        "Books/Chemistry3SchoolBook/page_021.png",
+        "Books/Chemistry3SchoolBook/page_075.png",
+        "Books/Chemistry3SchoolBook/page_091.png",
+        "Books/Chemistry3SchoolBook/page_100.png",
+        "Books/Chemistry3SchoolBook/page_109.png",
+        "Books/Chemistry3SchoolBook/page_117.png",
+        "Books/Chemistry3SchoolBook/page_118.png",
+        "Books/Chemistry3SchoolBook/page_119.png",
+        "Books/Chemistry3SchoolBook/page_123.png",
+        "Books/Chemistry3SchoolBook/page_128.png"
+      ]
+    }
+  }
+}
