@@ -16,6 +16,8 @@ REPO_DIR = Path(__file__).resolve().parents[2]
 RAG_DIR = REPO_DIR / "RAG"
 
 MODEL_NAME = os.environ.get("RAG_MODEL_NAME", "gemma-4-31b-it")
+GOOGLE_BASE_URL = os.environ.get("RAG_GOOGLE_BASE_URL", "").strip()
+GOOGLE_API_VERSION = os.environ.get("RAG_GOOGLE_API_VERSION", "").strip()
 MAX_CARDS_PER_SUBSUBJECT = int(os.environ.get("RAG_MAX_CARDS_PER_SUBSUBJECT", "10000"))
 MAX_SOURCE_CHARS = int(os.environ.get("RAG_MAX_SOURCE_CHARS", "10000000"))
 INCLUDE_SOURCE_IMAGES = os.environ.get("RAG_INCLUDE_SOURCE_IMAGES", "true").lower() in {"1", "true", "yes"}
@@ -48,6 +50,22 @@ def api_key() -> str:
     if not key:
         raise QuestionSolverConfigError("Google API key is missing. Set GOOGLE_API_KEY, GEMINI_API_KEY, or RAG_GOOGLE_API_KEY.")
     return key
+
+
+def make_client():
+    http_options = {}
+    if GOOGLE_BASE_URL:
+        http_options["base_url"] = GOOGLE_BASE_URL
+    if GOOGLE_API_VERSION:
+        http_options["api_version"] = GOOGLE_API_VERSION
+
+    if http_options:
+        return genai.Client(
+            api_key=api_key(),
+            http_options=types.HttpOptions(**http_options),
+        )
+
+    return genai.Client(api_key=api_key())
 
 
 def load_text(path: Path) -> str:
@@ -264,7 +282,7 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
     if not question_text.strip() and not image_bytes:
         raise ValueError("Question text or image is required.")
 
-    client = genai.Client(api_key=api_key())
+    client = make_client()
     classified_topics = classify_question(client, question_text, image_bytes, mime_type, file_name)
     cards, image_paths = load_relevant_cards(classified_topics)
     answer, sources = solve_with_sources(
