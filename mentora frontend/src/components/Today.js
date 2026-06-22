@@ -9,6 +9,7 @@ import {
   Clock,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 export default function Today() {
   const { profile, tasks, stats, toggleTask } = useApp();
@@ -561,11 +562,9 @@ export default function Today() {
             </p>
           </div>
 
-          <button
+          <Link
             type="button"
-            onClick={() => {
-              alert("قابلیت تایمر تمرکز به‌زودی به منتورا اضافه می‌شود.");
-            }}
+            to="/focustimer"
             className="btn text-white fw-bold"
             style={{
               background: "#d97706",
@@ -576,7 +575,7 @@ export default function Today() {
             }}
           >
             شروع تایمر
-          </button>
+          </Link>
         </div>
       </div>
     </div>

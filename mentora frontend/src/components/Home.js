@@ -190,7 +190,7 @@ export default function Home({
                 <Link
                   type="button"
                   className="btn text-white fw-bold"
-                  to ='today'
+                  to ='/today'
                   style={{
                     background: "rgba(255,255,255,0.18)",
                     border: "1px solid rgba(255,255,255,0.22)",

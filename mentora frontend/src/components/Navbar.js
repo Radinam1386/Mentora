@@ -1,15 +1,36 @@
 import React from "react";
-import { Bell, Search, Sparkles, LogOut } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+    Bell,
+    Search,
+    Sparkles,
+    LogOut,
+    Menu,
+    Crown
+} from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
+import NotificationDropdown from "./NotificationDropdown";
 
-export default function AppNavbar() {
+export default function AppNavbar({ onToggleSidebar }) {
     const navigate = useNavigate();
     const { profile, logout, isAuthenticated } = useApp();
-    const safeProfile =
-        profile && typeof profile === "object" ? profile : {};
+
+    const safeProfile = profile && typeof profile === "object" ? profile : {};
 
     const studentName = safeProfile.name || "دانش‌آموز عزیز";
+
+    const subscriptionDays = safeProfile.subscription_days || 0;
+    const location = useLocation();
+
+    const handleMenuClick = () => {
+
+        if (location.pathname.startsWith("/profile")) {
+            window.dispatchEvent(new CustomEvent("toggleProfileSidebar"));
+        } else {
+            onToggleSidebar();
+        }
+
+    };
 
     return (
         <nav
@@ -25,8 +46,31 @@ export default function AppNavbar() {
             }}
         >
             <div className="container-fluid p-0 d-flex align-items-center justify-content-between">
+
                 {/* Right side */}
                 <div className="d-flex align-items-center gap-3">
+
+                    {/* sidebar toggle */}
+                    <button
+                        onClick={() => {
+                            handleMenuClick();
+                            window.scrollTo({
+                                top: 0,
+                                behavior: "smooth"
+                            });
+                        }}
+                        className="btn d-flex align-items-center justify-content-center"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "12px",
+                            border: "1px solid #e5e7eb",
+                            background: "#fff",
+                        }}
+                    >
+                        <Menu size={20} />
+                    </button>
+
                     <div
                         className="d-flex align-items-center justify-content-center text-white"
                         style={{
@@ -51,7 +95,9 @@ export default function AppNavbar() {
                         >
                             منتورا
                         </div>
+
                         <div
+                            className="d-none d-md-block"
                             style={{
                                 fontSize: "11px",
                                 color: "#9ca3af",
@@ -63,7 +109,7 @@ export default function AppNavbar() {
                     </div>
                 </div>
 
-                {/* Center */}
+                {/* Center search */}
                 <div className="d-none d-md-flex align-items-center" style={{ width: "340px" }}>
                     <div
                         className="d-flex align-items-center w-100"
@@ -90,38 +136,47 @@ export default function AppNavbar() {
 
                 {/* Left side */}
                 <div className="d-flex align-items-center gap-3">
-                    <button
-                        type="button"
-                        className="btn position-relative"
+
+                    {/* subscription badge */}
+                    <Link
+                        to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}
+                        className="d-flex align-items-center gap-2"
                         style={{
-                            border: "1px solid #e5e7eb",
+                            background: subscriptionDays > 0 ? "#f5f3ff" : "#fff7ed",
+                            border: subscriptionDays > 0 ? "1px solid #ddd6fe" : "1px solid #fed7aa",
                             borderRadius: "14px",
-                            padding: "10px 12px",
-                            background: "#fff",
+                            padding: "8px 12px",
+                            textDecoration: "none",
+                            transition: "all 0.2s ease",
                         }}
                     >
-                        <Bell size={18} color="#6b7280" />
+                        <Crown size={16} color={subscriptionDays > 0 ? "#6255f5" : "#ea580c"} />
+
                         <span
                             style={{
-                                position: "absolute",
-                                top: "6px",
-                                left: "7px",
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                background: "#ef4444",
+                                fontSize: "12px",
+                                fontWeight: 700,
+                                color: subscriptionDays > 0 ? "#6255f5" : "#c2410c",
                             }}
-                        />
-                    </button>
+                        >
+                            {subscriptionDays > 0
+                                ? `${subscriptionDays} روز باقی‌مانده`
+                                : "اشتراک ندارید"}
+                        </span>
+                    </Link>
+
+
+                    <NotificationDropdown />
 
                     <Link
                         to="/profile"
-                        className="d-flex align-items-center gap-2"
+                        className="align-items-center gap-2 d-none d-md-flex"
                         style={{
                             background: "#f8fafc",
                             border: "1px solid #e5e7eb",
                             borderRadius: "16px",
                             padding: "6px 10px",
+                            textDecoration: "none",
                         }}
                     >
                         <div style={{ textAlign: "right", direction: "rtl" }}>
@@ -134,6 +189,7 @@ export default function AppNavbar() {
                             >
                                 {studentName}
                             </div>
+
                             <div
                                 style={{
                                     fontSize: "10px",
@@ -183,6 +239,6 @@ export default function AppNavbar() {
                     )}
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }

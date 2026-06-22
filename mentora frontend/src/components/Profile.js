@@ -30,6 +30,7 @@ export default function Profile() {
 
   useEffect(() => {
     let active = true;
+
     const fetchProfile = async () => {
       try {
         const { response, data } = await apiJson("/api/profile");
@@ -51,40 +52,35 @@ export default function Profile() {
         console.error("خطا در دریافت پروفایل:", err);
       }
     };
+
     fetchProfile();
-    return () => {
-      active = false;
-    };
+    return () => (active = false);
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((p) => ({ ...p, [name]: value }));
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
-    }
+    if (file) setProfileImage(URL.createObjectURL(file));
   };
 
   const handleSave = async () => {
     setSaving(true);
+
     try {
       const { response, data } = await apiJson("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      if (!response.ok) {
-        throw new Error(data.error || "ذخیره اطلاعات با مشکل مواجه شد.");
-      }
+
+      if (!response.ok) throw new Error(data.error);
+
       const p = data.profile || {};
+
       updateProfile({
         name: p.name,
         grade: p.grade,
@@ -92,42 +88,47 @@ export default function Profile() {
         targetRank: p.targetRank,
         studyHours: p.studyHours,
       });
+
       alert("اطلاعات با موفقیت ذخیره شد");
     } catch (err) {
-      alert(err.message || "خطا در ذخیره اطلاعات.");
+      alert(err.message);
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div style={{ direction: "rtl", background: "#f8f7ff", minHeight: "100vh", fontFamily: "Vazir, sans-serif" }}>
+    <div style={{ direction: "rtl", background: "#f8f7ff", minHeight: "100vh", fontFamily: "Vazir" }}>
       <div style={{ display: "flex" }}>
+
         <ProfileSidebar />
 
-        <div style={{ flexGrow: 1, padding: "24px" }}>
+        <div style={{ flexGrow: 1, padding: "28px" }}>
           <Container fluid>
-            {/* Header */}
+
+            {/* HEADER */}
             <Card
               id="overview"
+              className="mb-4 border-0"
               style={{
-                border: "none",
                 borderRadius: "24px",
                 overflow: "hidden",
-                marginBottom: "24px",
                 boxShadow: "0 16px 50px rgba(98,85,245,0.08)",
               }}
             >
               <div
                 style={{
-                  background: "linear-gradient(135deg, #6255f5, #8f84ff)",
-                  padding: "32px",
+                  background: "linear-gradient(135deg,#6255f5,#8f84ff)",
+                  padding: "36px",
                   color: "#fff",
                 }}
               >
                 <Row className="align-items-center g-4">
+
                   <Col md={12}>
                     <div className="d-flex align-items-center gap-4 flex-wrap">
+
+                      {/* Avatar */}
                       <div style={{ position: "relative" }}>
                         <div
                           style={{
@@ -135,30 +136,27 @@ export default function Profile() {
                             height: "110px",
                             borderRadius: "50%",
                             border: "4px solid rgba(255,255,255,0.6)",
+                            background: profileImage
+                              ? `center/cover url(${profileImage})`
+                              : "rgba(255,255,255,0.2)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontSize: "48px",
+                            fontSize: "44px",
                             fontWeight: "900",
-                            color: "#fff",
-                            background: profileImage
-                              ? `center / cover no-repeat url(${profileImage})`
-                              : "rgba(255,255,255,0.2)",
-                            lineHeight: "1",
-                            overflow: "hidden",
                           }}
                         >
-                          {profileImage ? "" : (formData.name || "؟").slice(0, 1)}
+                          {!profileImage && (formData.name || "؟").slice(0, 1)}
                         </div>
 
                         <label
                           htmlFor="profile-upload"
                           style={{
                             position: "absolute",
-                            bottom: "4px",
-                            left: "4px",
-                            width: "36px",
-                            height: "36px",
+                            bottom: 4,
+                            left: 4,
+                            width: 36,
+                            height: 36,
                             borderRadius: "50%",
                             background: "#fff",
                             display: "flex",
@@ -166,37 +164,41 @@ export default function Profile() {
                             justifyContent: "center",
                             cursor: "pointer",
                             color: "#6255f5",
-                            boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
                           }}
                         >
                           <Camera size={18} />
                         </label>
+
                         <input
                           id="profile-upload"
                           type="file"
-                          accept="image/*"
-                          style={{ display: "none" }}
+                          hidden
                           onChange={handleImageUpload}
                         />
                       </div>
 
+                      {/* Info */}
                       <div>
-                        <h2 style={{ fontWeight: "900", marginBottom: "8px" }}>{formData.name}</h2>
-                        <div style={{ opacity: 0.9, marginBottom: "6px" }}>
-                          دانش‌آموز {formData.grade} | رشته {formData.major}
+
+                        <h2 style={{ fontWeight: 900, marginBottom: 6 }}>
+                          {formData.name || "نام کاربر"}
+                        </h2>
+
+                        <div style={{ opacity: 0.9 }}>
+                          دانش‌آموز {formData.grade || "-"} | رشته {formData.major || "-"}
                         </div>
+
                         <Badge
-                          bg=""
                           style={{
-                            background: "rgba(255,255,255,0.18)",
-                            color: "#fff",
+                            marginTop: 8,
+                            background: "rgba(255,255,255,0.2)",
                             padding: "8px 14px",
                             borderRadius: "999px",
-                            fontWeight: "700",
                           }}
                         >
-                          هدف رتبه: {formData.targetRank}
+                          هدف رتبه: {formData.targetRank || "-"}
                         </Badge>
+
                       </div>
                     </div>
                   </Col>
@@ -205,21 +207,18 @@ export default function Profile() {
               </div>
             </Card>
 
-            {/* Edit profile */}
-            <Card
-              style={sectionCardStyle}
-              id="settings"
-              className="mb-4"
-            >
-              <Card.Body style={{ padding: "24px" }}>
+
+            {/* EDIT PROFILE */}
+            <Card style={sectionCardStyle} id="settings" className="mb-4">
+              <Card.Body className="p-4">
+
                 <div className="d-flex align-items-center gap-2 mb-4">
                   <PencilLine size={20} color="#6255f5" />
-                  <h5 style={{ margin: 0, fontWeight: "800", color: "#2a1f68" }}>
-                    ویرایش اطلاعات کاربری
-                  </h5>
+                  <h5 className="fw-bold m-0">ویرایش اطلاعات کاربری</h5>
                 </div>
 
                 <Row className="g-3">
+
                   <Col md={6}>
                     <Form.Group>
                       <Form.Label>نام و نام خانوادگی</Form.Label>
@@ -313,9 +312,10 @@ export default function Profile() {
                       />
                     </Form.Group>
                   </Col>
+
                 </Row>
 
-                <div className="mt-4">
+                <div className="d-flex justify-content-end mt-4">
                   <Button
                     onClick={handleSave}
                     disabled={saving}
@@ -323,36 +323,36 @@ export default function Profile() {
                       background: "#6255f5",
                       border: "none",
                       borderRadius: "12px",
-                      padding: "10px 18px",
-                      fontWeight: "700",
+                      padding: "10px 22px",
+                      fontWeight: 700,
                     }}
                   >
                     <Save size={18} className="ms-2" />
                     {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
                   </Button>
                 </div>
+
               </Card.Body>
             </Card>
 
-            {/* Security */}
+
+            {/* SECURITY */}
             <Card style={sectionCardStyle} id="security">
-              <Card.Body style={{ padding: "24px" }}>
+              <Card.Body className="p-4">
+
                 <div className="d-flex align-items-center gap-2 mb-4">
                   <ShieldCheck size={20} color="#6255f5" />
-                  <h5 style={{ margin: 0, fontWeight: "800", color: "#2a1f68" }}>
-                    امنیت حساب
-                  </h5>
+                  <h5 className="fw-bold m-0">امنیت حساب</h5>
                 </div>
 
                 <Row className="g-3">
+
                   <Col md={6}>
                     <Card style={miniCardStyle}>
                       <Card.Body>
-                        <div className="d-flex align-items-center gap-2 mb-2">
-                          <Mail size={16} color="#6255f5" />
-                          <strong>ایمیل تایید شده</strong>
-                        </div>
-                        <div style={{ color: "#6f6898" }}>{formData.email}</div>
+                        <Mail size={16} color="#6255f5" className="mb-2" />
+                        <div className="fw-bold">ایمیل</div>
+                        <div className="text-muted">{formData.email}</div>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -360,11 +360,9 @@ export default function Profile() {
                   <Col md={6}>
                     <Card style={miniCardStyle}>
                       <Card.Body>
-                        <div className="d-flex align-items-center gap-2 mb-2">
-                          <Phone size={16} color="#6255f5" />
-                          <strong>شماره تماس</strong>
-                        </div>
-                        <div style={{ color: "#6f6898" }}>{formData.phone}</div>
+                        <Phone size={16} color="#6255f5" className="mb-2" />
+                        <div className="fw-bold">شماره تماس</div>
+                        <div className="text-muted">{formData.phone}</div>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -372,19 +370,20 @@ export default function Profile() {
                   <Col md={12}>
                     <Card style={miniCardStyle}>
                       <Card.Body>
-                        <div className="d-flex align-items-center gap-2 mb-2">
-                          <School size={16} color="#6255f5" />
-                          <strong>وضعیت تحصیلی</strong>
-                        </div>
-                        <div style={{ color: "#6f6898" }}>
-                          {formData.grade} - رشته {formData.major} - هدف رتبه {formData.targetRank}
+                        <School size={16} color="#6255f5" className="mb-2" />
+                        <div className="fw-bold">وضعیت تحصیلی</div>
+                        <div className="text-muted">
+                          {formData.grade} - {formData.major} - هدف رتبه {formData.targetRank}
                         </div>
                       </Card.Body>
                     </Card>
                   </Col>
+
                 </Row>
+
               </Card.Body>
             </Card>
+
           </Container>
         </div>
       </div>
@@ -394,14 +393,13 @@ export default function Profile() {
 
 const sectionCardStyle = {
   border: "none",
-  borderRadius: "24px",
-  boxShadow: "0 12px 35px rgba(98,85,245,0.07)",
-  background: "#fff",
+  borderRadius: "22px",
+  boxShadow: "0 10px 35px rgba(98,85,245,0.07)",
 };
 
 const miniCardStyle = {
   border: "1px solid #f0edff",
-  borderRadius: "18px",
+  borderRadius: "16px",
   background: "#fcfbff",
 };
 

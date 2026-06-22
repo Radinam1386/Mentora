@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
     House,
@@ -8,118 +9,245 @@ import {
     UserCircle2,
     BookMarked,
     ClipboardCheck,
-    Hourglass
+    Hourglass,
+    X,
+    ShoppingBasket,
 } from "lucide-react";
 
-export default function AppSidebar({ currentPage, onNavigate }) {
+export default function AppSidebar({ open, onClose }) {
     const menuItems = [
-        { key: "", label: "خانه", icon: <House size={18} /> },
-        { key: "today", label: "برنامه امروز", icon: <ClipboardCheck size={18} /> },
-        { key: "planningassistant", label: "برنامه‌ریزی", icon: <CalendarDays size={18} /> },
-        { key: "tutor", label: "مربی هوشمند", icon: <Bot size={18} /> },
-        { key: "practice", label: "تمرین و آزمون", icon: <BookMarked size={18} /> },
-        { key: "reports", label: "گزارش‌ها", icon: <BarChart3 size={18} /> },
-        { key: "focustimer", label: "تایمر فوکوس", icon: <Hourglass size={18} /> },
-        { key: "profile", label: "پروفایل", icon: <UserCircle2 size={18} /> },
+        { key: "/home", label: "خانه", icon: <House size={18} /> },
+        { key: "/today", label: "برنامه امروز", icon: <ClipboardCheck size={18} /> },
+        { key: "/planningassistant", label: "برنامه‌ریزی", icon: <CalendarDays size={18} /> },
+        { key: "/tutor", label: "مربی هوشمند", icon: <Bot size={18} /> },
+        { key: "/practice", label: "تمرین و آزمون", icon: <BookMarked size={18} /> },
+        { key: "/reports", label: "گزارش‌ها", icon: <BarChart3 size={18} /> },
+        { key: "/focustimer", label: "تایمر فوکوس", icon: <Hourglass size={18} /> },
+        { key: "/subscriptionplans", label: "خرید یا تمدید اشتراک", icon: <ShoppingBasket size={18} /> },
+        { key: "/profile", label: "پروفایل", icon: <UserCircle2 size={18} /> },
     ];
 
+    const handleLinkClick = () => {
+        if (window.innerWidth < 992) {
+            onClose?.();
+        }
+    };
+
     return (
-        <aside
-            className="d-none d-lg-flex flex-column bg-white"
-            style={{
-                width: "270px",
-                minHeight: "calc(100vh - 72px)",
-                borderLeft: "1px solid #eef2f7",
-                padding: "20px 16px",
-                position: "sticky",
-                top: "72px",
-                direction: "rtl",
-                fontFamily: "Vazir, Tahoma, Arial, sans-serif",
-            }}
-        >
-            <div
+        <>
+            <style>
+                {`
+          .app-sidebar {
+            direction: rtl;
+            font-family: Vazir, Tahoma, Arial, sans-serif;
+            background: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+          }
+
+          /* دسکتاپ: مثل حالت قبلی */
+          @media (min-width: 992px) {
+            .app-sidebar {
+              width: var(--sidebar-width);
+              min-height: 100vh;
+              border-left: var(--sidebar-border);
+              padding: var(--sidebar-padding);
+              position: relative;
+              transform: none;
+            }
+          }
+
+          /* موبایل: Drawer */
+          @media (max-width: 991.98px) {
+            .app-sidebar {
+              position: fixed;
+              top: 0;
+              right: 0;
+              width: 250px;
+              height: 100vh;
+              min-height: 100vh;
+              padding: 20px 16px;
+              border-left: 1px solid #eef2f7;
+              z-index: 1050;
+              transform: translateX(100%);
+              box-shadow: -20px 0 60px rgba(15, 23, 42, 0.18);
+            }
+
+            .app-sidebar.open {
+              transform: translateX(0);
+            }
+
+            .app-sidebar-overlay {
+              position: fixed;
+              inset: 0;
+              background: rgba(15, 23, 42, 0.35);
+              z-index: 1040;
+            }
+          }
+        `}
+            </style>
+
+            {/* Overlay فقط موبایل */}
+            {open && (
+                <div
+                    className="app-sidebar-overlay d-lg-none"
+                    onClick={onClose}
+                />
+            )}
+
+            <aside
+                className={`app-sidebar ${open ? "open" : ""}`}
                 style={{
-                    background: "linear-gradient(to left, #6255f5, #4f46e5)",
-                    borderRadius: "24px",
-                    padding: "18px",
-                    color: "white",
-                    marginBottom: "18px",
+                    "--sidebar-width": open ? "250px" : "0px",
+                    "--sidebar-padding": open ? "20px 16px" : "0px",
+                    "--sidebar-border": open ? "1px solid #eef2f7" : "none",
                 }}
             >
+                {/* محتوای سایدبار */}
                 <div
                     style={{
-                        fontSize: "13px",
-                        fontWeight: 800,
-                        marginBottom: "6px",
+                        minWidth: "218px",
+                        opacity: open ? 1 : 0,
+                        transition: "opacity 0.2s ease",
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
                     }}
                 >
-                    مسیر موفقیت تو شروع شده ✨
-                </div>
-                <div
-                    style={{
-                        fontSize: "11px",
-                        lineHeight: "2",
-                        color: "#e9e7ff",
-                    }}
-                >
-                    هر روز با یک قدم کوچک اما پیوسته، به هدفت نزدیک‌تر می‌شوی.
-                </div>
-            </div>
+                    {/* Header مخصوص موبایل */}
+                    <div className="d-flex d-lg-none align-items-center justify-content-between mb-3">
+                        <div>
+                            <div
+                                style={{
+                                    fontSize: "14px",
+                                    fontWeight: 900,
+                                    color: "#111827",
+                                }}
+                            >
+                                منوی اصلی
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: "11px",
+                                    color: "#6b7280",
+                                    marginTop: "4px",
+                                }}
+                            >
+                                مسیرهای منتورا
+                            </div>
+                        </div>
 
-            <div className="d-flex flex-column gap-2">
-                {menuItems.map((item, i) => (
-                    <NavLink
-                        key={i}
-                        to={item.key}
-                        style={({ isActive }) => ({
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px",
-                            padding: "12px",
-                            marginBottom: "8px",
-                            borderRadius: "12px",
-                            textDecoration: "none",
-                            color: isActive ? "#6255f5" : "#374151",
-                            background: isActive ? "rgba(98,85,245,0.1)" : "transparent",
-                            fontWeight: "600",
-                        })}
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="btn d-flex align-items-center justify-content-center"
+                            style={{
+                                width: "36px",
+                                height: "36px",
+                                borderRadius: "12px",
+                                border: "1px solid #eef2f7",
+                                background: "#f8fafc",
+                                color: "#6255f5",
+                                padding: 0,
+                            }}
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+
+                    <div
+                        className="d-none d-md-block"
+                        style={{
+                            background: "linear-gradient(to left, #6255f5, #4f46e5)",
+                            borderRadius: "24px",
+                            padding: "18px",
+                            color: "white",
+                            marginBottom: "18px",
+                        }}
                     >
-                        {item.icon}
-                        {item.label}
-                    </NavLink>
-                ))}
-            </div>
+                        <div
+                            style={{
+                                fontSize: "13px",
+                                fontWeight: 800,
+                                marginBottom: "6px",
+                            }}
+                        >
+                            مسیر موفقیت تو شروع شده ✨
+                        </div>
 
-            <div
-                className="mt-auto"
-                style={{
-                    background: "#f8fafc",
-                    border: "1px solid #eef2f7",
-                    borderRadius: "20px",
-                    padding: "16px",
-                }}
-            >
-                <div
-                    style={{
-                        fontSize: "12px",
-                        fontWeight: 800,
-                        color: "#111827",
-                        marginBottom: "8px",
-                    }}
-                >
-                    یادآوری امروز
+                        <div
+                            style={{
+                                fontSize: "11px",
+                                lineHeight: "2",
+                                color: "#e9e7ff",
+                            }}
+                        >
+                            هر روز با یک قدم کوچک اما پیوسته، به هدفت نزدیک‌تر می‌شوی.
+                        </div>
+                    </div>
+
+                    <div className="d-flex flex-column gap-2">
+                        {menuItems.map((item, i) => (
+                            <NavLink
+                                key={i}
+                                to={item.key}
+                                onClick={handleLinkClick}
+                                style={({ isActive }) => ({
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    padding: "12px",
+                                    borderRadius: "12px",
+                                    textDecoration: "none",
+                                    color: isActive ? "#6255f5" : "#374151",
+                                    background: isActive
+                                        ? "rgba(98,85,245,0.1)"
+                                        : "transparent",
+                                    fontWeight: "600",
+                                    whiteSpace: "nowrap",
+                                })}
+                            >
+                                {item.icon}
+                                {item.label}
+                            </NavLink>
+                        ))}
+                    </div>
+
+                    <div
+                        className="mt-auto d-none d-md-block"
+                        style={{
+                            background: "#f8fafc",
+                            border: "1px solid #eef2f7",
+                            borderRadius: "20px",
+                            padding: "16px",
+                        }}
+                    >
+                        <div
+                            style={{
+                                fontSize: "12px",
+                                fontWeight: 800,
+                                color: "#111827",
+                                marginBottom: "8px",
+                            }}
+                        >
+                            یادآوری امروز
+                        </div>
+
+                        <div
+                            style={{
+                                fontSize: "11px",
+                                color: "#6b7280",
+                                lineHeight: "1.9",
+                            }}
+                        >
+                            حتی اگر امروز زمان کمی داری، فقط با انجام یک کار کوچک هم زنجیره
+                            استمرار تو حفظ می‌شود.
+                        </div>
+                    </div>
                 </div>
-                <div
-                    style={{
-                        fontSize: "11px",
-                        color: "#6b7280",
-                        lineHeight: "1.9",
-                    }}
-                >
-                    حتی اگر امروز زمان کمی داری، فقط با انجام یک کار کوچک هم زنجیره
-                    استمرار تو حفظ می‌شود.
-                </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }

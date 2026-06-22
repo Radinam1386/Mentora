@@ -73,7 +73,7 @@ const Signin = () => {
             <label className="fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>رمز عبور</label>
             <div className="position-relative d-flex align-items-center">
               <input type={showPassword ? "text" : "password"} placeholder="یک رمز عبور انتخاب کنید" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" style={{ ...inputStyle, paddingLeft: "72px" }} required minLength={6} />
-              <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="btn position-absolute start-0 border-0 bg-transparent fw-bold" style={{ color: "#2563eb", fontSize: "18px", marginLeft: "12px" }}>
+              <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="btn position-absolute start-0 border-0 bg-transparent fw-bold" style={{ color: "#2563eb", fontSize: "13px", marginLeft: "12px" }}>
                 {showPassword ? "🙊" : "🙈"}
               </button>
             </div>

@@ -1,11 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+  useLocation,
+} from 'react-router-dom';
+
 import './App.css';
 import './index.css';
-
-import { AppProvider, useApp } from './context/AppContext';
-import RequireAuth from './components/RequireAuth';
-import RequireProfile from './components/RequireProfile';
 
 import Onboarding from './components/OnBoarding';
 import Tutor from './components/Tutor';
@@ -19,54 +22,41 @@ import Login from './components/Login';
 import FocusTimer from './components/FocusTimer';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
-
 import AppNavbar from './components/Navbar';
 import AppSidebar from './components/SideBar';
 import AppFooter from './components/Footer';
+import SubscriptionPlans from './components/SubscriptionPlans';
+import Subscription from './components/Subscription';
+import NotFound from './components/NotFound';
 
-function AppLayout({ children }) {
+// مسیر را با پروژه خودت چک کن
+import { AppProvider } from './context/AppContext';
+
+function AppLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location]);
+
   return (
-    <div className="Vazir" style={{ display: 'flex', direction: 'rtl' }}>
-      <AppSidebar />
+    <div style={{ display: 'flex', direction: 'rtl' }}>
+      <AppSidebar open={sidebarOpen} />
+
       <div style={{ flexGrow: 1 }}>
-        <AppNavbar />
-        <div className="main-content p-3">{children}</div>
+        <AppNavbar
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        />
+
+        <div className="main-content p-3">
+          <Outlet />
+        </div>
+
         <AppFooter />
       </div>
     </div>
   );
-}
-
-function ProtectedFeature({ children }) {
-  return (
-    <RequireAuth>
-      <RequireProfile>{children}</RequireProfile>
-    </RequireAuth>
-  );
-}
-
-function MainAppRoutes() {
-  return (
-    <AppLayout>
-      <Routes>
-        <Route path="/home" element={<RequireAuth><Home /></RequireAuth>} />
-        <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
-        <Route path="/tutor" element={<ProtectedFeature><Tutor /></ProtectedFeature>} />
-        <Route path="/today" element={<ProtectedFeature><Today /></ProtectedFeature>} />
-        <Route path="/reports" element={<ProtectedFeature><Reports /></ProtectedFeature>} />
-        <Route path="/practice" element={<ProtectedFeature><Practice /></ProtectedFeature>} />
-        <Route path="/planningassistant" element={<ProtectedFeature><PlanningAssistant /></ProtectedFeature>} />
-        <Route path="/focustimer" element={<RequireAuth><FocusTimer /></RequireAuth>} />
-      </Routes>
-    </AppLayout>
-  );
-}
-
-function LandingOrHome() {
-  const { isAuthenticated, loading } = useApp();
-  if (loading) return null;
-  if (isAuthenticated) return <Navigate to="/home" replace />;
-  return <LandingPage />;
 }
 
 function App() {
@@ -74,11 +64,39 @@ function App() {
     <AppProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<LandingOrHome />} />
-          <Route path="/profile" element={<ProtectedFeature><Profile /></ProtectedFeature>} />
+
+          {/* صفحات عمومی */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/*" element={<MainAppRoutes />} />
+
+          {/* صفحات داشبورد */}
+          <Route element={<AppLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/tutor" element={<Tutor />} />
+            <Route path="/today" element={<Today />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route
+              path="/planningassistant"
+              element={<PlanningAssistant />}
+            />
+            <Route path="/focustimer" element={<FocusTimer />} />
+            <Route
+              path="/subscriptionplans"
+              element={<SubscriptionPlans />}
+            />
+            <Route
+              path="/subscription"
+              element={<Subscription />}
+            />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+
         </Routes>
       </Router>
     </AppProvider>
