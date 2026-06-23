@@ -14,7 +14,7 @@ import {
     ShoppingBasket,
 } from "lucide-react";
 
-export default function AppSidebar({ open, onClose }) {
+export default function AppSidebar({ open, onClose , onToggleSidebar }) {
     const menuItems = [
         { key: "/home", label: "خانه", icon: <House size={18} /> },
         { key: "/today", label: "برنامه امروز", icon: <ClipboardCheck size={18} /> },
@@ -47,7 +47,6 @@ export default function AppSidebar({ open, onClose }) {
             transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
           }
 
-          /* دسکتاپ: مثل حالت قبلی */
           @media (min-width: 992px) {
             .app-sidebar {
               width: var(--sidebar-width);
@@ -59,7 +58,6 @@ export default function AppSidebar({ open, onClose }) {
             }
           }
 
-          /* موبایل: Drawer */
           @media (max-width: 991.98px) {
             .app-sidebar {
               position: fixed;
@@ -89,7 +87,6 @@ export default function AppSidebar({ open, onClose }) {
         `}
             </style>
 
-            {/* Overlay فقط موبایل */}
             {open && (
                 <div
                     className="app-sidebar-overlay d-lg-none"
@@ -105,7 +102,6 @@ export default function AppSidebar({ open, onClose }) {
                     "--sidebar-border": open ? "1px solid #eef2f7" : "none",
                 }}
             >
-                {/* محتوای سایدبار */}
                 <div
                     style={{
                         minWidth: "218px",
@@ -116,7 +112,6 @@ export default function AppSidebar({ open, onClose }) {
                         height: "100%",
                     }}
                 >
-                    {/* Header مخصوص موبایل */}
                     <div className="d-flex d-lg-none align-items-center justify-content-between mb-3">
                         <div>
                             <div
@@ -141,7 +136,10 @@ export default function AppSidebar({ open, onClose }) {
 
                         <button
                             type="button"
-                            onClick={onClose}
+                            onClick={() => {
+                                console.log("clicked");
+                                onClose?.();
+                            }}
                             className="btn d-flex align-items-center justify-content-center"
                             style={{
                                 width: "36px",

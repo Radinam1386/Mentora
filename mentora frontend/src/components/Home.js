@@ -284,10 +284,9 @@ export default function Home({
           </div>
         </div>
 
-        {/* Quick stats */}
         <div className="row g-3">
           {quickStats.map((item, index) => (
-            <div className="col-12 col-sm-6 col-lg-3" key={index}>
+            <div className="col-12 col-sm-6 col-lg-3 " key={index}>
               <div
                 className="bg-white h-100"
                 style={{
@@ -298,7 +297,7 @@ export default function Home({
                 }}
               >
                 <div
-                  className="d-inline-flex align-items-center justify-content-center mb-3"
+                  className="d-flex align-items-center justify-content-center mb-3"
                   style={{
                     width: "42px",
                     height: "42px",

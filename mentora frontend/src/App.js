@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-  useLocation,
-} from 'react-router-dom';
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import './App.css';
 import './index.css';
 
@@ -22,32 +15,27 @@ import Login from './components/Login';
 import FocusTimer from './components/FocusTimer';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
+import { useState, useEffect } from 'react';
 import AppNavbar from './components/Navbar';
 import AppSidebar from './components/SideBar';
 import AppFooter from './components/Footer';
 import SubscriptionPlans from './components/SubscriptionPlans';
 import Subscription from './components/Subscription';
-import NotFound from './components/NotFound';
-
-// مسیر را با پروژه خودت چک کن
-import { AppProvider } from './context/AppContext';
-
+import NotFound from './components/NotFound'
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
 
+
   useEffect(() => {
     setSidebarOpen(false);
   }, [location]);
-
   return (
-    <div style={{ display: 'flex', direction: 'rtl' }}>
+    <div style={{ display: "flex", direction: "rtl" }}>
       <AppSidebar open={sidebarOpen} />
 
       <div style={{ flexGrow: 1 }}>
-        <AppNavbar
-          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-        />
+        <AppNavbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
         <div className="main-content p-3">
           <Outlet />
@@ -61,45 +49,32 @@ function AppLayout() {
 
 function App() {
   return (
-    <AppProvider>
-      <Router>
-        <Routes>
+    <Router>
+      <Routes>
 
-          {/* صفحات عمومی */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/login" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/login" element={<Login />} />
 
-          {/* صفحات داشبورد */}
-          <Route element={<AppLayout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/tutor" element={<Tutor />} />
-            <Route path="/today" element={<Today />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/practice" element={<Practice />} />
-            <Route
-              path="/planningassistant"
-              element={<PlanningAssistant />}
-            />
-            <Route path="/focustimer" element={<FocusTimer />} />
-            <Route
-              path="/subscriptionplans"
-              element={<SubscriptionPlans />}
-            />
-            <Route
-              path="/subscription"
-              element={<Subscription />}
-            />
-          </Route>
-
-          {/* 404 */}
+        {/* صفحات داخل داشبورد */}
+        <Route element={<AppLayout />}>
           <Route path="*" element={<NotFound />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/tutor" element={<Tutor />} />
+          <Route path="/today" element={<Today />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/planningassistant" element={<PlanningAssistant />} />
+          <Route path="/focustimer" element={<FocusTimer />} />
+          <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
+          <Route path="/subscription" element={<Subscription />} />
 
-        </Routes>
-      </Router>
-    </AppProvider>
+        </Route>
+
+      </Routes>
+    </Router>
   );
 }
 

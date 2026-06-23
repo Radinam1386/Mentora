@@ -19,7 +19,7 @@ export function AppProvider({ children }) {
   const [bridgeQuestion, setBridgeQuestion] = useState(null);
   const [latestWeeklyPlan, setLatestWeeklyPlan] = useState(null);
 
-  const loadToday = useCallback(async ({ silent = false } = {}) => {
+  const loadToday = useCallback(async () => {
     const token = getToken();
     if (!token) {
       setProfile(null);
@@ -29,7 +29,7 @@ export function AppProvider({ children }) {
       return;
     }
 
-    if (!silent) setLoading(true);
+    setLoading(true);
     try {
       const { response, data } = await apiJson("/api/planner/today");
       if (response.status === 401) {
@@ -55,7 +55,7 @@ export function AppProvider({ children }) {
     } catch (err) {
       console.error("خطا در همگام‌سازی با سرور:", err);
     } finally {
-      if (!silent) setLoading(false);
+      setLoading(false);
     }
   }, []);
 

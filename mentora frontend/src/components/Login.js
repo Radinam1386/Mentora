@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
+import {
+  Eye,
+  EyeClosed
+} from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -83,10 +87,14 @@ const Login = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>
+            <label
+              className="form-label fw-semibold"
+              style={{ fontSize: "14px", color: "#334155" }}
+            >
               رمز عبور
             </label>
-            <div className="position-relative d-flex align-items-center">
+
+            <div className="position-relative w-100">
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -94,18 +102,30 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                style={{ ...inputStyle, paddingLeft: "72px" }}
+                style={{ ...inputStyle, paddingLeft: "50px" }}
               />
+
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="btn position-absolute start-0"
-                style={{ border: "none", background: "transparent", color: "#2563eb", fontWeight: 600, fontSize: "13px", boxShadow: "none", marginLeft: "12px" }}
+                style={{
+                  position: "absolute",
+                  left: "20px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  padding: 0
+                }}
               >
-                {showPassword ? "🙊" : "🙈"}
+                {showPassword ? <EyeClosed size={18} />
+                  : <Eye size={18}/>}
               </button>
             </div>
           </div>
+
 
           <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
             <label className="d-flex align-items-center gap-2" style={{ fontSize: "14px", color: "#475569" }}>

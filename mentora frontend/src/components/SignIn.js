@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
-
+import {
+  Eye,
+  EyeClosed
+} from "lucide-react";
 const Signin = () => {
   const navigate = useNavigate();
   const { register } = useApp();
@@ -10,6 +13,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -43,7 +47,7 @@ const Signin = () => {
     >
       <div
         className="card border-0 shadow-lg w-100"
-        style={{ maxWidth: "460px", borderRadius: "24px", padding: "32px", backgroundColor: "#ffffff", border: "1px solid #dbeafe" }}
+        style={{ maxWidth: "420px", borderRadius: "24px", padding: "32px", backgroundColor: "#ffffff", border: "1px solid #dbeafe" }}
       >
         <div className="text-center mb-4">
           <h1 className="fw-bold mb-2" style={{ fontSize: "30px", color: "#0f172a" }}>
@@ -73,16 +77,49 @@ const Signin = () => {
             <label className="fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>رمز عبور</label>
             <div className="position-relative d-flex align-items-center">
               <input type={showPassword ? "text" : "password"} placeholder="یک رمز عبور انتخاب کنید" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" style={{ ...inputStyle, paddingLeft: "72px" }} required minLength={6} />
-              <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="btn position-absolute start-0 border-0 bg-transparent fw-bold" style={{ color: "#2563eb", fontSize: "13px", marginLeft: "12px" }}>
-                {showPassword ? "🙊" : "🙈"}
-              </button>
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  left: "20px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  padding: 0
+                }}
+              >
+                {showPassword ? <EyeClosed size={18} />
+                  : <Eye size={18} />}              </button>
             </div>
           </div>
           <div className="d-flex flex-column gap-2">
-            <label className="fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>تکرار رمز عبور</label>
-            <input type={showPassword ? "text" : "password"} placeholder="رمز عبور را دوباره وارد کنید" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="form-control" style={inputStyle} required />
+            <label className="fw-semibold" style={{ fontSize: "14px", color: "#334155" }}> تکرار رمز عبور</label>
+            <div className="position-relative d-flex align-items-center">
+              <input type={showPassword2 ? "text" : "password"} placeholder=" رمز عبور را تکرار کنید" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="form-control" style={{ ...inputStyle, paddingLeft: "72px" }} required minLength={6} />
+              <button
+                type="button"
+                onClick={() => setShowPassword2((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  left: "20px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  padding: 0
+                }}
+              >
+                {showPassword2 ? <EyeClosed size={18} />
+                  : <Eye size={18} />}              </button>
+            </div>
           </div>
-          <button type="submit" disabled={loading} className="btn w-100 fw-bold mt-2" style={{ padding: "14px 18px", borderRadius: "14px", backgroundColor: "#0f172a", color: "#ffffff", fontSize: "15px", border: "none" }}>
+          <button type="submit" disabled={loading} className="btn w-100 fw-bold mt-2" style={{ padding: "14px 18px", borderRadius: "14px", backgroundColor: "#2563eb", color: "#ffffff", fontSize: "15px", border: "none" }}>
             {loading ? "در حال ثبت‌نام..." : "ثبت‌نام"}
           </button>
         </form>

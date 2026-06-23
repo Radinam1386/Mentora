@@ -47,10 +47,8 @@ export default function AppNavbar({ onToggleSidebar }) {
         >
             <div className="container-fluid p-0 d-flex align-items-center justify-content-between">
 
-                {/* Right side */}
                 <div className="d-flex align-items-center gap-3">
 
-                    {/* sidebar toggle */}
                     <button
                         onClick={() => {
                             handleMenuClick();
@@ -109,7 +107,6 @@ export default function AppNavbar({ onToggleSidebar }) {
                     </div>
                 </div>
 
-                {/* Center search */}
                 <div className="d-none d-md-flex align-items-center" style={{ width: "340px" }}>
                     <div
                         className="d-flex align-items-center w-100"
@@ -134,10 +131,8 @@ export default function AppNavbar({ onToggleSidebar }) {
                     </div>
                 </div>
 
-                {/* Left side */}
                 <div className="d-flex align-items-center gap-3">
 
-                    {/* subscription badge */}
                     <Link
                         to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}
                         className="d-flex align-items-center gap-2"
@@ -150,7 +145,7 @@ export default function AppNavbar({ onToggleSidebar }) {
                             transition: "all 0.2s ease",
                         }}
                     >
-                        <Crown size={16} color={subscriptionDays > 0 ? "#6255f5" : "#ea580c"} />
+                        <Crown size={18} color={subscriptionDays > 0 ? "#6255f5" : "#ea580c"} />
 
                         <span
                             style={{
@@ -234,7 +229,6 @@ export default function AppNavbar({ onToggleSidebar }) {
                             }}
                         >
                             <LogOut size={16} />
-                            خروج
                         </button>
                     )}
                 </div>
