@@ -113,8 +113,7 @@ export default function Home({
       }}
     >
       <div className="d-flex flex-column gap-4">
-        {/* Hero */}
-        <div
+        <header
           className="position-relative overflow-hidden text-white"
           style={{
             borderRadius: "28px",
@@ -148,7 +147,7 @@ export default function Home({
 
           <div className="row align-items-center position-relative" style={{ zIndex: 2 }}>
             <div className="col-12 col-lg-8 mb-4 mb-lg-0">
-              <span
+              <h
                 className="d-inline-flex align-items-center gap-2"
                 style={{
                   background: "rgba(255,255,255,0.14)",
@@ -160,7 +159,7 @@ export default function Home({
               >
                 <Sparkles size={14} />
                 خوش اومدی به منتورا
-              </span>
+              </h>
 
               <h1
                 className="fw-bold mt-3 mb-2"
@@ -172,7 +171,7 @@ export default function Home({
                 سلام {studentName} 👋
               </h1>
 
-              <p
+              <article
                 className="mb-0"
                 style={{
                   fontSize: "13px",
@@ -181,16 +180,15 @@ export default function Home({
                   maxWidth: "700px",
                 }}
               >
-                اینجا مرکز فرماندهی مطالعه توست. از برنامه روزانه و هفتگی گرفته تا
-                مربی هوشمند، تحلیل عملکرد و پیگیری استمرار — همه‌چیز یکجا برای
-                رسیدن به هدفت آماده است.
-              </p>
+                اینجا مرکز فرماندهی مطالعه و برنامه‌ریزی درسی توست. از برنامه روزانه و هفتگی گرفته تا مربی هوشمند، تحلیل عملکرد و پیگیری استمرار — همه‌چیز یکجا برای رسیدن به هدفت آماده است.
+
+              </article>
 
               <div className="d-flex flex-wrap gap-2 mt-4">
                 <Link
                   type="button"
                   className="btn text-white fw-bold"
-                  to ='/today'
+                  to='/today'
                   style={{
                     background: "rgba(255,255,255,0.18)",
                     border: "1px solid rgba(255,255,255,0.22)",
@@ -199,6 +197,7 @@ export default function Home({
                     fontSize: "12px",
                     backdropFilter: "blur(8px)",
                   }}
+                  aria-label="مشاهده برنامه مطالعه امروز"
                 >
                   شروع از برنامه امروز
                 </Link>
@@ -206,7 +205,7 @@ export default function Home({
                 <Link
                   type="button"
                   className="btn fw-bold"
-                  to = "/tutor"
+                  to="/tutor"
                   style={{
                     background: "#ffffff",
                     color: "#4f46e5",
@@ -215,6 +214,8 @@ export default function Home({
                     fontSize: "12px",
                     border: "none",
                   }}
+                  aria-label="پرسیدن سوال درسی از مربی هوشمند"
+
                 >
                   پرسیدن سوال از مربی
                 </Link>
@@ -282,7 +283,7 @@ export default function Home({
               </div>
             </div>
           </div>
-        </div>
+        </header>
 
         <div className="row g-3">
           {quickStats.map((item, index) => (
@@ -332,9 +333,7 @@ export default function Home({
             </div>
           ))}
         </div>
-
-        {/* Main features */}
-        <div>
+        <section aria-labelledby="mentora-features">
           <div className="d-flex align-items-center justify-content-between mb-3 px-1">
             <h2
               className="mb-0"
@@ -430,7 +429,7 @@ export default function Home({
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
         <div
           style={{
@@ -452,17 +451,19 @@ export default function Home({
             پیام امروز منتورا
           </h3>
 
-          <p
+          <article
             className="mb-0"
             style={{
               fontSize: "12px",
               color: "#374151",
               lineHeight: "2",
             }}
+            aria-label="پیام انگیزشی امروز"
+
           >
             لازم نیست همه‌چیز را یک‌باره کامل انجام بدهی. کافی است امروز، فقط
             قدم بعدی درست را برداری. استمرار تو، مهم‌تر از هیجان مقطعی است.
-          </p>
+          </article>
         </div>
       </div>
     </div>

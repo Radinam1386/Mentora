@@ -62,6 +62,7 @@ const FocusTimer = () => {
     <div
       className="container py-5 d-flex justify-content-center"
       style={{ direction: "rtl", fontFamily: "Vazir, Tahoma, sans-serif" }}
+      aria-label="تایمر تمرکز برای مطالعه"
     >
       <div
         className="card border-0 shadow-lg"
@@ -73,7 +74,6 @@ const FocusTimer = () => {
         }}
       >
         <div className="card-body p-5 text-center">
-          {/* Header */}
           <div className="mb-4">
             <h2 className="fw-bold mb-1" style={{ fontSize: "20px", color: "#1f2937" }}>
               حالت تمرکز عمیق
@@ -83,7 +83,6 @@ const FocusTimer = () => {
             </p>
           </div>
 
-          {/* Time Settings */}
           <div className="row g-3 mb-4">
             <div className="col-6">
               <div
@@ -112,6 +111,7 @@ const FocusTimer = () => {
                     border: "1px solid #ddd",
                     fontWeight: "700",
                   }}
+                  aria-label="تنظیم زمان مطالعه"
                 />
                 <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
                   دقیقه
@@ -146,6 +146,8 @@ const FocusTimer = () => {
                     border: "1px solid #ddd",
                     fontWeight: "700",
                   }}
+                  aria-label="تنظیم زمان استراحت"
+
                 />
                 <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
                   دقیقه
@@ -154,41 +156,41 @@ const FocusTimer = () => {
             </div>
           </div>
 
-          {/* Mode Switcher */}
           <div
             className="d-flex justify-content-center gap-2 mb-5 bg-light p-2"
             style={{ borderRadius: "20px" }}
           >
             <button
               onClick={() => switchMode("focus")}
-              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${
-                mode === "focus" ? "bg-white shadow-sm fw-bold" : "text-muted"
-              }`}
+              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "focus" ? "bg-white shadow-sm fw-bold" : "text-muted"
+                }`}
               style={{
                 borderRadius: "15px",
                 transition: "0.3s",
                 color: mode === "focus" ? "#6255f5" : "#6b7280",
               }}
+              aria-label="حالت تمرکز"
+
             >
               <Zap size={16} /> تمرکز
             </button>
 
             <button
               onClick={() => switchMode("break")}
-              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${
-                mode === "break" ? "bg-white shadow-sm fw-bold" : "text-muted"
-              }`}
+              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "break" ? "bg-white shadow-sm fw-bold" : "text-muted"
+                }`}
               style={{
                 borderRadius: "15px",
                 transition: "0.3s",
                 color: mode === "break" ? "#10b981" : "#6b7280",
               }}
+              aria-label="حالت استراحت"
+
             >
               <Coffee size={16} /> استراحت
             </button>
           </div>
 
-          {/* Circular Progress & Timer */}
           <div className="position-relative d-flex justify-content-center align-items-center mb-5">
             <svg width="220" height="220" viewBox="0 0 220 220">
               <circle
@@ -234,7 +236,6 @@ const FocusTimer = () => {
             </div>
           </div>
 
-          {/* Controls */}
           <div className="d-flex justify-content-center align-items-center gap-4">
             <button
               onClick={resetTimer}
@@ -268,6 +269,8 @@ const FocusTimer = () => {
                 justifyContent: "center",
                 padding: 0,
               }}
+              aria-label="شروع یا توقف تایمر"
+
             >
               {isActive ? (
                 <Pause size={32} />

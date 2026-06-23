@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
     House,
@@ -11,10 +10,12 @@ import {
     ClipboardCheck,
     Hourglass,
     X,
+    TextIcon,
     ShoppingBasket,
 } from "lucide-react";
 
-export default function AppSidebar({ open, onClose , onToggleSidebar }) {
+export default function AppSidebar({ open, onClose }) {
+
     const menuItems = [
         { key: "/home", label: "خانه", icon: <House size={18} /> },
         { key: "/today", label: "برنامه امروز", icon: <ClipboardCheck size={18} /> },
@@ -23,6 +24,7 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
         { key: "/practice", label: "تمرین و آزمون", icon: <BookMarked size={18} /> },
         { key: "/reports", label: "گزارش‌ها", icon: <BarChart3 size={18} /> },
         { key: "/focustimer", label: "تایمر فوکوس", icon: <Hourglass size={18} /> },
+        { key: "/blog", label: "بلاگ", icon: <TextIcon size={18} /> },
         { key: "/subscriptionplans", label: "خرید یا تمدید اشتراک", icon: <ShoppingBasket size={18} /> },
         { key: "/profile", label: "پروفایل", icon: <UserCircle2 size={18} /> },
     ];
@@ -33,57 +35,63 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
         }
     };
 
+    const handleClose = (e) => {
+        e?.stopPropagation?.();
+        e?.preventDefault?.();
+        onClose?.();
+    };
+
+
     return (
         <>
             <style>
                 {`
+        .app-sidebar {
+          direction: rtl;
+          font-family: Vazir, Tahoma, Arial, sans-serif;
+          background: #fff;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+        }
+
+        @media (min-width: 992px) {
           .app-sidebar {
-            direction: rtl;
-            font-family: Vazir, Tahoma, Arial, sans-serif;
-            background: #fff;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            border-left: var(--sidebar-border);
+            padding: var(--sidebar-padding);
+            position: relative;
+            transform: none;
+          }
+        }
+
+        @media (max-width: 991.98px) {
+          .app-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 260px;
+            height: 100vh;
+            padding: 20px 16px;
+            border-left: 1px solid #eef2f7;
+            z-index: 2000; /* FIX */
+            transform: translateX(100%);
+            box-shadow: -20px 0 60px rgba(15, 23, 42, 0.18);
           }
 
-          @media (min-width: 992px) {
-            .app-sidebar {
-              width: var(--sidebar-width);
-              min-height: 100vh;
-              border-left: var(--sidebar-border);
-              padding: var(--sidebar-padding);
-              position: relative;
-              transform: none;
-            }
+          .app-sidebar.open {
+            transform: translateX(0);
           }
 
-          @media (max-width: 991.98px) {
-            .app-sidebar {
-              position: fixed;
-              top: 0;
-              right: 0;
-              width: 250px;
-              height: 100vh;
-              min-height: 100vh;
-              padding: 20px 16px;
-              border-left: 1px solid #eef2f7;
-              z-index: 1050;
-              transform: translateX(100%);
-              box-shadow: -20px 0 60px rgba(15, 23, 42, 0.18);
-            }
-
-            .app-sidebar.open {
-              transform: translateX(0);
-            }
-
-            .app-sidebar-overlay {
-              position: fixed;
-              inset: 0;
-              background: rgba(15, 23, 42, 0.35);
-              z-index: 1040;
-            }
+          .app-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.35);
+            z-index: 1500;
           }
+        }
         `}
             </style>
 
@@ -97,11 +105,12 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
             <aside
                 className={`app-sidebar ${open ? "open" : ""}`}
                 style={{
-                    "--sidebar-width": open ? "250px" : "0px",
+                    "--sidebar-width": open ? "260px" : "0px",
                     "--sidebar-padding": open ? "20px 16px" : "0px",
                     "--sidebar-border": open ? "1px solid #eef2f7" : "none",
                 }}
             >
+
                 <div
                     style={{
                         minWidth: "218px",
@@ -112,6 +121,8 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                         height: "100%",
                     }}
                 >
+
+                    {/* header mobile */}
                     <div className="d-flex d-lg-none align-items-center justify-content-between mb-3">
                         <div>
                             <div
@@ -123,6 +134,7 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                             >
                                 منوی اصلی
                             </div>
+
                             <div
                                 style={{
                                     fontSize: "11px",
@@ -133,12 +145,12 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                                 مسیرهای منتورا
                             </div>
                         </div>
-
                         <button
                             type="button"
-                            onClick={() => {
-                                console.log("clicked");
-                                onClose?.();
+                            onPointerDown={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                onClose && onClose();
                             }}
                             className="btn d-flex align-items-center justify-content-center"
                             style={{
@@ -149,6 +161,10 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                                 background: "#f8fafc",
                                 color: "#6255f5",
                                 padding: 0,
+                                cursor: "pointer",
+                                position: "relative",
+                                zIndex: 3000,
+                                touchAction: "manipulation"
                             }}
                         >
                             <X size={18} />
@@ -186,7 +202,9 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                         </div>
                     </div>
 
+                    {/* menu */}
                     <div className="d-flex flex-column gap-2">
+
                         {menuItems.map((item, i) => (
                             <NavLink
                                 key={i}
@@ -211,6 +229,7 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                                 {item.label}
                             </NavLink>
                         ))}
+
                     </div>
 
                     <div
@@ -244,6 +263,7 @@ export default function AppSidebar({ open, onClose , onToggleSidebar }) {
                             استمرار تو حفظ می‌شود.
                         </div>
                     </div>
+
                 </div>
             </aside>
         </>

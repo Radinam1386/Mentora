@@ -1,40 +1,29 @@
 import React from "react";
-import {
-    Bell,
-    Search,
-    Sparkles,
-    LogOut,
-    Menu,
-    Crown
-} from "lucide-react";
+import { Bell, Search, Sparkles, LogOut, Menu, Crown } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import NotificationDropdown from "./NotificationDropdown";
 
 export default function AppNavbar({ onToggleSidebar }) {
     const navigate = useNavigate();
-    const { profile, logout, isAuthenticated } = useApp();
+    const { profile, logout } = useApp();
 
     const safeProfile = profile && typeof profile === "object" ? profile : {};
-
     const studentName = safeProfile.name || "دانش‌آموز عزیز";
-
     const subscriptionDays = safeProfile.subscription_days || 0;
     const location = useLocation();
 
     const handleMenuClick = () => {
-
         if (location.pathname.startsWith("/profile")) {
             window.dispatchEvent(new CustomEvent("toggleProfileSidebar"));
         } else {
             onToggleSidebar();
         }
-
     };
 
     return (
         <nav
-            className="navbar bg-white px-3 px-md-4"
+            className="navbar bg-white px-2 px-md-4"
             style={{
                 height: "72px",
                 borderBottom: "1px solid #eef2f7",
@@ -47,192 +36,67 @@ export default function AppNavbar({ onToggleSidebar }) {
         >
             <div className="container-fluid p-0 d-flex align-items-center justify-content-between">
 
-                <div className="d-flex align-items-center gap-3">
-
+                <div className="d-flex align-items-center gap-2 gap-md-3">
                     <button
-                        onClick={() => {
-                            handleMenuClick();
-                            window.scrollTo({
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                        }}
-                        className="btn d-flex align-items-center justify-content-center"
-                        style={{
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "12px",
-                            border: "1px solid #e5e7eb",
-                            background: "#fff",
-                        }}
+                        onClick={handleMenuClick}
+                        aria-label="باز کردن منو"
+                        className="btn d-flex align-items-center justify-content-center p-2"
+                        style={{ width: "40px", height: "40px", borderRadius: "12px", border: "1px solid #e5e7eb", background: "#fff" }}
                     >
                         <Menu size={20} />
                     </button>
 
-                    <div
-                        className="d-flex align-items-center justify-content-center text-white"
-                        style={{
-                            width: "42px",
-                            height: "42px",
-                            borderRadius: "14px",
-                            background: "linear-gradient(135deg, #6255f5, #4f46e5)",
-                            boxShadow: "0 4px 14px rgba(98,85,245,0.25)",
-                        }}
-                    >
-                        <Sparkles size={18} />
-                    </div>
-
-                    <div style={{ direction: "rtl", textAlign: "right" }}>
-                        <div
-                            style={{
-                                fontSize: "15px",
-                                fontWeight: 800,
-                                color: "#111827",
-                                lineHeight: 1.8,
-                            }}
-                        >
-                            منتورا
-                        </div>
-
-                        <div
-                            className="d-none d-md-block"
-                            style={{
-                                fontSize: "11px",
-                                color: "#9ca3af",
-                                lineHeight: 1.8,
-                            }}
-                        >
-                            دستیار هوشمند مطالعه و برنامه‌ریزی
+                    <div className="d-flex align-items-center gap-2">
+                        <Link to="/home" className="d-flex align-items-center justify-content-center text-white"
+                            style={{ width: "38px", height: "38px", borderRadius: "12px", background: "linear-gradient(135deg, #6255f5, #4f46e5)" }}>
+                            <Sparkles size={18} />
+                        </Link>
+                        <div className="d-flex">
+                            <div style={{ fontSize: "14px", fontWeight: 800, color: "#111827" }}>منتورا</div>
                         </div>
                     </div>
                 </div>
 
-                <div className="d-none d-md-flex align-items-center" style={{ width: "340px" }}>
-                    <div
-                        className="d-flex align-items-center w-100"
-                        style={{
-                            background: "#f8fafc",
-                            border: "1px solid #e5e7eb",
-                            borderRadius: "14px",
-                            padding: "10px 12px",
-                        }}
-                    >
-                        <Search size={16} color="#9ca3af" />
-                        <input
-                            type="text"
-                            placeholder="جستجو در بخش‌های مختلف..."
-                            className="form-control border-0 shadow-none bg-transparent"
-                            style={{
-                                fontSize: "12px",
-                                textAlign: "right",
-                                direction: "rtl",
-                            }}
+                <div className="d-none d-lg-flex align-items-center flex-grow-1 mx-4" style={{ maxWidth: "600px" }}>
+                    <div className="d-flex align-items-center w-100 px-3" style={{ background: "#f8fafc", border: "1px solid #e5e7eb", borderRadius: "14px", padding: "8px" }}>
+                        <Search size={16} color="#9ca3af" className="me-2" />
+                        <input type="text" placeholder="جستجو..." className="form-control border-0 shadow-none bg-transparent" style={{ fontSize: "12px" }} />
+                    </div>
+                </div>
+
+                <div className="d-flex align-items-center gap-2 gap-md-3">
+
+                    <Link to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}
+                        className="d-flex align-items-center gap-2 px-2 px-md-3 py-2"
+                        style={{ background: subscriptionDays > 0 ? "#f5f3ff" : "#fff7ed", border: "1px solid #ddd", borderRadius: "12px", textDecoration: "none" }}>
+                        <Crown
+                            size={window.innerWidth < 768 ? 20 : 18}
+                            color={subscriptionDays > 0 ? "#6255f5" : "#ea580c"}
                         />
-                    </div>
-                </div>
-
-                <div className="d-flex align-items-center gap-3">
-
-                    <Link
-                        to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}
-                        className="d-flex align-items-center gap-2"
-                        style={{
-                            background: subscriptionDays > 0 ? "#f5f3ff" : "#fff7ed",
-                            border: subscriptionDays > 0 ? "1px solid #ddd6fe" : "1px solid #fed7aa",
-                            borderRadius: "14px",
-                            padding: "8px 12px",
-                            textDecoration: "none",
-                            transition: "all 0.2s ease",
-                        }}
-                    >
-                        <Crown size={18} color={subscriptionDays > 0 ? "#6255f5" : "#ea580c"} />
-
-                        <span
-                            style={{
-                                fontSize: "12px",
-                                fontWeight: 700,
-                                color: subscriptionDays > 0 ? "#6255f5" : "#c2410c",
-                            }}
-                        >
-                            {subscriptionDays > 0
-                                ? `${subscriptionDays} روز باقی‌مانده`
-                                : "اشتراک ندارید"}
+                        <span className="d-none d-md-inline" style={{ fontSize: "12px", fontWeight: 700, color: subscriptionDays > 0 ? "#6255f5" : "#c2410c" }}>
+                            {subscriptionDays > 0 ? `${subscriptionDays} روز` : "خرید اشتراک"}
                         </span>
                     </Link>
 
-
                     <NotificationDropdown />
 
-                    <Link
-                        to="/profile"
-                        className="align-items-center gap-2 d-none d-md-flex"
-                        style={{
-                            background: "#f8fafc",
-                            border: "1px solid #e5e7eb",
-                            borderRadius: "16px",
-                            padding: "6px 10px",
-                            textDecoration: "none",
-                        }}
-                    >
-                        <div style={{ textAlign: "right", direction: "rtl" }}>
-                            <div
-                                style={{
-                                    fontSize: "12px",
-                                    fontWeight: 700,
-                                    color: "#111827",
-                                }}
-                            >
-                                {studentName}
-                            </div>
-
-                            <div
-                                style={{
-                                    fontSize: "10px",
-                                    color: "#9ca3af",
-                                }}
-                            >
-                                پنل دانش‌آموز
-                            </div>
+                    <Link to="/profile" className="d-flex align-items-center" style={{ textDecoration: "none" }}>
+                        <div className="d-none d-md-flex flex-column align-items-end mx-2">
+                            <span style={{ fontSize: "12px", fontWeight: 700, color: "#111827" }}>{studentName}</span>
+                            <span style={{ fontSize: "10px", color: "#9ca3af" }}>پنل دانش‌آموز</span>
                         </div>
-
-                        <div
-                            className="d-flex align-items-center justify-content-center text-white"
-                            style={{
-                                width: "38px",
-                                height: "38px",
-                                borderRadius: "12px",
-                                background: "linear-gradient(135deg, #6255f5, #7c3aed)",
-                                fontWeight: 800,
-                                fontSize: "13px",
-                            }}
-                        >
+                        <div className="d-flex align-items-center justify-content-center text-white"
+                            style={{ width: "36px", height: "36px", borderRadius: "12px", background: "linear-gradient(135deg, #6255f5, #7c3aed)", fontSize: "13px" }}>
                             {studentName.slice(0, 1)}
                         </div>
                     </Link>
-
-                    {isAuthenticated && (
-                        <button
-                            type="button"
-                            onClick={async () => {
-                                await logout();
-                                navigate("/login");
-                            }}
-                            className="btn d-flex align-items-center gap-1"
-                            style={{
-                                border: "1px solid #e5e7eb",
-                                borderRadius: "14px",
-                                padding: "10px 12px",
-                                background: "#fff",
-                                fontSize: "12px",
-                                fontWeight: 700,
-                                color: "#6b7280",
-                            }}
-                        >
-                            <LogOut size={16} />
-                        </button>
-                    )}
+                    <button type="button" onClick={async () => { await logout(); navigate("/login"); }}
+                        className="d-flex align-items-center gap-2 px-2 px-md-3 py-2"
+                        style={{ border: "1px solid #e5e7eb", borderRadius: "12px", background: "#fff", color: "#6b7280" }}>
+                        <LogOut size={20} />
+                    </button>
                 </div>
             </div>
-        </nav >
+        </nav>
     );
 }
