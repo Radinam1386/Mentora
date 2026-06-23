@@ -82,7 +82,7 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'fa-ir'
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get('DJANGO_TIME_ZONE', 'Asia/Tehran')
 USE_I18N = True
 USE_TZ = True
 
