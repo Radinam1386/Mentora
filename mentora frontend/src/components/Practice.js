@@ -56,7 +56,7 @@ export default function Practice() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "860px",
+        maxWidth: "1200px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
       }}

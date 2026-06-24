@@ -8,7 +8,9 @@ export default function BlogList() {
             className="container py-4"
             style={{
                 direction: "rtl",
-                textAlign: "right"
+                textAlign: "right",
+                maxWidth: "1200px",
+
             }}
         >
             <section
@@ -19,14 +21,14 @@ export default function BlogList() {
                     padding: "28px",
                     color: "#fff",
                     boxShadow: "0 12px 40px rgba(79, 70, 229, 0.25)",
-                    marginBottom: "24px"
+                    marginBottom: "24px",
                 }}
             >
                 <h1 style={{ fontWeight: 900, marginBottom: "10px" }}>
                     بلاگ آموزشی منتورا
                 </h1>
                 <p style={{ margin: 0, opacity: 0.92, lineHeight: "2" }}>
-                    مجموعه‌ای از مقاله‌های آموزشی، سئویی و کاربردی برای مطالعه بهتر،
+                    مجموعه‌ای از مقاله‌های آموزشی و کاربردی برای مطالعه بهتر،
                     برنامه‌ریزی اصولی، افزایش تمرکز و موفقیت در مسیر یادگیری.
                 </p>
             </section>

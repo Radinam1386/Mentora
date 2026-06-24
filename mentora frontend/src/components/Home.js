@@ -106,7 +106,7 @@ export default function Home({
     <div
       className="container py-4"
       style={{
-        maxWidth: "1100px",
+        maxWidth: "1200px",
         direction: "rtl",
         textAlign: "right",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",

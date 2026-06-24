@@ -14,11 +14,7 @@ export default function AppNavbar({ onToggleSidebar }) {
     const location = useLocation();
 
     const handleMenuClick = () => {
-        if (location.pathname.startsWith("/profile")) {
-            window.dispatchEvent(new CustomEvent("toggleProfileSidebar"));
-        } else {
-            onToggleSidebar();
-        }
+        onToggleSidebar();
     };
 
     return (
@@ -91,12 +87,19 @@ export default function AppNavbar({ onToggleSidebar }) {
                         </div>
                     </Link>
                     <button type="button" onClick={async () => { await logout(); navigate("/login"); }}
-                        className="d-flex align-items-center gap-2 px-2 px-md-3 py-2"
-                        style={{ border: "1px solid #e5e7eb", borderRadius: "12px", background: "#fff", color: "#6b7280" }}>
+                        className="btn p-2 d-flex align-items-center justify-content-center"
+                        style={{
+                            borderRadius: 12,
+                            border: "1px solid #e5e7eb",
+                            background: "#fff",
+                            width: 40,
+                            height: 40,
+                            position: "relative",
+                        }}>
                         <LogOut size={20} />
-                    </button>
-                </div>
+                </button>
             </div>
-        </nav>
+        </div>
+        </nav >
     );
 }

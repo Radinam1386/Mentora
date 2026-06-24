@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
     House,
@@ -15,6 +15,15 @@ import {
 } from "lucide-react";
 
 export default function AppSidebar({ open, onClose }) {
+    useEffect(() => {
+        if (window.innerWidth < 992) {
+            document.body.style.overflow = open ? "hidden" : "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [open]);
 
     const menuItems = [
         { key: "/home", label: "خانه", icon: <House size={18} /> },
@@ -40,7 +49,6 @@ export default function AppSidebar({ open, onClose }) {
         e?.preventDefault?.();
         onClose?.();
     };
-
 
     return (
         <>
@@ -76,9 +84,11 @@ export default function AppSidebar({ open, onClose }) {
             height: 100vh;
             padding: 20px 16px;
             border-left: 1px solid #eef2f7;
-            z-index: 2000; /* FIX */
+            z-index: 2000;
             transform: translateX(100%);
             box-shadow: -20px 0 60px rgba(15, 23, 42, 0.18);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
           }
 
           .app-sidebar.open {
@@ -110,7 +120,6 @@ export default function AppSidebar({ open, onClose }) {
                     "--sidebar-border": open ? "1px solid #eef2f7" : "none",
                 }}
             >
-
                 <div
                     style={{
                         minWidth: "218px",
@@ -121,8 +130,6 @@ export default function AppSidebar({ open, onClose }) {
                         height: "100%",
                     }}
                 >
-
-                    {/* header mobile */}
                     <div className="d-flex d-lg-none align-items-center justify-content-between mb-3">
                         <div>
                             <div
@@ -202,9 +209,7 @@ export default function AppSidebar({ open, onClose }) {
                         </div>
                     </div>
 
-                    {/* menu */}
                     <div className="d-flex flex-column gap-2">
-
                         {menuItems.map((item, i) => (
                             <NavLink
                                 key={i}
@@ -229,41 +234,7 @@ export default function AppSidebar({ open, onClose }) {
                                 {item.label}
                             </NavLink>
                         ))}
-
                     </div>
-
-                    <div
-                        className="mt-auto d-none d-md-block"
-                        style={{
-                            background: "#f8fafc",
-                            border: "1px solid #eef2f7",
-                            borderRadius: "20px",
-                            padding: "16px",
-                        }}
-                    >
-                        <div
-                            style={{
-                                fontSize: "12px",
-                                fontWeight: 800,
-                                color: "#111827",
-                                marginBottom: "8px",
-                            }}
-                        >
-                            یادآوری امروز
-                        </div>
-
-                        <div
-                            style={{
-                                fontSize: "11px",
-                                color: "#6b7280",
-                                lineHeight: "1.9",
-                            }}
-                        >
-                            حتی اگر امروز زمان کمی داری، فقط با انجام یک کار کوچک هم زنجیره
-                            استمرار تو حفظ می‌شود.
-                        </div>
-                    </div>
-
                 </div>
             </aside>
         </>

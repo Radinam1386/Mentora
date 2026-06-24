@@ -97,14 +97,13 @@ export default function Today() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "860px",
+        maxWidth: "1200px",
         direction: "rtl",
         textAlign: "right",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
       }}
     >
       <div className="d-flex flex-column gap-3">
-        {/* نوار بالایی */}
         <div
           className="d-flex justify-content-between align-items-center bg-white border shadow-sm"
           style={{
@@ -148,7 +147,6 @@ export default function Today() {
           </div>
         </div>
 
-        {/* کارت اصلی */}
         <div
           className="position-relative overflow-hidden text-white"
           style={{
@@ -288,7 +286,6 @@ export default function Today() {
           </div>
         </div>
 
-        {/* مشاوره روزانه */}
         <div
           className="text-end"
           style={{

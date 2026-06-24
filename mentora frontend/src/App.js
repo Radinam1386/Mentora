@@ -33,7 +33,7 @@ function AppLayout() {
     setSidebarOpen(false);
   }, [location]);
   return (
-    <div style={{ display: "flex", direction: "rtl" }}>
+    <div className='hidescroll' style={{ display: "flex", direction: "rtl"}}>
       <AppSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

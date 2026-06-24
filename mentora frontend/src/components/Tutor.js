@@ -253,13 +253,14 @@ export default function Tutor() {
       className="d-flex flex-column flex-grow-1 h-100 mx-auto position-relative"
       style={{
         width: "100%",
-        maxWidth: "1100px",
-        minHeight: "calc(100vh - 64px)", // Adjust for header height if any
+        maxWidth: "1200px",
+        minHeight: "calc(100vh - 64px)",
         fontFamily: "Vazir ,Tahoma, Arial, sans-serif", // Vazir font as primary
         backgroundColor: "#fcfbf9", // Light background color
         direction: "rtl", // Right-to-left text direction
         borderLeft: "1px solid #f3f4f6", // Subtle border
         borderRight: "1px solid #f3f4f6",
+        borderRadius: "25px"
       }}
     >
       {/* Header Section */}
@@ -459,10 +460,10 @@ export default function Tutor() {
                               style={
                                 className === "math math-display"
                                   ? {
-                                      margin: "12px 0",
-                                      overflowX: "auto",
-                                      padding: "4px 0",
-                                    }
+                                    margin: "12px 0",
+                                    overflowX: "auto",
+                                    padding: "4px 0",
+                                  }
                                   : {}
                               }
                             >
@@ -673,7 +674,6 @@ export default function Tutor() {
               ساده‌تر بگو 😊
             </button>
 
-            {/* "Another test strategy" Button */}
             <button
               type="button"
               onClick={() => handleAction("alternative")}
@@ -716,12 +716,12 @@ export default function Tutor() {
               type="button"
               onClick={() => fileInputRef.current && fileInputRef.current.click()} // Trigger hidden file input
               disabled={loading}
-              className="btn"
+              className="btn p-2 d-flex align-items-center justify-content-center"
               style={{
                 padding: "12px",
                 borderRadius: "14px",
-                width : "5%",
-                height : "5%",
+                width: "40px",
+                height: "40px",
                 border: selectedImage
                   ? "1px solid #6255f5" // Highlight border if image selected
                   : "1px solid #e5e7eb",
@@ -755,18 +755,20 @@ export default function Tutor() {
             <button
               type="submit"
               disabled={loading || (!input.trim() && !selectedImage)} // Disable if loading or no input/image
-              className="btn text-white"
+              className="btn p-2 d-flex align-items-center justify-content-center"
               style={{
                 background: "#6255f5", // Purple background
                 padding: "12px",
                 borderRadius: "14px",
                 border: "none",
-                width: "5%",
-                height: "5%",
+                width: "40px",
+                height: "40px",
+                color: "white",
                 boxShadow: "0 2px 6px rgba(98,85,245,0.2)", // Shadow for emphasis
               }}
+
             >
-              <Send size={16} style={{ transform: "scaleX(-1)" }} /> {/* Rotated send icon */}
+              <Send size={18} style={{ transform: "scaleX(-1)" }} /> {/* Rotated send icon */}
             </button>
           </form>
         </div>

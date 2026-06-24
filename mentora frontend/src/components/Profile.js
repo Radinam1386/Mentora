@@ -11,7 +11,6 @@ import {
   School,
   ShieldCheck,
 } from "lucide-react";
-import ProfileSidebar from "./ProfileSideBar";
 
 export default function Profile() {
   const { updateProfile } = useApp();
@@ -30,7 +29,6 @@ export default function Profile() {
 
   useEffect(() => {
     let active = true;
-
     const fetchProfile = async () => {
       try {
         const { response, data } = await apiJson("/api/profile");
@@ -52,7 +50,6 @@ export default function Profile() {
         console.error("خطا در دریافت پروفایل:", err);
       }
     };
-
     fetchProfile();
     return () => (active = false);
   }, []);
@@ -69,18 +66,14 @@ export default function Profile() {
 
   const handleSave = async () => {
     setSaving(true);
-
     try {
       const { response, data } = await apiJson("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
       if (!response.ok) throw new Error(data.error);
-
       const p = data.profile || {};
-
       updateProfile({
         name: p.name,
         grade: p.grade,
@@ -88,7 +81,6 @@ export default function Profile() {
         targetRank: p.targetRank,
         studyHours: p.studyHours,
       });
-
       alert("اطلاعات با موفقیت ذخیره شد");
     } catch (err) {
       alert(err.message);
@@ -96,316 +88,161 @@ export default function Profile() {
       setSaving(false);
     }
   };
-
   return (
-    <div style={{ direction: "rtl", background: "#f8f7ff", minHeight: "100vh", fontFamily: "Vazir" }}>
-      <div style={{ display: "flex" }}>
-
-        <ProfileSidebar />
-
-        <div style={{ flexGrow: 1, padding: "28px" }}>
-          <Container fluid>
-
-            {/* HEADER */}
-            <Card
-              id="overview"
-              className="mb-4 border-0"
-              style={{
-                borderRadius: "24px",
-                overflow: "hidden",
-                boxShadow: "0 16px 50px rgba(98,85,245,0.08)",
-              }}
-            >
-              <div
-                style={{
-                  background: "linear-gradient(135deg,#6255f5,#8f84ff)",
-                  padding: "36px",
-                  color: "#fff",
-                }}
-              >
-                <Row className="align-items-center g-4">
-
-                  <Col md={12}>
-                    <div className="d-flex align-items-center gap-4 flex-wrap">
-
-                      {/* Avatar */}
-                      <div style={{ position: "relative" }}>
-                        <div
-                          style={{
-                            width: "110px",
-                            height: "110px",
-                            borderRadius: "50%",
-                            border: "4px solid rgba(255,255,255,0.6)",
-                            background: profileImage
-                              ? `center/cover url(${profileImage})`
-                              : "rgba(255,255,255,0.2)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "44px",
-                            fontWeight: "900",
-                          }}
-                        >
-                          {!profileImage && (formData.name || "؟").slice(0, 1)}
-                        </div>
-
-                        <label
-                          htmlFor="profile-upload"
-                          style={{
-                            position: "absolute",
-                            bottom: 4,
-                            left: 4,
-                            width: 36,
-                            height: 36,
-                            borderRadius: "50%",
-                            background: "#fff",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            color: "#6255f5",
-                          }}
-                        >
-                          <Camera size={18} />
-                        </label>
-
-                        <input
-                          id="profile-upload"
-                          type="file"
-                          hidden
-                          onChange={handleImageUpload}
-                        />
-                      </div>
-
-                      {/* Info */}
-                      <div>
-
-                        <h2 style={{ fontWeight: 900, marginBottom: 6 }}>
-                          {formData.name || "نام کاربر"}
-                        </h2>
-
-                        <div style={{ opacity: 0.9 }}>
-                          دانش‌آموز {formData.grade || "-"} | رشته {formData.major || "-"}
-                        </div>
-
-                        <Badge
-                          style={{
-                            marginTop: 8,
-                            background: "rgba(255,255,255,0.2)",
-                            padding: "8px 14px",
-                            borderRadius: "999px",
-                          }}
-                        >
-                          هدف رتبه: {formData.targetRank || "-"}
-                        </Badge>
-
-                      </div>
-                    </div>
-                  </Col>
-
-                </Row>
+    <div className="col-md-12 col-12 d-flex row justify-content-center" style={{ direction: "rtl", minHeight: "100vh", fontFamily: "Vazir, Tahoma" }}>
+      <div className="container-fluid px-0 col-md-12" style={{ maxWidth: "1200px" }}>
+        <div
+          className="card mb-4 border-0 text-white"
+          style={{
+            borderRadius: "24px",
+            background: "linear-gradient(135deg,#6255f5,#8f84ff)",
+            boxShadow: "0 16px 50px rgba(98,85,245,0.15)",
+          }}
+        >
+          <div className="card-body p-4 p-md-5">
+            <div className="d-flex flex-column flex-md-row align-items-center gap-4">
+              <div style={{ position: "relative" }}>
+                <div
+                  style={{
+                    width: "120px", height: "120px", borderRadius: "50%",
+                    border: "4px solid rgba(255,255,255,0.3)",
+                    background: profileImage ? `url(${profileImage}) center/cover` : "rgba(255,255,255,0.2)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "40px", fontWeight: "bold",
+                  }}
+                >
+                  {!profileImage && (formData.name || "؟").slice(0, 1)}
+                </div>
+                <label htmlFor="profile-upload" style={{ position: "absolute", bottom: "5px", left: "5px", width: "35px", height: "35px", background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#6255f5", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}>
+                  <Camera size={18} />
+                </label>
+                <input id="profile-upload" type="file" hidden onChange={handleImageUpload} />
               </div>
-            </Card>
 
-
-            {/* EDIT PROFILE */}
-            <Card style={sectionCardStyle} id="settings" className="mb-4">
-              <Card.Body className="p-4">
-
-                <div className="d-flex align-items-center gap-2 mb-4">
-                  <PencilLine size={20} color="#6255f5" />
-                  <h5 className="fw-bold m-0">ویرایش اطلاعات کاربری</h5>
-                </div>
-
-                <Row className="g-3">
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>نام و نام خانوادگی</Form.Label>
-                      <Form.Control
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>ایمیل</Form.Label>
-                      <Form.Control
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>شماره موبایل</Form.Label>
-                      <Form.Control
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>رشته</Form.Label>
-                      <Form.Select
-                        name="major"
-                        value={formData.major}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      >
-                        <option value="">انتخاب کنید</option>
-                        <option value="ریاضی">ریاضی</option>
-                        <option value="تجربی">تجربی</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>پایه</Form.Label>
-                      <Form.Select
-                        name="grade"
-                        value={formData.grade}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      >
-                        <option value="">انتخاب کنید</option>
-                        <option value="یازدهم">یازدهم</option>
-                        <option value="دوازدهم">دوازدهم</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>هدف رتبه</Form.Label>
-                      <Form.Control
-                        name="targetRank"
-                        value={formData.targetRank}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col xs={12}>
-                    <Form.Group>
-                      <Form.Label>درباره من</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={4}
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleChange}
-                        style={inputStyle}
-                      />
-                    </Form.Group>
-                  </Col>
-
-                </Row>
-
-                <div className="d-flex justify-content-end mt-4">
-                  <Button
-                    onClick={handleSave}
-                    disabled={saving}
-                    style={{
-                      background: "#6255f5",
-                      border: "none",
-                      borderRadius: "12px",
-                      padding: "10px 22px",
-                      fontWeight: 700,
-                    }}
-                  >
-                    <Save size={18} className="ms-2" />
-                    {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
-                  </Button>
-                </div>
-
-              </Card.Body>
-            </Card>
-
-
-            {/* SECURITY */}
-            <Card style={sectionCardStyle} id="security">
-              <Card.Body className="p-4">
-
-                <div className="d-flex align-items-center gap-2 mb-4">
-                  <ShieldCheck size={20} color="#6255f5" />
-                  <h5 className="fw-bold m-0">امنیت حساب</h5>
-                </div>
-
-                <Row className="g-3">
-
-                  <Col md={6}>
-                    <Card style={miniCardStyle}>
-                      <Card.Body>
-                        <Mail size={16} color="#6255f5" className="mb-2" />
-                        <div className="fw-bold">ایمیل</div>
-                        <div className="text-muted">{formData.email}</div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-
-                  <Col md={6}>
-                    <Card style={miniCardStyle}>
-                      <Card.Body>
-                        <Phone size={16} color="#6255f5" className="mb-2" />
-                        <div className="fw-bold">شماره تماس</div>
-                        <div className="text-muted">{formData.phone}</div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-
-                  <Col md={12}>
-                    <Card style={miniCardStyle}>
-                      <Card.Body>
-                        <School size={16} color="#6255f5" className="mb-2" />
-                        <div className="fw-bold">وضعیت تحصیلی</div>
-                        <div className="text-muted">
-                          {formData.grade} - {formData.major} - هدف رتبه {formData.targetRank}
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-
-                </Row>
-
-              </Card.Body>
-            </Card>
-
-          </Container>
+              <div className="text-center text-md-end">
+                <h2 className="fw-bold mb-2">{formData.name || "کاربر مهمان"}</h2>
+                <p className="mb-2 opacity-75">دانش‌آموز {formData.grade || "-"} | رشته {formData.major || "-"}</p>
+                <span className="badge bg-light text-dark px-3 py-2 rounded-pill">هدف رتبه: {formData.targetRank || "نامشخص"}</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* کارت ویرایش */}
+        <div className="card border-0 shadow-sm mb-4" style={{ borderRadius: "20px" }}>
+          <div className="card-body p-4">
+            <div className="d-flex align-items-center gap-2 mb-4">
+              <PencilLine size={22} className="text-primary" />
+              <h5 className="fw-bold m-0">ویرایش پروفایل</h5>
+            </div>
+
+            <div className="row g-3">
+              {[
+                { label: "نام و نام خانوادگی", name: "name", type: "text" },
+                { label: "ایمیل", name: "email", type: "email" },
+                { label: "شماره موبایل", name: "phone", type: "tel" },
+                { label: "هدف رتبه", name: "targetRank", type: "text" },
+              ].map((field) => (
+                <div className="col-md-6" key={field.name}>
+                  <div className="mb-3">
+                    <label className="small fw-bold text-muted mb-1">{field.label}</label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      className="form-control"
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      style={inputStyle}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <div className="col-md-6">
+                <div className="mb-3">
+                  <label className="small fw-bold text-muted mb-1">رشته</label>
+                  <select name="major" className="form-select" value={formData.major} onChange={handleChange} style={inputStyle}>
+                    <option value="">انتخاب کنید</option>
+                    <option value="ریاضی">ریاضی</option>
+                    <option value="تجربی">تجربی</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="mb-3">
+                  <label className="small fw-bold text-muted mb-1">پایه</label>
+                  <select name="grade" className="form-select" value={formData.grade} onChange={handleChange} style={inputStyle}>
+                    <option value="">انتخاب کنید</option>
+                    <option value="یازدهم">یازدهم</option>
+                    <option value="دوازدهم">دوازدهم</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-12">
+                <div className="mb-3">
+                  <label className="small fw-bold text-muted mb-1">درباره من</label>
+                  <textarea
+                    rows={3}
+                    name="bio"
+                    className="form-control"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-end mt-4">
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="btn px-4 py-2 border-0 text-white"
+                style={{ background: "#6255f5", borderRadius: "12px", fontWeight: "600" }}
+              >
+                <Save size={18} className="ms-2" />
+                {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* کارت اطلاعات */}
+        <div className="card border-0 shadow-sm" style={{ borderRadius: "20px" }}>
+          <div className="card-body p-4">
+            <div className="d-flex align-items-center gap-2 mb-4">
+              <ShieldCheck size={22} className="text-primary" />
+              <h5 className="fw-bold m-0">اطلاعات حساب</h5>
+            </div>
+            <div className="row g-3">
+              {[
+                { icon: Mail, label: "ایمیل", val: formData.email },
+                { icon: Phone, label: "تلفن", val: formData.phone },
+                { icon: School, label: "پایه و رشته", val: `${formData.grade} / ${formData.major}` }
+              ].map((item, idx) => (
+                <div className="col-md-4" key={idx}>
+                  <div className="p-3 border rounded-4 bg-light">
+                    <item.icon size={16} className="text-primary mb-2" />
+                    <div className="small fw-bold">{item.label}</div>
+                    <div className="small text-truncate">{item.val || "ثبت نشده"}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
 }
 
-const sectionCardStyle = {
-  border: "none",
-  borderRadius: "22px",
-  boxShadow: "0 10px 35px rgba(98,85,245,0.07)",
-};
-
-const miniCardStyle = {
-  border: "1px solid #f0edff",
-  borderRadius: "16px",
-  background: "#fcfbff",
-};
-
 const inputStyle = {
   borderRadius: "12px",
-  padding: "12px 14px",
-  border: "1px solid #e7e2ff",
+  padding: "10px 15px",
+  border: "1px solid #eee",
   background: "#fcfbff",
+  fontSize: "0.95rem"
 };

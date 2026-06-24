@@ -4,25 +4,14 @@ import { Bell } from "lucide-react";
 const mockNotifications = [
   {
     id: 1,
-    text: "جلسه تمرکز امروزت کامل شد 👏",
-    time: "2 دقیقه پیش",
-  },
-  {
-    id: 2,
-    text: "یک تمرین جدید برایت اضافه شد",
-    time: "1 ساعت پیش",
-  },
-  {
-    id: 3,
-    text: "گزارش هفتگی آماده است",
-    time: "دیروز",
+    text: "به منتورا خیلی خوش آمدید!👋",
+    time: "الان",
   },
 ];
 
 export default function NotificationDropdown() {
   const [open, setOpen] = useState(false);
 
-  // بستن با کلیک بیرون
   useEffect(() => {
     const close = () => setOpen(false);
     if (open) window.addEventListener("click", close);
@@ -34,7 +23,6 @@ export default function NotificationDropdown() {
       style={{ position: "relative" }}
       onClick={(e) => e.stopPropagation()}
     >
-      {/* Bell */}
       <button
         onClick={() => setOpen(!open)}
         className="btn p-2 d-flex align-items-center justify-content-center"
@@ -49,7 +37,6 @@ export default function NotificationDropdown() {
       >
         <Bell size={18} />
 
-        {/* badge */}
         <span
           style={{
             position: "absolute",
@@ -70,7 +57,7 @@ export default function NotificationDropdown() {
             top: 48,
             left: "50%",
             transform: "translateX(-50%)",
-            width: "min(340px, 92vw)", // ریسپانسیو
+            width: "min(340px, 92vw)",
             background: "#fff",
             borderRadius: 16,
             boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
@@ -79,7 +66,6 @@ export default function NotificationDropdown() {
             direction: "rtl",
           }}
         >
-          {/* header */}
           <div
             style={{
               padding: "12px 14px",
@@ -91,7 +77,6 @@ export default function NotificationDropdown() {
             نوتیفیکیشن‌ها
           </div>
 
-          {/* list */}
           <div
             style={{
               maxHeight: "300px",
@@ -122,7 +107,6 @@ export default function NotificationDropdown() {
             ))}
           </div>
 
-          {/* footer */}
           <div
             style={{
               textAlign: "center",
