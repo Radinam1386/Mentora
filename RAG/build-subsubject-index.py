@@ -3,7 +3,7 @@ import json
 
 
 # ====== SETTINGS ======
-BOOK_CODE = "Chemistry2SchoolBook"
+BOOK_CODE = "Chemistry1SchoolBook"
 MAIN_SUBJECT = "chemistry"
 
 # Choose: "json", "images", or "both"

@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p073_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_bonding_and_molecular_geometry",
+  "tag": "chemistry/chemical_bonding_and_molecular_geometry",
+  "summary": "بررسی فلزاتی که می‌توانند کاتیون‌هایی با بارهای مختلف تشکیل دهند و نام‌گذاری اکسیدها و نمک‌های آن‌ها.",
+  "key_points": [
+    "برخی فلزها مانند آهن و مس می‌توانند بیش از یک نوع اکسید تشکیل دهند.",
+    "کاتیون‌های رایج عنصر کروم عبارتند از: $\\text{Cr}^{2+}$ و $\\text{Cr}^{3+}$.",
+    "نمونه اکسیدهای فلزی با ظرفیت‌های مختلف: $\\text{Fe}_2\\text{O}_3$ (آهن (III) اکسید)، $\\text{FeO}$ (آهن (II) اکسید)، $\\text{CuO}$ (مس (II) اکسید) و $\\text{Cu}_2\\text{O}$ (مس (I) اکسید)."
+  ],
+  "main_text": "در جدول زیر، نام و فرمول شیمیایی برخی اکسیدهای فلزی داده شده است:\n- آهن (III) اکسید: $\\text{Fe}_2\\text{O}_3$\n- مس (I) اکسید: $\\text{Cu}_2\\text{O}$\n- مس (II) اکسید: $\\text{CuO}$\n- سدیم اکسید: $\\text{Na}_2\\text{O}$\n- منیزیم اکسید: $\\text{MgO}$\n- آهن (II) اکسید: $\\text{FeO}$\n\nاتم عنصر کروم در ترکیب‌های خود اغلب به صورت کاتیون $\\text{Cr}^{2+}$ یا $\\text{Cr}^{3+}$ یافت می‌شود.",
+  "other_details": [
+    "برخی نمک‌های فلزی با رنگ‌های مختلف تشکیل می‌شوند، مانند آهن (III) کلرید، آهن (II) کلرید، $\\text{CuCl}_2$ و $\\text{CuCl}$."
+  ],
+  "source_page": 73,
+  "image_path": "Books/Chemistry1SchoolBook/page_073.png",
+  "confidence": 0.95
+}

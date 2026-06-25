@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p129_c01",
+  "main_subject": "chemistry",
+  "subsubject": "organic_chemistry",
+  "tag": "chemistry/organic_chemistry",
+  "summary": "واکنش گاز اتن با گاز کلر در حضور کاتالیزور FeCl3 و تولید 1,2-دی‌کلرواتان.",
+  "key_points": [
+    "واکنش اتن با کلر در حضور کاتالیزور FeCl3(s) منجر به تولید 1,2-دی‌کلرواتان می‌شود.",
+    "معادله واکنش: CH2=CH2(g) + Cl2(g) -> CH2ClCH2Cl(g)",
+    "تغییرات آنتالپی واکنش: ΔH = -178 kJ mol-1"
+  ],
+  "main_text": "واکنش گاز اتن با گاز کلر در حضور کاتالیزور FeCl3(s) به صورت زیر است:\nCH2=CH2(g) + Cl2(g) --(FeCl3(s))--> CH2ClCH2Cl(g)\nΔH = -178 kJ mol-1\nمحصول این واکنش 1,2-دی‌کلرواتان است.",
+  "other_details": [
+    "کاتالیزور مورد استفاده در این واکنش FeCl3 حالت جامد است."
+  ],
+  "source_page": 129,
+  "image_path": "Books/Chemistry2SchoolBook/page_129.png",
+  "confidence": 0.95
+}

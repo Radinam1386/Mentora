@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p025_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "بررسی ویژگی‌های ذرات زیراتمی شامل نماد، بار الکتریکی نسبی و جرم در مقیاس amu.",
+  "key_points": [
+    "الکترون با نماد _-^0e، بار الکتریکی -1 و جرم 0.0005 amu است.",
+    "پروتون با نماد _+^1p، بار الکتریکی +1 و جرم 1.0073 amu است.",
+    "نوترون با نماد _0^1n، بار الکتریکی 0 و جرم 1.0087 amu است."
+  ],
+  "main_text": "جدول ۱- برخی ویژگی‌های ذره‌های زیراتمی\nنام ذره | نماد | بار الکتریکی نسبی | جرم (amu)\nالکترون | _-^0e | -1 | 0.0005\nپروتون | _+^1p | +1 | 1.0073\nنوترون | _0^1n | 0 | 1.0087",
+  "other_details": [
+    "در این نماد، عددهای سمت چپ از بالا به پایین به ترتیب جرم نسبی و بار نسبی ذره را مشخص می‌کنند."
+  ],
+  "source_page": 25,
+  "image_path": "Books/Chemistry1SchoolBook/page_025.png",
+  "confidence": 0.95
+}

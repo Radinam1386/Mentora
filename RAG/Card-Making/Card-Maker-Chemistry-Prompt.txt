@@ -35,7 +35,7 @@ Return one JSON object with this shape:
 If the page needs only one card, return exactly one item in "cards".
 If the page clearly contains two or more separate useful educational topics, return multiple card objects in "cards".
 
-If the page is unreadable, empty, or only contains ignored non-exam sections, return:
+If the page is unreadable, empty, or only contains ignored non-exam sections with no reusable chemistry content, return:
 
 {
   "cards": [],
@@ -84,6 +84,8 @@ Chemistry extraction rules:
 - If the page contains a solved example and the book itself solved it, include the example question and the visible solution steps.
 - If a solved example has missing or unreadable steps, include only the visible steps and do not complete it yourself.
 - If the page contains a molecular/structural formula or diagram, describe only what is visible and educationally useful.
+- Applied chemistry sections are not automatically ignored. Sections such as «پیوند با صنعت» should produce cards when they contain reusable chemistry learning content, including industrial chemistry, environmental chemistry, mining/metallurgy, extraction methods, real-world uses of substances, chemical data tables, named materials, or visible reactions.
+- Before returning "cards": [], check one more time whether the page contains any visible reusable chemistry formula, reaction, data table, named process, material property, industrial application, environmental chemistry process, or metal/mineral data. If yes, create at least one card from that reusable content.
 - For formulas, use readable plain text or valid escaped LaTeX. If using LaTeX in JSON, every backslash must be escaped, for example write "\\frac{n}{V}" not "\frac{n}{V}".
 - If you are not sure you can escape LaTeX correctly, write the formula in readable plain text.
 
@@ -96,15 +98,21 @@ Unsolved question and test rules:
 - Example of what to keep: if an unsolved question says titanium is used in airplane manufacturing or other industries, keep that application fact.
 - Example of what not to keep: the actual request of the question, the answer choices, or numerical values that only exist for solving that specific test and do not teach a reusable chemistry fact.
 - If a formula, reaction, graph, or table appears only as part of an unsolved question and has no standalone educational value, do not create a card from it.
+- If an unsolved question includes a real chemical equation, extraction process, data table, or applied-chemistry scenario that is useful independently, keep the visible reusable content and ignore only the calculation request or question command.
+- For pages like phytomining/phytoremediation questions, keep the process description, visible metal symbols, extraction/reaction information, and table data; do not solve the subquestions.
 - If an unsolved question contains both a reusable factual statement and a problem to solve, keep only the reusable factual statement and ignore the problem.
 
 Ignored sections:
 These sections are not important and should not be included in cards:
 - «بیشتر بدانیم»
 - «خوب است بدانید»
+- «آیا می‌دانید»
 - «تاریخ علم»
 - «پانویس»
-- Any marginal, decorative, historical, or extra-information section that is not needed for exam learning.
+- Decorative or purely historical/marginal text that has no reusable chemistry fact, formula, data, reaction, or application.
+
+Do not treat «پیوند با صنعت» as an ignored title by default. Include it when it contains chemistry facts, real-world applications, environmental chemistry, industrial processes, or useful data.
+Always ignore «آیا می‌دانید», even if it contains useful-looking chemistry or environmental facts.
 
 Do not include ignored sections in main_text, key_points, summary, or other_details.
 If the whole page is almost only ignored sections, return the no_extract_worthy_content object.
@@ -117,7 +125,7 @@ Multi-card decision rules:
 - If a solved example teaches an important separate method, it may get its own card.
 - Do not create too many cards without a clear reason. Correct separation is more important than card count.
 - Do not create cards for unsolved exercises/tests, except for standalone reusable chemistry facts hidden inside them.
-- Do not create cards for «بیشتر بدانیم», «خوب است بدانید», «تاریخ علم», or «پانویس».
+- Do not create cards for «بیشتر بدانیم», «خوب است بدانید», «آیا می‌دانید», «تاریخ علم», or «پانویس».
 
 Card numbering:
 - card_id of each card must end with a different card number.

@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p053_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "آرایش الکترونی اتم‌های باریوم و ید و معرفی برخی عناصر در جدول تناوبی.",
+  "key_points": [
+    "آرایش الکترونی باریوم: [Xe] 6s²",
+    "آرایش الکترونی ید: [Kr] 4d¹⁰ 5s² 5p⁵"
+  ],
+  "main_text": "آرایش الکترونی اتم های باریوم و ید به صورت زیر است:\n56Ba:[Xe] 6s²\n53I:[Kr] 4d¹⁰ 5s² 5p⁵",
+  "other_details": [
+    "در جدول تناوبی ارائه شده، عناصری شامل هیدروژن (H)، نیتروژن (N)، اکسیژن (O)، فلور (F)، کلر (Cl)، برم (Br) و ید (I) به همراه شماره اتمی آن‌ها نمایش داده شده‌اند."
+  ],
+  "source_page": 53,
+  "image_path": "Books/Chemistry1SchoolBook/page_053.png",
+  "confidence": 0.9
+}

@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p054_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "جرم اتمی عناصر کربن و اکسیژن و ساختار مولکول دی‌اکسید کربن.",
+  "key_points": [
+    "جرم اتمی کربن (C): 12.01 amu",
+    "جرم اتمی اکسیژن (O): 16.00 amu"
+  ],
+  "main_text": "جرم اتمی برخی از عناصر به صورت زیر است:\n- کربن: 12.01 amu\n- اکسیژن: 16.00 amu",
+  "other_details": [
+    "یک مولکول دی‌اکسید کربن (CO2) از یک اتم کربن و دو اتم اکسیژن تشکیل شده است."
+  ],
+  "source_page": 54,
+  "image_path": "Books/Chemistry1SchoolBook/page_054.png",
+  "confidence": 0.9
+}

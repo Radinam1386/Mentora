@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p053_c02",
+  "main_subject": "chemistry",
+  "subsubject": "general",
+  "tag": "chemistry/general",
+  "summary": "رابطه تبدیل جرم به انرژی و معرفی گرافیت به عنوان شکلی از کربن.",
+  "key_points": [
+    "رابطه تبدیل جرم به انرژی: E = mc²",
+    "گرافیت شکل دیگری از کربن است."
+  ],
+  "main_text": "رابطه تبدیل جرم به انرژی به صورت E = mc² است. گرافیت شکل دیگری از کربن است.",
+  "other_details": [
+    "در متن به گسیل انرژی خورشید به سوی زمین اشاره شده است."
+  ],
+  "source_page": 53,
+  "image_path": "Books/Chemistry1SchoolBook/page_053.png",
+  "confidence": 0.9
+}

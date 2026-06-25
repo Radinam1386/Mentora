@@ -1,0 +1,15 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p051_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "تعریف جرم مولی و مثال محاسبه جرم مولی برای مولکول آب.",
+  "key_points": [
+    "جرم مولی یک ماده با مجموع جرم مولی اتم‌های سازنده آن برابر است."
+  ],
+  "main_text": "جرم مولی یک ماده با مجموع جرم مولی اتم‌های سازنده آن برابر است. برای مثال، جرم مولی آب برابر است با: (2x1.008) + 16.00 = 18.016 g mol-1",
+  "other_details": [],
+  "source_page": 51,
+  "image_path": "Books/Chemistry1SchoolBook/page_051.png",
+  "confidence": 0.95
+}

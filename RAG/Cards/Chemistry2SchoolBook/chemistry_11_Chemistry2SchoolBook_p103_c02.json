@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p103_c02",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_kinetics",
+  "tag": "chemistry/chemical_kinetics",
+  "summary": "بررسی واکنش بین گاز هیدروژن و بخار ید در مبحث سینتیک شیمیایی.",
+  "key_points": [
+    "واکنش شیمیایی بین گاز هیدروژن و بخار ید: $\\text{H}_2(g) + \\text{I}_2(g) \\rightarrow 2\\text{HI}(g)$"
+  ],
+  "main_text": "واکنش بین گاز هیدروژن و بخار ید: $\\text{H}_2(g) + \\text{I}_2(g) \\rightarrow 2\\text{HI}(g)$",
+  "other_details": [
+    "این واکنش برای مطالعه و محاسبه سرعت واکنش در دماهای معین مورد استفاده قرار می‌گیرد."
+  ],
+  "source_page": 103,
+  "image_path": "Books/Chemistry2SchoolBook/page_103.png",
+  "confidence": 0.9
+}

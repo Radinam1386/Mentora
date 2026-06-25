@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p120_c02",
+  "main_subject": "chemistry",
+  "subsubject": "organic_chemistry",
+  "tag": "chemistry/organic_chemistry",
+  "summary": "توضیح واکنش استری شدن بین اسیدهای کربوکسیلیک و الکل‌ها برای تولید استر و آب.",
+  "key_points": [
+    "واکنش اسیدهای کربوکسیلیک و الکل‌ها در شرایط مناسب و با از دست دادن آب، منجر به تشکیل استر می‌شود.",
+    "معادله کلی واکنش استری شدن: $\\text{R-C(=O)OH} + \\text{H-OR'} \\xrightarrow{\\text{H}_2\\text{SO}_4} \\text{R-C(=O)OR'} + \\text{H}_2\\text{O}$",
+    "واکنش اسید اتانوئیک (اسید استیک) با اتانول منجر به تولید اتیل اتانوآت (اتیل استات) و آب می‌گردد."
+  ],
+  "main_text": "واکنش استری شدن\nیکی از ویژگی‌های مهم و کاربردی کربوکسیلیک اسیدها و الکل‌ها، واکنش میان آنهاست. این مواد در شرایط مناسب واکنش می‌دهند و با از دست دادن آب، به استر تبدیل می‌شوند.\nمعادله‌ی زیر واکنش شیمیایی انجام شده را توصیف می‌کند:\n$\\text{R-C(=O)OH} + \\text{H-OR'} \\xrightarrow{\\text{H}_2\\text{SO}_4} \\text{R-C(=O)OR'} + \\text{H}_2\\text{O}$\n(کربوکسیلیک اسید + الکل $\\rightarrow$ استر + آب)\nبا این توصیف از واکنش اسید استیک با اتانول، طبق معادله‌ی زیر اتیل استات به دست می‌آید:\n$\\text{CH}_3\\text{C(=O)OH} + \\text{HOCH}_2\\text{CH}_3 \\xrightarrow{\\text{H}_2\\text{SO}_4} \\text{CH}_3\\text{C(=O)OCH}_2\\text{CH}_3 + \\text{H}_2\\text{O}$\n(اتانوئیک اسید + اتانول $\\rightarrow$ اتیل اتانوآت + آب)",
+  "other_details": [
+    "در این واکنش از اسید سولفوریک (\\text{H}_2\\text{SO}_4) به عنوان کاتالیزور استفاده شده است."
+  ],
+  "source_page": 120,
+  "image_path": "Books/Chemistry2SchoolBook/page_120.png",
+  "confidence": 0.98
+}

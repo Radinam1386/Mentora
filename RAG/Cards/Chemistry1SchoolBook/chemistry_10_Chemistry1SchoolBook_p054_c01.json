@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p054_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "شناسایی عناصر فلزی با استفاده از طیف نشری خطی.",
+  "key_points": [
+    "طیف نشری خطی هر عنصر منحصربه‌فرد است و می‌توان از آن برای شناسایی عناصر فلزی در یک نمونه استفاده کرد."
+  ],
+  "main_text": "برای یافتن نوع عناصر فلزی در یک نمونه، می‌توان از طیف نشری خطی استفاده کرد و الگوی طیفی آن را با طیف‌های نشری عناصر شناخته شده مقایسه نمود.",
+  "other_details": [
+    "در نمودار طیفی ارائه شده، طیف‌های نشری عناصر کلسیم، کروم، مس، آهن و جیوه برای مقایسه با طیف یک نمونه آورده شده است."
+  ],
+  "source_page": 54,
+  "image_path": "Books/Chemistry1SchoolBook/page_054.png",
+  "confidence": 0.9
+}

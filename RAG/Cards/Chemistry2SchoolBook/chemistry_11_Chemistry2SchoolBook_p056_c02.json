@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p056_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "ویژگی‌های فلز تیتانیوم، واکنش‌های جابجایی فلزات و واکنش استخراج مس از سنگ معدن.",
+  "key_points": [
+    "تیتانیوم فلزی محکم، با چگالی کم و مقاوم در برابر خوردگی است و در بدنه دوچرخه کاربرد دارد.",
+    "ترتیب واکنش‌پذیری فلزات Mg، Ti و Fe بر اساس واکنش‌های داده شده به صورت Mg > Ti > Fe است.",
+    "واکنش تهیه مس خام از سنگ معدن (سولفید مس (I)): Cu2S + O2 -> Cu + SO2"
+  ],
+  "main_text": "تیتانیوم فلزی محکم، با چگالی کم و مقاوم در برابر خوردگی است. یکی از کاربردهای آن استفاده در بدنه دوچرخه است.\nواکنش‌های مرتبط با تیتانیوم:\n1) TiCl4 + Mg --(Δ)--> Ti + MgCl2\n2) Fe2O3 + Ti --(Δ)--> Fe + TiO2\nواکنش تهیه مس خام از سنگ معدن (سولفید مس (I)):\nCu2S + O2 -> Cu + SO2",
+  "other_details": [
+    "واکنش‌های تیتانیوم در حضور حرارت (Δ) انجام می‌شوند."
+  ],
+  "source_page": 56,
+  "image_path": "Books/Chemistry2SchoolBook/page_056.png",
+  "confidence": 0.9
+}
