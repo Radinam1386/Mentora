@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p055_c01",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "بررسی واکنش‌های شیمیایی مربوط به تولید سیلیسیم و واکنش جایگزینی آلومینیوم و مس.",
+  "key_points": [
+    "سیلیسیم عنصر اصلی سازنده‌ی سلول‌های خورشیدی است.",
+    "واکنش تهیه سیلیسیم: SiO2(s) + 2C(s) -> Si(l) + 2CO(g)",
+    "واکنش فلز آلومینیوم با محلول سولفات مس (II): 2Al(s) + 3CuSO4(aq) -> 3Cu(s) + Al2(SO4)3(aq)"
+  ],
+  "main_text": "سیلیسیم عنصر اصلی سازنده‌ی سلول‌های خورشیدی است که از واکنش زیر تهیه می‌شود:\nSiO2(s) + 2C(s) -> Si(l) + 2CO(g)\nهمچنین واکنش فلز آلومینیوم با محلول سولفات مس (II) به صورت زیر است:\n2Al(s) + 3CuSO4(aq) -> 3Cu(s) + Al2(SO4)3(aq)",
+  "other_details": [
+    "تولید سیلیسیم با استفاده از کربن در دمای بالا انجام می‌شود."
+  ],
+  "source_page": 55,
+  "image_path": "Books/Chemistry2SchoolBook/page_055.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p071_c01",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "تعریف واکنش اکسایش و خوردگی به همراه معادله شیمیایی زنگ زدن آهن.",
+  "key_points": [
+    "واکنش اکسایش: واکنش آرام مواد با اکسیژن که با تولید انرژی همراه است.",
+    "خوردگی: ترد شدن، خرد شدن و فروریختن فلزها بر اثر اکسایش.",
+    "معادله شیمیایی اکسایش آهن: $4\\text{Fe(s)} + 3\\text{O}_2\\text{(g)} \\rightarrow 2\\text{Fe}_2\\text{O}_3\\text{(s)}$"
+  ],
+  "main_text": "به واکنش آرام مواد با اکسیژن که با تولید انرژی همراه است، واکنش اکسایش می‌گویند.\nبه ترد شدن، خرد شدن و فروریختن فلز‌ها بر اثر اکسایش، خوردگی گفته می‌شود.\nمعادله واکنش: $4\\text{Fe(s)} + 3\\text{O}_2\\text{(g)} \\rightarrow 2\\text{Fe}_2\\text{O}_3\\text{(s)}$",
+  "other_details": [
+    "شکل ۱۴ تصویری از یک کشتی زنگ زده را به عنوان نمونه‌ای از خوردگی فلزات نشان می‌دهد."
+  ],
+  "source_page": 71,
+  "image_path": "Books/Chemistry1SchoolBook/page_071.png",
+  "confidence": 0.95
+}

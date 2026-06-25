@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p031_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "بررسی تولید سوخت سبز (اتانول) از طریق تخمیر بی‌هوازی گلوکز موجود در پسماندهای گیاهی.",
+  "key_points": [
+    "استفاده از بقایای گیاهانی مانند نیشکر، سیب‌زمینی و ذرت برای تهیه سوخت سبز.",
+    "تولید اتانول از طریق واکنش بی‌هوازی تخمیر گلوکز.",
+    "معادله واکنش تخمیر گلوکز: $C_6H_{12}O_6(aq) \\rightarrow 2 C_2H_5OH(aq) + 2 CO_2(g)$"
+  ],
+  "main_text": "یکی از راه‌های تهیه سوخت سبز، استفاده از بقایای گیاهانی مانند نیشکر، سیب‌زمینی و ذرت است. واکنش بی‌هوازی تخمیر گلوکز، از جمله واکنش‌هایی است که در این فرایند رخ می‌دهد:\n$C_6H_{12}O_6(aq) \\rightarrow 2 C_2H_5OH(aq) + 2 CO_2(g)$",
+  "other_details": [
+    "در یک مسئله کاربردی، برای محاسبه مقدار اتانول تولید شده از 1.5 تن گلوکز با بازده واکنش 80 درصد، از رابطه استوکیومتری معادله فوق استفاده می‌شود."
+  ],
+  "source_page": 31,
+  "image_path": "Books/Chemistry2SchoolBook/page_031.png",
+  "confidence": 0.95
+}

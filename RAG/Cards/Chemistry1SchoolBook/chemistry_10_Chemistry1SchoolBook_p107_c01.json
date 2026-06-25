@@ -1,0 +1,15 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p107_c01",
+  "main_subject": "chemistry",
+  "subsubject": "solutions_and_concentration",
+  "tag": "chemistry/solutions_and_concentration",
+  "summary": "روش شناسایی یون باریم در محلول‌های آبی با استفاده از واکنش‌های رسوبی.",
+  "key_points": [
+    "برای شناسایی یون باریم (Ba2+) در محلول آبی می‌توان از واکنش‌های رسوبی استفاده کرد."
+  ],
+  "main_text": "برای شناسایی یون باریم در محلول آبی، آزمایشی طراحی شده است که در آن از واکنش یون‌ها برای ایجاد رسوب استفاده می‌شود.",
+  "other_details": "در شکل مربوط به آزمایش ۳، حضور یون‌های SO4(2-)، Ba(2+)، Cl(-) و Na(+) و تشکیل یک رسوب سفید رنگ نشان داده شده است که بیانگر واکنش بین یون‌های باریم و سولفات است.",
+  "source_page": 107,
+  "image_path": "Books/Chemistry1SchoolBook/page_107.png",
+  "confidence": 0.9
+}

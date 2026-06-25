@@ -1,0 +1,20 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p013_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "مقایسه عناصر سازنده و فراوانی آن‌ها در دو سیاره زمین و مشتری.",
+  "key_points": [
+    "عناصر سازنده زمین شامل آهن (Fe)، اکسیژن (O)، سیلیسیم (Si)، منیزیم (Mg)، نیکل (Ni)، گوگرد (S)، کلسیم (Ca) و آلومینیم (Al) است.",
+    "عناصر سازنده مشتری شامل هیدروژن (H)، هلیم (He)، کربن (C)، اکسیژن (O)، نیتروژن (N)، گوگرد (S)، آرگون (Ar) و نئون (Ne) است."
+  ],
+  "main_text": "شکل زیر عناصر سازنده دو سیاره مشتری و زمین را نشان می‌دهد.",
+  "other_details": [
+    "در سیاره زمین، آهن (Fe) فراوان‌ترین عنصر است و پس از آن اکسیژن (O) و سیلیسیم (Si) قرار دارند.",
+    "در سیاره مشتری، هیدروژن (H) با اختلاف زیاد فراوان‌ترین عنصر است و پس از آن هلیم (He) قرار دارد.",
+    "عناصر مشترک در هر دو سیاره بر اساس نمودار، اکسیژن (O) و گوگرد (S) هستند."
+  ],
+  "source_page": 13,
+  "image_path": "Books/Chemistry1SchoolBook/page_013.png",
+  "confidence": 0.95
+}

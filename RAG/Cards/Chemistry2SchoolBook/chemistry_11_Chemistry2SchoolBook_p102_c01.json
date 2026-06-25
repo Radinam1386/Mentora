@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p102_c01",
+  "main_subject": "chemistry",
+  "subsubject": "thermochemistry",
+  "tag": "chemistry/thermochemistry",
+  "summary": "بررسی گرمای انحلال برخی ترکیبات یونی و گرمای اکسایش چربی‌ها به عنوان کاربردهای ترموشیمیایی.",
+  "key_points": [
+    "انحلال نیترات آمونیوم در آب گرماگیر است و برای سرد کردن محل آسیب‌دیدگی استفاده می‌شود.",
+    "انحلال کلرید کلسیم در آب گرماده است.",
+    "اکسایش چربی‌های ذخیره شده در کوهان شتر فرآیندی گرماده است که انرژی لازم برای فعالیت‌های حیاتی حیوان را تأمین می‌کند."
+  ],
+  "main_text": "اساس کار بسته‌های سرد و گرم، انحلال برخی ترکیبات یونی در آب است:\n$\\text{NH}_4\\text{NO}_3(s) + 26\\text{ kJ} \\xrightarrow{\\text{در آب}} \\text{NH}_4^+(aq) + \\text{NO}_3^-(aq)$\n$\\text{CaCl}_2(s) \\xrightarrow{\\text{در آب}} \\text{Ca}^{2+}(aq) + 2\\text{Cl}^-(aq) + 83\\text{ kJ}$\nهمچنین چربی ذخیره شده در کوهان شتر هنگام اکسایش، انرژی لازم برای فعالیت‌های حیوان را تأمین می‌کند. واکنش ترموشیمیایی اکسایش چربی به صورت زیر است:\n$2\\text{C}_{57}\\text{H}_{110}\\text{O}_6(s) + 1630\\text{O}_2(g) \\rightarrow 114\\text{CO}_2(g) + 110\\text{H}_2\\text{O}(l), \\Delta H = -75520\\text{ kJ}$",
+  "other_details": [
+    "استفاده از انحلال گرماگیر در بسته‌های یخ شیمیایی برای کاهش دمای موضعی."
+  ],
+  "source_page": 102,
+  "image_path": "Books/Chemistry2SchoolBook/page_102.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,20 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p029_c01",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "ارائه داده‌های جرم مولی برای آلومینیوم و گوگرد و نمایش نحوه تبدیل مول به تعداد اتم با استفاده از عدد آووگادرو.",
+  "key_points": [
+    "1 mol Al = 27 g Al",
+    "1 mol S = 32 g S",
+    "رابطه تبدیل مول به تعداد اتم: تعداد اتم = تعداد مول × عدد آووگادرو (6.02 × 10^23)."
+  ],
+  "main_text": "داده‌های جرم مولی:\n1 mol Al = 27 g Al\n1 mol S = 32 g S\n\nمثال تبدیل مول به تعداد اتم برای روی:\n0.2 mol Zn × \\frac{6.02 \\times 10^{23} atom Zn}{1 mol Zn} = 1.204 \\times 10^{23} atom Zn",
+  "other_details": [
+    "فلز مس گاهی در طبیعت به حالت آزاد یافت می‌شود.",
+    "مس را به صورت مذاب استخراج می‌کنند."
+  ],
+  "source_page": 29,
+  "image_path": "Books/Chemistry1SchoolBook/page_029.png",
+  "confidence": 0.95
+}

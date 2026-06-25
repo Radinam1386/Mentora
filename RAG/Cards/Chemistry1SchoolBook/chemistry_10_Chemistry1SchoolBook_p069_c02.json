@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p069_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "توضیح نحوه خواندن و تفسیر ضرایب در یک معادله شیمیایی موازنه شده بر اساس مول و مولکول.",
+  "key_points": [
+    "ضرایب در معادله موازنه شده را می‌توان به دو صورت مولی یا مولکولی تفسیر کرد."
+  ],
+  "main_text": "معادله شیمیایی موازنه شده، به دو صورت خوانده می‌شود؛ برای نمونه در واکنش $2\\text{H}_2(g) + \\text{O}_2(g) \\rightarrow 2\\text{H}_2\\text{O}(g)$:\n۱- دو مول گاز هیدروژن با یک مول گاز اکسیژن واکنش می‌دهد و دو مول بخار آب تولید می‌کند.\n۲- دو مولکول هیدروژن با یک مولکول اکسیژن واکنش می‌دهد و دو مولکول آب تولید می‌کند.",
+  "other_details": [
+    "این مثال نشان می‌دهد که ضرایب استوکیومتری در معادله، نسبت‌های مولی یا تعداد مولکول‌های شرکت‌کننده در واکنش را بیان می‌کنند."
+  ],
+  "source_page": 69,
+  "image_path": "Books/Chemistry1SchoolBook/page_069.png",
+  "confidence": 0.95
+}

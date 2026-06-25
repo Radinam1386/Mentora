@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p072_c03",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "بررسی مراحل اکسایش آهن و تشکیل اکسیدهای مختلف.",
+  "key_points": [
+    "آهن در واکنش با اکسیژن دو نوع اکسید تولید می‌کند.",
+    "مرحله اول اکسایش: آهن با اکسیژن ترکیب شده و نخست به FeO تبدیل می‌شود.",
+    "مرحله دوم اکسایش: ترکیب FeO با اکسیژن محیط به Fe2O3 اکسایش می‌یابد."
+  ],
+  "main_text": "برخی از فلزها مانند آهن، در واکنش با اکسیژن، دو نوع اکسید تولید می‌کنند. در واقع آهن با اکسیژن ترکیب و نخست به FeO تبدیل می‌شود؛ سپس این ترکیب با اکسیژن محیط به Fe2O3 اکسایش می‌یابد.",
+  "other_details": [],
+  "source_page": 72,
+  "image_path": "Books/Chemistry1SchoolBook/page_072.png",
+  "confidence": 0.95
+}

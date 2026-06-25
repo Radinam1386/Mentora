@@ -1,0 +1,21 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p089_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "تعریف واکنش‌های رفت، برگشت، برگشت‌پذیر و برگشت‌ناپذیر به همراه مثال معادله تعادل اوزون و اکسیژن.",
+  "key_points": [
+    "واکنش رفت (Forward Reaction): واکنشی که در جهت تبدیل مواد اولیه به محصولات انجام می‌شود.",
+    "واکنش برگشت (Reverse Reaction): واکنشی که در جهت معکوس، محصولات را دوباره به مواد اولیه تبدیل می‌کند.",
+    "واکنش برگشت‌پذیر (Reversible Reaction): واکنشی که هم در جهت رفت و هم در جهت برگشت انجام می‌شود.",
+    "واکنش برگشت‌ناپذیر (Irreversible Reaction): واکنشی که تنها در یک جهت انجام می‌شود.",
+    "واکنش تبدیل اوزون به اکسیژن یک واکنش برگشت‌پذیر است."
+  ],
+  "main_text": "مجموعه واکنش‌های لایه اوزون را می‌توان با معادله زیر نمایش داد:\n2O3(g) <=> 3O2(g)\nشیمی‌دان‌ها به واکنش در جهت (۱)، واکنش رفت و به واکنش در جهت (۲)، واکنش برگشت می‌گویند. واکنش تبدیل اوزون به اکسیژن برگشت‌پذیر است.",
+  "other_details": [
+    "معادله تعادلی لایه اوزون: 2O3(g) <=> 3O2(g)"
+  ],
+  "source_page": 89,
+  "image_path": "Books/Chemistry1SchoolBook/page_089.png",
+  "confidence": 0.95
+}

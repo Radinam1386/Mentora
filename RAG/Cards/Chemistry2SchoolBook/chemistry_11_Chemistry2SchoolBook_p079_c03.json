@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p079_c03",
+  "main_subject": "chemistry",
+  "subsubject": "thermochemistry",
+  "tag": "chemistry/thermochemistry",
+  "summary": "معرفی گرماسنج بمبی و نمایش واکنش‌های ترموشیمیایی سوختن اتان و اتانول.",
+  "key_points": [
+    "برای اندازه‌گیری دقیق گرمای سوختن یک ماده می‌توان از گرماسنج بمبی استفاده کرد."
+  ],
+  "main_text": "برای اندازه‌گیری دقیق گرمای سوختن یک ماده می‌توان از گرماسنج بمبی استفاده کرد.\n\nواکنش سوختن اتان در ۲۵ درجه سلسیوس:\n2C2H6(g) + 7O2(g) \\rightarrow 4CO2(g) + 6H2O(l) + 3120 kJ\n\nواکنش سوختن اتانول در ۲۵ درجه سلسیوس:\nC2H5OH(l) + 3O2(g) \\rightarrow 2CO2(g) + 3H2O(l) + 1368 kJ",
+  "other_details": [
+    "تصویر یک دستگاه گرماسنج بمبی در صفحه نمایش داده شده است."
+  ],
+  "source_page": 79,
+  "image_path": "Books/Chemistry2SchoolBook/page_079.png",
+  "confidence": 0.95
+}

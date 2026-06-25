@@ -1,0 +1,24 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p103_c01",
+  "main_subject": "chemistry",
+  "subsubject": "thermochemistry",
+  "tag": "chemistry/thermochemistry",
+  "summary": "بررسی داده‌های ترموشیمیایی مربوط به واکنش ترمیت، تصعید ید، و آنتالپی‌های احتراق اتن، اتان و هیدروژن.",
+  "key_points": [
+    "واکنش ترمیت: $2\\text{Al}(s) + \\text{Fe}_2\\text{O}_3(s) \\rightarrow \\text{Al}_2\\text{O}_3(s) + 2\\text{Fe}(l)$",
+    "مقدار گرمای آزاد شده در هر گرم آلومینیوم مصرف شده در واکنش ترمیت برابر با $15.24\\text{ kJ}$ است.",
+    "آنتالپی تصعید ید ($\\text{I}_2$): $62.5\\text{ kJ}\\cdot\\text{mol}^{-1}$",
+    "واکنش ترموشیمیایی تشکیل $\\text{HI}$ از ید جامد: $\\text{H}_2(g) + \\text{I}_2(s) + 53\\text{ kJ} \\rightarrow 2\\text{HI}(g)$",
+    "آنتالپی احتراق اتن ($\\text{C}_2\\text{H}_4$): $-1410\\text{ kJ}\\cdot\\text{mol}^{-1}$",
+    "آنتالپی احتراق اتان ($\\text{C}_2\\text{H}_6$): $-1560\\text{ kJ}\\cdot\\text{mol}^{-1}$",
+    "آنتالپی احتراق هیدروژن ($\\text{H}_2$): $-286\\text{ kJ}\\cdot\\text{mol}^{-1}$",
+    "واکنش هیدروژناسیون اتن در دمای $25^{\\circ}\\text{C}$: $\\text{C}_2\\text{H}_4(g) + \\text{H}_2(g) \\rightarrow \\text{C}_2\\text{H}_6(g)$"
+  ],
+  "main_text": "واکنش ترمیت: $2\\text{Al}(s) + \\text{Fe}_2\\text{O}_3(s) \\rightarrow \\text{Al}_2\\text{O}_3(s) + 2\\text{Fe}(l)$\nآنتالپی تصعید ید: $62.5\\text{ kJ}\\cdot\\text{mol}^{-1}$\nواکنش ترموشیمیایی: $\\text{H}_2(g) + \\text{I}_2(s) + 53\\text{ kJ} \\rightarrow 2\\text{HI}(g)$\nآنتالپی‌های احتراق اتن، اتان و هیدروژن به ترتیب برابر با $-1410$، $-1560$ و $-286\\text{ kJ}\\cdot\\text{mol}^{-1}$ است.\nواکنش هیدروژناسیون اتن: $\\text{C}_2\\text{H}_4(g) + \\text{H}_2(g) \\xrightarrow{25^{\\circ}\\text{C}} \\text{C}_2\\text{H}_6(g)$",
+  "other_details": [
+    "از مصرف هر گرم آلومینیوم در واکنش ترمیت، $15.24\\text{ kJ}$ گرما آزاد می‌شود."
+  ],
+  "source_page": 103,
+  "image_path": "Books/Chemistry2SchoolBook/page_103.png",
+  "confidence": 0.95
+}

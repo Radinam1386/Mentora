@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p090_c02",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_kinetics",
+  "tag": "chemistry/chemical_kinetics",
+  "summary": "بررسی مفهوم سطح تماس و تأثیر آن بر سرعت واکنش با استفاده از مثال هندسی مکعب زغال.",
+  "key_points": [
+    "در واکنش‌های شیمیایی (مانند سوختن)، مساحت سطح تماس ماده با واکنش‌دهنده، عامل مؤثر بر سرعت واکنش است و نه حجم ماده."
+  ],
+  "main_text": "یک تکه زغال چوب به شکل مکعب با طول ضلع 2 cm در نظر بگیرید. حجم این تکه زغال برابر با 8 cm3، در حالی که مساحت کل آن برابر با 24 cm2 است.",
+  "other_details": [
+    "در مثال ذکر شده، برای تعیین سطح تماس زغال با شعله هنگام سوختن، باید به مساحت کل (سطح تماس) توجه کرد، نه حجم مکعب."
+  ],
+  "source_page": 90,
+  "image_path": "Books/Chemistry2SchoolBook/page_090.png",
+  "confidence": 0.9
+}

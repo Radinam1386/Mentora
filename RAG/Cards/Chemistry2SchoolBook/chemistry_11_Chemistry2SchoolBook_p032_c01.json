@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p032_c01",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "آموزش محاسبه بازده درصدی و تأکید بر لزوم استفاده از مقدار خالص مواد در محاسبات استوکیومتری.",
+  "key_points": [
+    "رابطه بازده درصدی: $\\text{بازده درصدی} = \\frac{\\text{مقدار عملی}}{\\text{مقدار نظری}} \\times 100$",
+    "در محاسبات استوکیومتری باید مقدار خالص مواد واکنش‌دهنده را در نظر گرفت.",
+    "واکنش آهن با هیدروکلریک اسید: $\\text{Fe(s)} + 2\\text{HCl(aq)} \\rightarrow \\text{FeCl}_2\\text{(aq)} + \\text{H}_2\\text{(g)}$"
+  ],
+  "main_text": "پاسخ نمونه اول:\n$\\text{ton C}_2\\text{H}_5\\text{OH} = 1.5 \\text{ ton C}_6\\text{H}_{12}\\text{O}_6 \\times \\frac{1000 \\text{ kg}}{1 \\text{ ton}} \\times \\frac{1000 \\text{ g}}{1 \\text{ kg}} \\times \\frac{1 \\text{ mol C}_6\\text{H}_{12}\\text{O}_6}{180 \\text{ g C}_6\\text{H}_{12}\\text{O}_6} \\times \\frac{2 \\text{ mol C}_2\\text{H}_5\\text{OH}}{1 \\text{ mol C}_6\\text{H}_{12}\\text{O}_6} \\times \\frac{46 \\text{ g C}_2\\text{H}_5\\text{OH}}{1 \\text{ mol C}_2\\text{H}_5\\text{OH}} \\times \\frac{1 \\text{ kg}}{1000 \\text{ g}} \\times \\frac{1 \\text{ ton}}{1000 \\text{ kg}} = 0.77 \\text{ ton C}_2\\text{H}_5\\text{OH}$\n$\\text{بازده درصدی} = \\frac{\\text{مقدار عملی}}{\\text{مقدار نظری}} \\times 100$\n$80 = \\frac{x}{0.77} \\times 100 \\rightarrow x = 0.62 \\text{ ton C}_2\\text{H}_5\\text{OH}$\n\nمثال دوم: واکنش آهن با محلول هیدروکلریک اسید\n$\\text{Fe(s)} + 2\\text{HCl(aq)} \\rightarrow \\text{FeCl}_2\\text{(aq)} + \\text{H}_2\\text{(g)}$\nدر این مثال دو روش برای محاسبه حجم گاز هیدروژن تولید شده ارائه شده است. روش اول از جرم کل (۱۰ گرم) و روش دوم از جرم خالص (۹.۵ گرم) استفاده کرده است.\nپاسخ: روش ۲ درست است، زیرا در محاسبه‌های استوکیومتری باید مقدار خالص واکنش‌دهنده‌ها را در نظر گرفت.",
+  "other_details": [
+    "در مثال آهن، خلوص ماده واکنش‌دهنده ۹۵ درصد ذکر شده است، لذا در روش درست (روش ۲) از مقدار خالص ۹.۵ گرم آهن استفاده شده است."
+  ],
+  "source_page": 32,
+  "image_path": "Books/Chemistry2SchoolBook/page_032.png",
+  "confidence": 0.95
+}

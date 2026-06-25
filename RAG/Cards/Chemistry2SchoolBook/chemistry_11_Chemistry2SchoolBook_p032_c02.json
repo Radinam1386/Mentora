@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p032_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "معرفی واکنش ترمیت و کاربرد آن در صنعت جوشکاری.",
+  "key_points": [
+    "واکنش ترمیت در صنعت جوشکاری، به‌ویژه برای جوش دادن خطوط راه آهن، استفاده می‌شود.",
+    "معادله واکنش ترمیت: $2\\text{Al(s)} + \\text{Fe}_2\\text{O}_3\\text{(s)} \\rightarrow \\text{Al}_2\\text{O}_3\\text{(s)} + 2\\text{Fe(l)}$"
+  ],
+  "main_text": "یکی از واکنش‌هایی که در صنعت جوشکاری از آن استفاده می‌شود واکنش ترمیت است:\n$2\\text{Al(s)} + \\text{Fe}_2\\text{O}_3\\text{(s)} \\rightarrow \\text{Al}_2\\text{O}_3\\text{(s)} + 2\\text{Fe(l)}$",
+  "other_details": [
+    "از آهن مذاب تولید شده در واکنش ترمیت برای جوش دادن خطوط راه آهن استفاده می‌شود."
+  ],
+  "source_page": 32,
+  "image_path": "Books/Chemistry2SchoolBook/page_032.png",
+  "confidence": 0.95
+}

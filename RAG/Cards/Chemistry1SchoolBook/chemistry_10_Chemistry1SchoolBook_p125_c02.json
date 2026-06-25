@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p125_c02",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_bonding_and_molecular_geometry",
+  "tag": "chemistry/chemical_bonding_and_molecular_geometry",
+  "summary": "معرفی اتانول و استون به عنوان حلال‌های آلی اکسژن‌دار و ارائه داده‌های فیزیکی برخی ترکیبات هیدروژن‌دار.",
+  "key_points": [
+    "اتانول (C2H5OH) و استون (CH3COCH3) ترکیبات آلی اکسژن‌دار هستند که به عنوان حلال در صنعت و آزمایشگاه به کار می‌روند.",
+    "جرم مولی اتانول 46 g/mol و جرم مولی استون 58 g/mol است."
+  ],
+  "main_text": "اتانول و استون دو ترکیب آلی اکسژن‌دار هستند که به عنوان حلال در صنعت و آزمایشگاه به کار می‌روند.",
+  "other_details": [
+    "داده‌های نقطه جوش و جرم مولی ترکیبات: HF (19 °C, 20 g/mol)، HCl (-85 °C, 36.5 g/mol)، HBr (-67 °C, 81 g/mol)، NH3 (-33.5 °C, 17 g/mol)، PH3 (-87.5 °C, 34 g/mol) و AsH3 (-62.5 °C, 78 g/mol).",
+    "فرمول شیمیایی و جرم مولی: اتانول C2H5OH (46 g/mol) و استون CH3COCH3 (58 g/mol)."
+  ],
+  "source_page": 125,
+  "image_path": "Books/Chemistry1SchoolBook/page_125.png",
+  "confidence": 0.95
+}
