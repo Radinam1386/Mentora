@@ -40,7 +40,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div 
+    <div
       className="min-vh-100 d-flex align-items-center justify-content-center p-3"
       style={{
         background: "linear-gradient(to bottom, #f8fafc, #eef2f6)",
@@ -48,7 +48,7 @@ const Onboarding = () => {
         direction: "rtl"
       }}
     >
-      <div 
+      <div
         className="row g-0 overflow-hidden shadow-lg"
         style={{
           maxWidth: "1200px",
@@ -59,7 +59,7 @@ const Onboarding = () => {
         }}
       >
         {/* Left Side (Decorative Header) */}
-        <div 
+        <div
           className="col-md-5 d-flex flex-column justify-content-center align-items-center text-center text-md-end p-4 p-md-5 position-relative text-white"
           style={{
             background: "linear-gradient(135deg, #6255f5, #4f46e5)"
@@ -102,11 +102,10 @@ const Onboarding = () => {
                     <button
                       type="button"
                       onClick={() => setGrade(g)}
-                      className={`btn w-100 py-2 fw-bold small ${
-                        grade === g 
-                          ? "btn-primary shadow-sm" 
+                      className={`btn w-100 py-2 fw-bold small ${grade === g
+                          ? "btn-primary shadow-sm"
                           : "btn-light border text-muted"
-                      }`}
+                        }`}
                       style={{ borderRadius: "12px" }}
                     >
                       پایه {g}
@@ -128,11 +127,10 @@ const Onboarding = () => {
                     <button
                       type="button"
                       onClick={() => setMajor(m)}
-                      className={`btn w-100 py-2 fw-bold small ${
-                        major === m 
-                          ? "btn-primary shadow-sm" 
+                      className={`btn w-100 py-2 fw-bold small ${major === m
+                          ? "btn-primary shadow-sm"
                           : "btn-light border text-muted"
-                      }`}
+                        }`}
                       style={{ borderRadius: "12px" }}
                     >
                       رشته {m}
@@ -142,7 +140,6 @@ const Onboarding = () => {
               </div>
             </div>
 
-            {/* Target Rank */}
             <div className="mb-4 text-end">
               <label className="form-label d-flex align-items-center justify-content-start gap-2 fw-bold text-secondary small">
                 <Trophy size={16} className="text-primary" />
@@ -158,15 +155,14 @@ const Onboarding = () => {
               />
             </div>
 
-            {/* Study Hours */}
             <div className="mb-4 text-end">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <span className="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
-                  {studyHours} ساعت
-                </span>
                 <span className="d-flex align-items-center gap-2 fw-bold text-secondary small">
                   <Clock size={16} className="text-primary" />
                   ساعت مطالعه روزانه در دسترس:
+                </span>
+                <span className="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
+                  {studyHours} ساعت
                 </span>
               </div>
               <input
@@ -178,9 +174,9 @@ const Onboarding = () => {
                 className="form-range custom-range"
               />
               <div className="d-flex justify-content-between small text-muted mt-1" style={{ fontSize: "10px" }}>
-                <span>14 ساعت</span>
-                <span>8 ساعت</span>
                 <span>2 ساعت</span>
+                <span>8 ساعت</span>
+                <span>14   ساعت</span>
               </div>
             </div>
 
