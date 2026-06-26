@@ -51,7 +51,7 @@ const Onboarding = () => {
       <div 
         className="row g-0 overflow-hidden shadow-lg"
         style={{
-          maxWidth: "900px",
+          maxWidth: "1200px",
           width: "100%",
           borderRadius: "24px",
           backgroundColor: "#fff",

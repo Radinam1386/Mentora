@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Check, Crown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
+import { apiJson } from "../utils/api";
 
 const baseMonthlyPrice = 300000;
 
@@ -25,6 +28,64 @@ export default function SubscriptionPlans() {
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [hoveredBtn, setHoveredBtn] = useState(null);
+  const [plans, setPlans] = useState(plansData);
+  const [loading, setLoading] = useState(true);
+  const [activatingPlanId, setActivatingPlanId] = useState(null);
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
+  const [activationCode, setActivationCode] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { loadMe } = useApp();
+
+  useEffect(() => {
+    let active = true;
+    const loadPlans = async () => {
+      try {
+        const { response, data } = await apiJson("/api/subscription/plans");
+        if (response.ok && active && Array.isArray(data.plans)) {
+          setPlans(data.plans);
+        }
+      } catch (_) {
+        if (active) setError("دریافت پلن‌های اشتراک با مشکل مواجه شد.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+    loadPlans();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleActivate = async (plan) => {
+    const code = activationCode.trim();
+    if (!code) {
+      setSelectedPlanId(plan.id);
+      setError("برای فعال‌سازی یا تمدید اشتراک، کد فعال‌سازی را وارد کن.");
+      return;
+    }
+
+    setActivatingPlanId(plan.id);
+    setError("");
+    try {
+      const { response, data } = await apiJson("/api/subscription/activate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId: plan.id, activationCode: code }),
+      });
+      if (!response.ok) {
+        throw new Error(data.error || "فعال‌سازی اشتراک با مشکل مواجه شد.");
+      }
+      setSelectedPlanId(null);
+      setActivationCode("");
+      if (loadMe) await loadMe();
+      navigate("/subscription");
+    } catch (err) {
+      setError(err.message || "فعال‌سازی اشتراک با مشکل مواجه شد.");
+    } finally {
+      setActivatingPlanId(null);
+    }
+  };
 
   return (
     <div
@@ -36,14 +97,34 @@ export default function SubscriptionPlans() {
         <p className="text-muted small small-md">
           با انتخاب پلن بلندمدت، تخفیف بیشتری بگیر 🚀
         </p>
+        {error && (
+          <div
+            className="mx-auto mt-3"
+            style={{
+              maxWidth: "520px",
+              background: "#fef2f2",
+              color: "#b91c1c",
+              border: "1px solid #fecaca",
+              borderRadius: "14px",
+              padding: "10px 14px",
+              fontSize: "12px",
+              fontWeight: 700,
+            }}
+          >
+            {error}
+          </div>
+        )}
       </div>
 
       <div className="row g-3 g-md-4 justify-content-center">
 
-        {plansData.map((plan) => {
+        {plans.map((plan) => {
 
           const isHovered = hoveredCard === plan.id;
           const isBtnHovered = hoveredBtn === plan.id;
+          const isSelected = selectedPlanId === plan.id;
+          const priceLabel = plan.priceLabel || formatPrice(plan.price);
+          const monthlyPriceLabel = plan.monthlyPriceLabel || formatPrice(plan.price / plan.months);
 
           return (
             <div key={plan.id} className="col-12 col-sm-6 col-lg-3">
@@ -102,11 +183,11 @@ export default function SubscriptionPlans() {
                     className="fw-bolder fs-5 fs-md-4"
                     style={{ color: "#6255f5" }}
                   >
-                    {formatPrice(plan.price)}
+                    {priceLabel}
                   </h4>
 
                   <p className="text-muted small mb-3 mb-md-4">
-                    {formatPrice(plan.price / plan.months)} / ماه
+                    {monthlyPriceLabel} / ماه
                   </p>
 
                   <ul className="list-unstyled text-end mb-3 mb-md-4">
@@ -134,6 +215,14 @@ export default function SubscriptionPlans() {
 
                   <button
                     className="btn w-100 fw-bold"
+                    type="button"
+                    disabled={loading || activatingPlanId === plan.id}
+                    onClick={() => {
+                      if (isSelected) return;
+                      setSelectedPlanId(plan.id);
+                      setActivationCode("");
+                      setError("");
+                    }}
                     onMouseEnter={() => setHoveredBtn(plan.id)}
                     onMouseLeave={() => setHoveredBtn(null)}
                     style={{
@@ -161,8 +250,74 @@ export default function SubscriptionPlans() {
                         : "none",
                     }}
                   >
-                    انتخاب پلن
+                    {isSelected ? "کد فعال‌سازی را وارد کن" : "انتخاب پلن"}
                   </button>
+
+                  {isSelected && (
+                    <div className="mt-3 text-end">
+                      <label
+                        className="form-label mb-2"
+                        style={{
+                          color: "#4b5563",
+                          fontSize: "12px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        کد فعال‌سازی اشتراک
+                      </label>
+                      <input
+                        className="form-control text-center"
+                        type="text"
+                        value={activationCode}
+                        onChange={(event) => setActivationCode(event.target.value)}
+                        placeholder="کد را وارد کن"
+                        autoFocus
+                        disabled={activatingPlanId === plan.id}
+                        style={{
+                          borderRadius: "12px",
+                          border: "1px solid #ddd6fe",
+                          color: "#111827",
+                          direction: "ltr",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                        }}
+                      />
+                      <div className="d-flex gap-2 mt-2">
+                        <button
+                          className="btn flex-fill fw-bold"
+                          type="button"
+                          disabled={activatingPlanId === plan.id}
+                          onClick={() => handleActivate(plan)}
+                          style={{
+                            borderRadius: "12px",
+                            background: "#6255f5",
+                            color: "#fff",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {activatingPlanId === plan.id ? "در حال بررسی..." : "تایید کد"}
+                        </button>
+                        <button
+                          className="btn flex-fill fw-bold"
+                          type="button"
+                          disabled={activatingPlanId === plan.id}
+                          onClick={() => {
+                            setSelectedPlanId(null);
+                            setActivationCode("");
+                            setError("");
+                          }}
+                          style={{
+                            borderRadius: "12px",
+                            border: "1px solid #e5e7eb",
+                            color: "#6b7280",
+                            fontSize: "12px",
+                          }}
+                        >
+                          انصراف
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                 </div>
               </div>

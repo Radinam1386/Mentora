@@ -46,7 +46,7 @@ export default function Reports() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "1200px",
+        maxWidth: "860px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
       }}
@@ -308,95 +308,6 @@ export default function Reports() {
               برنامه روتین، حداقل ۱۰ دقیقه گلسبرگ یا خلاصه فرمول مشتق را مرور
               کنید یا از بخش منتورا کمک بگیرید.
             </p>
-          </div>
-        </div>
-
-        {/* Badges and milestones */}
-        <div
-          className="bg-white border shadow-sm text-end"
-          style={{
-            borderRadius: "28px",
-            padding: "20px",
-            borderColor: "#f1f3f5",
-          }}
-        >
-          <h3
-            className="d-flex align-items-center justify-content-start gap-2 fw-bold text-dark mb-3"
-            style={{ fontSize: "12px" }}
-          >
-            مدال‌ها و دستاوردهای شما
-            <Award size={15} color="#6255f5" />
-          </h3>
-
-          <div className="d-flex gap-3 justify-content-end flex-wrap pt-1">
-            <div
-              className="d-flex flex-column align-items-center"
-              style={{
-                background: "#f9fafb",
-                padding: "10px 14px",
-                borderRadius: "18px",
-                border: "1px solid #f1f3f5",
-                minWidth: "90px",
-              }}
-            >
-              <span style={{ fontSize: "22px" }}>🔥</span>
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "#6b7280",
-                  marginTop: "6px",
-                  fontWeight: 700,
-                }}
-              >
-                قهرمان استریک
-              </span>
-            </div>
-
-            <div
-              className="d-flex flex-column align-items-center"
-              style={{
-                background: "#f9fafb",
-                padding: "10px 14px",
-                borderRadius: "18px",
-                border: "1px solid #f1f3f5",
-                minWidth: "90px",
-              }}
-            >
-              <span style={{ fontSize: "22px" }}>🎯</span>
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "#6b7280",
-                  marginTop: "6px",
-                  fontWeight: 700,
-                }}
-              >
-                بیش از ۵۰ تست
-              </span>
-            </div>
-
-            <div
-              className="d-flex flex-column align-items-center"
-              style={{
-                background: "#f9fafb",
-                padding: "10px 14px",
-                borderRadius: "18px",
-                border: "1px solid #f1f3f5",
-                minWidth: "90px",
-              }}
-            >
-              <span style={{ fontSize: "22px" }}>🧠</span>
-              <span
-                style={{
-                  fontSize: "10px",
-                  color: "#6b7280",
-                  marginTop: "6px",
-                  fontWeight: 700,
-                }}
-              >
-                کالبدشگافی اول
-              </span>
-            </div>
           </div>
         </div>
       </div>

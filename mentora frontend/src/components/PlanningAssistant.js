@@ -139,13 +139,13 @@ export default function PlanningAssistant() {
       <div
         className="container py-4"
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1100px",
           direction: "rtl",
           fontFamily: "Vazir, Tahoma, Arial, sans-serif",
         }}
       >
         <div className="d-flex flex-column gap-4">
-          <div className="card border-1 shadow-m" style={{ borderRadius: "24px" }}>
+          <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
             <div className="card-body p-4 text-end">
               <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
                 <button
@@ -457,7 +457,7 @@ export default function PlanningAssistant() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "1100px",
+        maxWidth: "1200px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
       }}
@@ -465,7 +465,7 @@ export default function PlanningAssistant() {
       <div className="d-flex flex-column gap-4">
         <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
           <div className="card-body p-4 text-end">
-            <div className="d-flex justify-content-start align-items-start gap-3 flex-wrap mb-3" >
+            <div className="d-flex justify-content-start align-items-start gap-3 flex-wrap mb-3">
               <div
                 style={{
                   background: "rgba(98,85,245,0.1)",

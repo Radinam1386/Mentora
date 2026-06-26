@@ -62,7 +62,6 @@ export default function Practice() {
       }}
     >
       <div className="d-flex flex-column gap-3">
-        {/* Top statistics panel */}
         <div
           className="bg-white border shadow-sm d-flex justify-content-between align-items-center flex-wrap gap-2"
           style={{
@@ -108,7 +107,6 @@ export default function Practice() {
           </div>
         </div>
 
-        {/* Main interactive Question Card */}
         <div
           className="bg-white border shadow-sm"
           style={{
@@ -165,7 +163,6 @@ export default function Practice() {
             </span>
           </div>
 
-          {/* Question Text */}
           <div
             className="text-end fw-semibold text-dark mb-3"
             style={{
@@ -177,7 +174,6 @@ export default function Practice() {
             {question.questionText}
           </div>
 
-          {/* Options Selection */}
           <div className="d-flex flex-column gap-2 pt-2">
             {question.options.map((opt, idx) => {
               let optionStyle = {
