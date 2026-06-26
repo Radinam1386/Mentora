@@ -25,11 +25,23 @@ import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
 function AppLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState();
   const location = useLocation();
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 992) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className='hidescroll' style={{ display: "flex", direction: "rtl"}}>
+    <div style={{ display: "flex", direction: "rtl" }}>
       <AppSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

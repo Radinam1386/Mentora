@@ -159,7 +159,7 @@ export default function SubscriptionPlans() {
 
                 {plan.highlight && (
                   <div
-                    className="position-absolute top-0 start-50 translate-middle-x px-3 px-md-4 py-1"
+                    className="position-absolute top-0 start-50 translate-middle-x px-3 px-md-4 py-1 d-flex"
                     style={{
                       background: "#6255f5",
                       color: "white",
@@ -168,7 +168,7 @@ export default function SubscriptionPlans() {
                       fontWeight: "bold",
                     }}
                   >
-                    <Crown size={14} className="me-1" />
+                    <Crown size={14} className="me-1 d-flex mx-2" />
                     پیشنهاد ویژه
                   </div>
                 )}

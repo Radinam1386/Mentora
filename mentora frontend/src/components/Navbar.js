@@ -52,14 +52,6 @@ export default function AppNavbar({ onToggleSidebar }) {
                         </div>
                     </div>
                 </div>
-
-                <div className="d-none d-lg-flex align-items-center flex-grow-1 mx-4" style={{ maxWidth: "600px" }}>
-                    <div className="d-flex align-items-center w-100 px-3" style={{ background: "#f8fafc", border: "1px solid #e5e7eb", borderRadius: "14px", padding: "8px" }}>
-                        <Search size={16} color="#9ca3af" className="me-2" />
-                        <input type="text" placeholder="جستجو..." className="form-control border-0 shadow-none bg-transparent" style={{ fontSize: "12px" }} />
-                    </div>
-                </div>
-
                 <div className="d-flex align-items-center gap-2 gap-md-3">
 
                     <Link to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}

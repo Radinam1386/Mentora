@@ -118,7 +118,7 @@ export default function AppSidebar({ open, onClose }) {
             <aside
                 className={`app-sidebar ${open ? "open" : ""}`}
                 style={{
-                    "--sidebar-width": open ? "260px" : "0px",
+                    "--sidebar-width": open ? "270px" : "0px",
                     "--sidebar-padding": open ? "20px 16px" : "0px",
                     "--sidebar-border": open ? "1px solid #eef2f7" : "none",
                 }}
