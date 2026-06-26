@@ -25,13 +25,9 @@ import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
 function AppLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
 
-
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [location]);
   return (
     <div className='hidescroll' style={{ display: "flex", direction: "rtl"}}>
       <AppSidebar

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Form, Badge } from "react-bootstrap";
 import { useApp } from "../context/AppContext";
 import { apiJson } from "../utils/api";
 import {
@@ -10,6 +9,7 @@ import {
   Phone,
   School,
   ShieldCheck,
+  User,
 } from "lucide-react";
 
 export default function Profile() {
@@ -88,12 +88,54 @@ export default function Profile() {
       setSaving(false);
     }
   };
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  const sectionsData = [
+    { id: "profile-header", label: "پروفایل" },
+    { id: "profile-edit", label: "ویرایش اطلاعات" },
+    { id: "account-info", label: "اطلاعات حساب" },
+  ];
+
   return (
-    <div className="col-md-12 col-12 d-flex row justify-content-center" style={{ direction: "rtl", minHeight: "100vh", fontFamily: "Vazir, Tahoma" }}>
-      <div className="container-fluid px-0 col-md-12" style={{ maxWidth: "1200px" }}>
+    <div
+      className="col-md-12 col-12 d-flex row justify-content-center"
+      style={{
+        direction: "rtl",
+        minHeight: "100vh",
+        fontFamily: "Vazir, Tahoma",
+      }}
+    >
+      <div
+        className="container-fluid px-0 col-md-12"
+        style={{ maxWidth: "1200px" }}
+      >
+        <div style={sectionNavWrapperStyle}>
+          <div style={sectionNavStyle}>
+            {sectionsData.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => scrollToSection(section.id)}
+                style={sectionNavItemStyle}
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <div
+          id="profile-header"
           className="card mb-4 border-0 text-white"
           style={{
+            ...sectionBlockStyle,
             borderRadius: "24px",
             background: "linear-gradient(135deg,#6255f5,#8f84ff)",
             boxShadow: "0 16px 50px rgba(98,85,245,0.15)",
@@ -104,32 +146,72 @@ export default function Profile() {
               <div style={{ position: "relative" }}>
                 <div
                   style={{
-                    width: "120px", height: "120px", borderRadius: "50%",
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "50%",
                     border: "4px solid rgba(255,255,255,0.3)",
-                    background: profileImage ? `url(${profileImage}) center/cover` : "rgba(255,255,255,0.2)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "40px", fontWeight: "bold",
+                    background: profileImage
+                      ? `url(${profileImage}) center/cover`
+                      : "rgba(255,255,255,0.2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "40px",
+                    fontWeight: "bold",
                   }}
                 >
                   {!profileImage && (formData.name || "؟").slice(0, 1)}
                 </div>
-                <label htmlFor="profile-upload" style={{ position: "absolute", bottom: "5px", left: "5px", width: "35px", height: "35px", background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#6255f5", boxShadow: "0 4px 10px rgba(0,0,0,0.1)" }}>
+
+                <label
+                  htmlFor="profile-upload"
+                  style={{
+                    position: "absolute",
+                    bottom: "5px",
+                    left: "5px",
+                    width: "35px",
+                    height: "35px",
+                    background: "#fff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    color: "#6255f5",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                  }}
+                >
                   <Camera size={18} />
                 </label>
-                <input id="profile-upload" type="file" hidden onChange={handleImageUpload} />
+
+                <input
+                  id="profile-upload"
+                  type="file"
+                  hidden
+                  onChange={handleImageUpload}
+                />
               </div>
 
               <div className="text-center text-md-end">
-                <h2 className="fw-bold mb-2">{formData.name || "کاربر مهمان"}</h2>
-                <p className="mb-2 opacity-75">دانش‌آموز {formData.grade || "-"} | رشته {formData.major || "-"}</p>
-                <span className="badge bg-light text-dark px-3 py-2 rounded-pill">هدف رتبه: {formData.targetRank || "نامشخص"}</span>
+                <h2 className="fw-bold mb-2">
+                  {formData.name || "کاربر مهمان"}
+                </h2>
+                <p className="mb-2 opacity-75">
+                  دانش‌آموز {formData.grade || "-"} | رشته {formData.major || "-"}
+                </p>
+                <span className="badge bg-light text-dark px-3 py-2 rounded-pill">
+                  هدف رتبه: {formData.targetRank || "نامشخص"}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* کارت ویرایش */}
-        <div className="card border-0 shadow-sm mb-4" style={{ borderRadius: "20px" }}>
+        <div
+          id="profile-edit"
+          className="card border-0 shadow-sm mb-4"
+          style={{ ...sectionBlockStyle, borderRadius: "20px" }}
+        >
           <div className="card-body p-4">
             <div className="d-flex align-items-center gap-2 mb-4">
               <PencilLine size={22} className="text-primary" />
@@ -145,7 +227,9 @@ export default function Profile() {
               ].map((field) => (
                 <div className="col-md-6" key={field.name}>
                   <div className="mb-3">
-                    <label className="small fw-bold text-muted mb-1">{field.label}</label>
+                    <label className="small fw-bold text-muted mb-1">
+                      {field.label}
+                    </label>
                     <input
                       type={field.type}
                       name={field.name}
@@ -161,7 +245,13 @@ export default function Profile() {
               <div className="col-md-6">
                 <div className="mb-3">
                   <label className="small fw-bold text-muted mb-1">رشته</label>
-                  <select name="major" className="form-select" value={formData.major} onChange={handleChange} style={inputStyle}>
+                  <select
+                    name="major"
+                    className="form-select"
+                    value={formData.major}
+                    onChange={handleChange}
+                    style={inputStyle}
+                  >
                     <option value="">انتخاب کنید</option>
                     <option value="ریاضی">ریاضی</option>
                     <option value="تجربی">تجربی</option>
@@ -172,7 +262,13 @@ export default function Profile() {
               <div className="col-md-6">
                 <div className="mb-3">
                   <label className="small fw-bold text-muted mb-1">پایه</label>
-                  <select name="grade" className="form-select" value={formData.grade} onChange={handleChange} style={inputStyle}>
+                  <select
+                    name="grade"
+                    className="form-select"
+                    value={formData.grade}
+                    onChange={handleChange}
+                    style={inputStyle}
+                  >
                     <option value="">انتخاب کنید</option>
                     <option value="یازدهم">یازدهم</option>
                     <option value="دوازدهم">دوازدهم</option>
@@ -182,7 +278,9 @@ export default function Profile() {
 
               <div className="col-12">
                 <div className="mb-3">
-                  <label className="small fw-bold text-muted mb-1">درباره من</label>
+                  <label className="small fw-bold text-muted mb-1">
+                    درباره من
+                  </label>
                   <textarea
                     rows={3}
                     name="bio"
@@ -199,8 +297,12 @@ export default function Profile() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="btn px-4 py-2 border-0 text-white"
-                style={{ background: "#6255f5", borderRadius: "12px", fontWeight: "600" }}
+                className="btn px-4 py-2 border-0 text-white d-flex"
+                style={{
+                  background: "#6255f5",
+                  borderRadius: "12px",
+                  fontWeight: "600",
+                }}
               >
                 <Save size={18} className="ms-2" />
                 {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
@@ -209,40 +311,89 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* کارت اطلاعات */}
-        <div className="card border-0 shadow-sm" style={{ borderRadius: "20px" }}>
+        <div
+          id="account-info"
+          className="card border-0 shadow-sm"
+          style={{ ...sectionBlockStyle, borderRadius: "20px" }}
+        >
           <div className="card-body p-4">
             <div className="d-flex align-items-center gap-2 mb-4">
               <ShieldCheck size={22} className="text-primary" />
               <h5 className="fw-bold m-0">اطلاعات حساب</h5>
             </div>
+
             <div className="row g-3">
               {[
                 { icon: Mail, label: "ایمیل", val: formData.email },
                 { icon: Phone, label: "تلفن", val: formData.phone },
-                { icon: School, label: "پایه و رشته", val: `${formData.grade} / ${formData.major}` }
+                {
+                  icon: School,
+                  label: "پایه و رشته",
+                  val: `${formData.grade} / ${formData.major}`,
+                },
               ].map((item, idx) => (
                 <div className="col-md-4" key={idx}>
                   <div className="p-3 border rounded-4 bg-light">
                     <item.icon size={16} className="text-primary mb-2" />
                     <div className="small fw-bold">{item.label}</div>
-                    <div className="small text-truncate">{item.val || "ثبت نشده"}</div>
+                    <div className="small text-truncate">
+                      {item.val || "ثبت نشده"}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
 }
+
+const sectionPageTitleStyle = {
+  fontSize: "1.8rem",
+  fontWeight: "800",
+  color: "#2b2b2b",
+  marginBottom: "18px",
+  padding: "8px 4px",
+};
+
+const sectionNavWrapperStyle = {
+  position: "sticky",
+  top: "0",
+  zIndex: 100,
+  background: "#fff",
+  marginBottom: "20px",
+};
+
+const sectionNavStyle = {
+  display: "flex",
+  gap: "10px",
+  overflowX: "auto",
+  whiteSpace: "nowrap",
+  scrollbarWidth: "thin",
+};
+
+const sectionNavItemStyle = {
+  border: "none",
+  background: "#f3f1ff",
+  color: "#6255f5",
+  padding: "10px 16px",
+  borderRadius: "999px",
+  fontWeight: "600",
+  cursor: "pointer",
+  transition: "0.2s",
+  flexShrink: 0,
+};
+
+const sectionBlockStyle = {
+  scrollMarginTop: "100px",
+};
 
 const inputStyle = {
   borderRadius: "12px",
   padding: "10px 15px",
   border: "1px solid #eee",
   background: "#fcfbff",
-  fontSize: "0.95rem"
+  fontSize: "0.95rem",
 };
