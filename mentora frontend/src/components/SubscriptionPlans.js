@@ -89,33 +89,52 @@ export default function SubscriptionPlans() {
 
   return (
     <div
-      className="container py-4 py-md-5"
+      className="container py-4"
       style={{ direction: "rtl", fontFamily: "Vazir, Tahoma, sans-serif" }}
     >
-      <div className="text-center mb-4 mb-md-5">
-        <h2 className="fw-bold fs-4 fs-md-2">پلن‌های اشتراک منتورا</h2>
-        <p className="text-muted small small-md">
-          با انتخاب پلن بلندمدت، تخفیف بیشتری بگیر 🚀
-        </p>
-        {error && (
-          <div
-            className="mx-auto mt-3"
+      <div className=" d-flex justify-content-center col-md-12 col-12">
+        <div className="text-center mb-4 mb-md-5 col-md-7 p-4"
+          style={{
+            background: "linear-gradient(to left, #6255f5, #4f46e5)",
+            borderRadius: "24px",
+            padding: "20px",
+            color: "white",
+            marginBottom: "18px",
+            boxShadow: "0 18px 16px rgba(0,0,0,0.1)",
+          }}>
+          <p className="fw-bold fs-4 fs-md-2"
             style={{
-              maxWidth: "520px",
-              background: "#fef2f2",
-              color: "#b91c1c",
-              border: "1px solid #fecaca",
-              borderRadius: "14px",
-              padding: "10px 14px",
-              fontSize: "12px",
-              fontWeight: 700,
-            }}
-          >
-            {error}
-          </div>
-        )}
+              fontSize: "17px",
+              fontWeight: 800,
+              marginBottom: "6px",
+            }}>پلن‌های اشتراک منتورا</p>
+          <p className="small small-md m-2"
+            style={{
+              fontSize: "15px",
+              lineHeight: "2",
+              color: "#e9e7ff",
+            }}>
+            با انتخاب پلن بلندمدت، تخفیف بیشتری بگیر 🚀
+          </p>
+          {error && (
+            <div
+              className="mx-auto mt-3"
+              style={{
+                maxWidth: "520px",
+                background: "#fef2f2",
+                color: "#b91c1c",
+                border: "1px solid #fecaca",
+                borderRadius: "14px",
+                padding: "10px 14px",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              {error}
+            </div>
+          )}
+        </div>
       </div>
-
       <div className="row g-3 g-md-4 justify-content-center">
 
         {plans.map((plan) => {
@@ -142,8 +161,8 @@ export default function SubscriptionPlans() {
                   transform: isHovered
                     ? "translateY(-10px)"
                     : plan.highlight
-                    ? "scale(1.03)"
-                    : "scale(1)",
+                      ? "scale(1.03)"
+                      : "scale(1)",
 
                   transition: "all .3s ease",
 
