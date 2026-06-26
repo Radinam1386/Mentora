@@ -9,10 +9,8 @@ export function AppProvider({ children }) {
   const [stats, setStats] = useState({
     readinessScore: 0,
     streakCount: 0,
-    todayProgress: 0,
     xpPoints: 0,
     calendarDate: "",
-    today: "",
     programStartsTomorrow: false,
     upcomingTasksCount: 0,
   });
@@ -47,10 +45,8 @@ export function AppProvider({ children }) {
         setStats({
           readinessScore: data.readinessScore ?? 0,
           streakCount: data.streakCount ?? 0,
-          todayProgress: data.todayProgress ?? 0,
           xpPoints: data.xpPoints ?? 0,
           calendarDate: data.calendarDate ?? "",
-          today: data.today ?? "",
           programStartsTomorrow: data.programStartsTomorrow ?? false,
           upcomingTasksCount: data.upcomingTasksCount ?? 0,
         });
@@ -149,7 +145,8 @@ export function AppProvider({ children }) {
       ...prev,
       calendarDate:
         prev.calendarDate ||
-        new Date().toLocaleDateString("fa-IR-u-ca-persian", {
+        new Date().toLocaleDateString("fa-IR", {
+          weekday: "long",
           year: "numeric",
           month: "long",
           day: "numeric",
@@ -173,13 +170,6 @@ export function AppProvider({ children }) {
         setTasks((prev) =>
           prev.map((t) => (t.id === taskId ? data.task : t))
         );
-        setStats((prev) => ({
-          ...prev,
-          readinessScore: data.readinessScore ?? prev.readinessScore,
-          streakCount: data.streakCount ?? prev.streakCount,
-          todayProgress: data.todayProgress ?? prev.todayProgress,
-          xpPoints: data.xpPoints ?? prev.xpPoints,
-        }));
       }
     } catch (err) {
       console.error("خطا در به‌روزرسانی کار:", err);

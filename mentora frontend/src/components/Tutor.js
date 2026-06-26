@@ -20,65 +20,6 @@ const defaultProfile = {
   major: "ریاضی",
 };
 
-const typingDotStyle = (delay) => ({
-  width: "8px",
-  height: "8px",
-  borderRadius: "50%",
-  background: "#6255f5",
-  display: "inline-block",
-  animation: "mentoraTypingDot 0.9s ease-in-out infinite",
-  animationDelay: delay,
-});
-
-const readFileAsDataUrl = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error("تصویر انتخاب‌شده خوانده نشد."));
-    reader.readAsDataURL(file);
-  });
-
-const tutorFriendlyError = (message) => {
-  const text = String(message || "").trim();
-  const lowerText = text.toLowerCase();
-
-  if (!text) {
-    return "الان نتوانستم پاسخ را آماده کنم. لطفاً چند لحظه دیگر دوباره تلاش کن.";
-  }
-
-  if (/[آ-ی]/.test(text) && !/[A-Za-z]{4,}/.test(text)) {
-    return text;
-  }
-
-  if (
-    lowerText.includes("503") ||
-    lowerText.includes("unavailable") ||
-    lowerText.includes("high demand") ||
-    lowerText.includes("overloaded")
-  ) {
-    return "الان فشار روی مدل هوشمند زیاد است. سوالت ثبت شد؛ لطفاً چند لحظه دیگر دوباره بفرست.";
-  }
-
-  if (
-    lowerText.includes("api key") ||
-    lowerText.includes("not installed") ||
-    lowerText.includes("configuration") ||
-    lowerText.includes("config")
-  ) {
-    return "اتصال مربی هوشمند هنوز کامل تنظیم نشده است. لطفاً بعداً دوباره امتحان کن.";
-  }
-
-  if (
-    lowerText.includes("failed to fetch") ||
-    lowerText.includes("network") ||
-    lowerText.includes("connection")
-  ) {
-    return "ارتباط با سرور برقرار نشد. اینترنت یا سرور را بررسی کن و دوباره تلاش کن.";
-  }
-
-  return "منتورا نتوانست این پاسخ را آماده کند. لطفاً سوال را کمی واضح‌تر یا دوباره ارسال کن.";
-};
-
 export default function Tutor() {
   const { profile: ctxProfile, bridgeQuestion, setBridgeQuestion } = useApp();
   const profile = ctxProfile || defaultProfile;
@@ -166,7 +107,7 @@ export default function Tutor() {
   }, [messages, loading]);
 
   // Handle image file selection
-  const handleImageChange = async (event) => {
+  const handleImageChange = (event) => {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
@@ -176,19 +117,15 @@ export default function Tutor() {
       return;
     }
 
-    try {
-      const preview = await readFileAsDataUrl(file);
-      setSelectedImage(file);
-      setImagePreview(preview);
-    } catch (_) {
-      setSelectedImage(null);
-      setImagePreview("");
-      alert("تصویر انتخاب‌شده خوانده نشد. لطفاً یک تصویر دیگر انتخاب کنید.");
-    }
+    setSelectedImage(file);
+    setImagePreview(URL.createObjectURL(file));
   };
 
   // Clear selected image
   const clearSelectedImage = () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview); // Clean up the object URL
+    }
     setSelectedImage(null);
     setImagePreview("");
     if (fileInputRef.current) {
@@ -268,7 +205,7 @@ export default function Tutor() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(tutorFriendlyError(data.error));
+        throw new Error(data.error || "در اتصال به سرور خللی ایجاد شد.");
       }
 
       // Add the model's reply to the messages state
@@ -291,7 +228,10 @@ export default function Tutor() {
         {
           id: (Date.now() + 1).toString(),
           role: "model",
-          content: tutorFriendlyError(err instanceof Error ? err.message : ""),
+          content:
+            err instanceof Error
+              ? err.message
+              : "متاسفانه خطایی در دریافت پاسخ مربی به وجود آمد.",
           timestamp: new Date().toLocaleTimeString("fa-IR", {
             hour: "numeric",
             minute: "numeric",
@@ -323,38 +263,6 @@ export default function Tutor() {
         borderRadius: "25px"
       }}
     >
-      <style>{`
-        @keyframes mentoraTypingDot {
-          0%, 80%, 100% {
-            transform: translateY(0) scale(0.9);
-            opacity: 0.45;
-          }
-          40% {
-            transform: translateY(-6px) scale(1.08);
-            opacity: 1;
-          }
-        }
-
-        @keyframes mentoraThinkingPulse {
-          0%, 100% {
-            box-shadow: 0 0 0 0 rgba(98,85,245,0.18);
-            transform: scale(1);
-          }
-          50% {
-            box-shadow: 0 0 0 6px rgba(98,85,245,0.08);
-            transform: scale(1.04);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .mentora-typing-dot,
-          .mentora-thinking-avatar {
-            animation: none !important;
-            transform: none !important;
-            opacity: 1 !important;
-          }
-        }
-      `}</style>
       {/* Header Section */}
       <div
         className="bg-white d-flex align-items-center justify-content-between"
@@ -493,7 +401,7 @@ export default function Tutor() {
                     {m.imagePreview && (
                       <img
                         src={m.imagePreview}
-                        alt="تصویر سوال"
+                        alt="Question upload"
                         style={{
                           marginBottom: "12px",
                           maxHeight: "224px",
@@ -612,7 +520,7 @@ export default function Tutor() {
             <div className="d-flex gap-2 justify-content-start">
               {/* Model Avatar */}
               <div
-                className="mentora-thinking-avatar d-flex align-items-center justify-content-center flex-shrink-0"
+                className="d-flex align-items-center justify-content-center flex-shrink-0"
                 style={{
                   width: "32px",
                   height: "32px",
@@ -620,7 +528,6 @@ export default function Tutor() {
                   backgroundColor: "#eef2ff",
                   color: "#6255f5",
                   border: "1px solid #c7d2fe",
-                  animation: "mentoraThinkingPulse 1.4s ease-in-out infinite",
                 }}
               >
                 <Bot size={16} />
@@ -637,9 +544,33 @@ export default function Tutor() {
                   boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                 }}
               >
-                <span className="mentora-typing-dot" style={typingDotStyle("0s")}></span>
-                <span className="mentora-typing-dot" style={typingDotStyle("0.15s")}></span>
-                <span className="mentora-typing-dot" style={typingDotStyle("0.3s")}></span>
+                <span
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#6255f5",
+                    display: "inline-block",
+                  }}
+                ></span>
+                <span
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#6255f5",
+                    display: "inline-block",
+                  }}
+                ></span>
+                <span
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#6255f5",
+                    display: "inline-block",
+                  }}
+                ></span>
               </div>
             </div>
           )}

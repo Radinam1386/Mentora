@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Crown,
@@ -7,47 +7,25 @@ import {
   Clock3,
   ArrowLeft,
 } from "lucide-react";
-import { apiJson } from "../utils/api";
 
 export default function Subscription() {
-  const [subscription, setSubscription] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let active = true;
-    const loadSubscription = async () => {
-      try {
-        const { response, data } = await apiJson("/api/subscription");
-        if (response.ok && active) {
-          setSubscription(data.subscription);
-        }
-      } finally {
-        if (active) setLoading(false);
-      }
-    };
-    loadSubscription();
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const safeSubscription = subscription || {
-    active: false,
-    planName: "بدون اشتراک فعال",
-    totalDays: 0,
-    remainingDays: 0,
-    usedDays: 0,
-    startDate: "-",
-    endDate: "-",
-    priceLabel: "۰ تومان",
+  // بعداً می‌تونی این داده رو از API بگیری
+  const subscription = {
+    active: true,
+    planName: "پلن طلایی",
+    totalDays: 30,
+    remainingDays: 12,
+    startDate: "1405/03/01",
+    endDate: "1405/04/01",
+    price: "300,000 تومان",
   };
 
-  const usedDays = safeSubscription.usedDays ?? Math.max(0, safeSubscription.totalDays - safeSubscription.remainingDays);
-  const usedPercent =
-    safeSubscription.totalDays > 0
-      ? Math.min(100, Math.round((usedDays / safeSubscription.totalDays) * 100))
-      : 0;
-  const remainingPercent = safeSubscription.totalDays > 0 ? 100 - usedPercent : 0;
+  const usedDays = subscription.totalDays - subscription.remainingDays;
+  const usedPercent = Math.min(
+    100,
+    Math.round((usedDays / subscription.totalDays) * 100)
+  );
+  const remainingPercent = 100 - usedPercent;
 
   return (
     <div
@@ -77,9 +55,7 @@ export default function Subscription() {
               <div style={{ opacity: 0.9, fontSize: "14px", marginBottom: "8px" }}>
                 وضعیت اشتراک شما
               </div>
-              <h2 style={{ margin: 0, fontWeight: 900 }}>
-                {loading ? "در حال دریافت..." : safeSubscription.planName}
-              </h2>
+              <h2 style={{ margin: 0, fontWeight: 900 }}>{subscription.planName}</h2>
               <div style={{ marginTop: "10px", fontSize: "14px", opacity: 0.92 }}>
                 مدیریت وضعیت، زمان باقی‌مانده و جزئیات پلن
               </div>
@@ -96,7 +72,7 @@ export default function Subscription() {
             >
               <div style={{ fontSize: "13px", opacity: 0.9 }}>باقی‌مانده اشتراک</div>
               <div style={{ fontSize: "30px", fontWeight: 900, marginTop: "6px" }}>
-                {safeSubscription.remainingDays} روز
+                {subscription.remainingDays} روز
               </div>
             </div>
           </div>
@@ -176,7 +152,7 @@ export default function Subscription() {
                   >
                     <div style={{ color: "#6b7280", fontSize: "13px" }}>روزهای باقی‌مانده</div>
                     <div style={{ marginTop: "8px", fontSize: "24px", fontWeight: 900, color: "#6255f5" }}>
-                      {safeSubscription.remainingDays} روز
+                      {subscription.remainingDays} روز
                     </div>
                   </div>
                 </div>
@@ -197,7 +173,7 @@ export default function Subscription() {
                       <span style={{ fontSize: "13px", color: "#6b7280" }}>تاریخ شروع</span>
                     </div>
                     <div style={{ fontWeight: 800, color: "#111827" }}>
-                      {safeSubscription.startDate}
+                      {subscription.startDate}
                     </div>
                   </div>
                 </div>
@@ -216,7 +192,7 @@ export default function Subscription() {
                       <span style={{ fontSize: "13px", color: "#6b7280" }}>تاریخ پایان</span>
                     </div>
                     <div style={{ fontWeight: 800, color: "#111827" }}>
-                      {safeSubscription.endDate}
+                      {subscription.endDate}
                     </div>
                   </div>
                 </div>
@@ -254,7 +230,7 @@ export default function Subscription() {
                   marginBottom: "16px",
                 }}
               >
-                {safeSubscription.active ? "اشتراک فعال است" : "اشتراک فعالی ندارید"}
+                اشتراک فعال است
               </div>
 
               <div className="d-flex flex-column gap-3">
@@ -268,7 +244,7 @@ export default function Subscription() {
                 >
                   <div style={{ fontSize: "12px", color: "#6b7280" }}>نام پلن</div>
                   <div style={{ marginTop: "6px", fontWeight: 900, color: "#111827" }}>
-                    {safeSubscription.planName}
+                    {subscription.planName}
                   </div>
                 </div>
 
@@ -282,7 +258,7 @@ export default function Subscription() {
                 >
                   <div style={{ fontSize: "12px", color: "#6b7280" }}>هزینه پلن</div>
                   <div style={{ marginTop: "6px", fontWeight: 900, color: "#111827" }}>
-                    {safeSubscription.priceLabel}
+                    {subscription.price}
                   </div>
                 </div>
 
