@@ -1,6 +1,5 @@
-import React from "react";
-import { Bell, Search, Sparkles, LogOut, Menu, Crown } from "lucide-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import {Sparkles, LogOut, Menu, Crown } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import NotificationDropdown from "./NotificationDropdown";
 
@@ -11,13 +10,13 @@ export default function AppNavbar({ onToggleSidebar }) {
     const safeProfile = profile && typeof profile === "object" ? profile : {};
     const studentName = safeProfile.name || "دانش‌آموز عزیز";
     const subscriptionDays = safeProfile.subscription_days || 0;
-    const location = useLocation();
 
     const handleMenuClick = () => {
         onToggleSidebar();
     };
 
     return (
+        
         <nav
             className="navbar bg-white px-2 px-md-4"
             style={{
@@ -53,7 +52,7 @@ export default function AppNavbar({ onToggleSidebar }) {
                     </div>
                 </div>
                 <div className="d-flex align-items-center gap-2 gap-md-3">
-
+            
                     <Link to={subscriptionDays > 0 ? "/subscription" : "/subscriptionplans"}
                         className="d-flex align-items-center gap-2 px-2 px-md-3 py-2"
                         style={{ background: subscriptionDays > 0 ? "#f5f3ff" : "#fff7ed", border: "1px solid #ddd", borderRadius: "12px", textDecoration: "none" }}>

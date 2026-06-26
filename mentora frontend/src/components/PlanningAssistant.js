@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { apiJson } from "../utils/api";
+import StudyLoading from "./StudyLoading";
 
 const DAYS = ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"];
 
@@ -25,6 +26,8 @@ const defaultCourseInput = () => ({
 
 export default function PlanningAssistant() {
   const { profile, refresh } = useApp();
+
+  const [pageLoading, setPageLoading] = useState(true);
   const [studentName, setStudentName] = useState("دانش‌آموز منتورا");
   const [grade, setGrade] = useState((profile && profile.grade) || "دوازدهم");
   const [major, setMajor] = useState((profile && profile.major) || "تجربی");
@@ -46,10 +49,34 @@ export default function PlanningAssistant() {
   const [loadingCatalog, setLoadingCatalog] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+  const [initializedFromProfile, setInitializedFromProfile] = useState(false);
 
   const weeklyHours = useMemo(() => {
     return Object.values(dailyHours).reduce((sum, value) => sum + Number(value || 0), 0);
   }, [dailyHours]);
+
+  useEffect(() => {
+    if (!profile || initializedFromProfile) {
+      setPageLoading(false);
+      return;
+    }
+
+    setStudentName(profile.name || "دانش‌آموز منتورا");
+    setGrade(profile.grade || "دوازدهم");
+    setMajor(profile.major || "تجربی");
+    setExamYear(profile.examYear || "۱۴۰۵");
+    setGoal(
+      profile.targetRank
+        ? `رسیدن به رتبه ${profile.targetRank}`
+        : "افزایش تراز و اجرای منظم برنامه"
+    );
+
+    const defaultStudyHours = Number(profile.studyHours) || 6;
+    setDailyHours(Object.fromEntries(DAYS.map((day) => [day, defaultStudyHours])));
+
+    setInitializedFromProfile(true);
+    setPageLoading(false);
+  }, [profile, initializedFromProfile]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -57,7 +84,10 @@ export default function PlanningAssistant() {
       setError("");
 
       try {
-        const { response, data } = await apiJson(`/api/planner/courses?major=${encodeURIComponent(major)}`);
+        const { response, data } = await apiJson(
+          `/api/planner/courses?major=${encodeURIComponent(major)}`
+        );
+
         if (!response.ok) {
           throw new Error(data.error || "دریافت فهرست درس‌ها با مشکل مواجه شد.");
         }
@@ -126,13 +156,26 @@ export default function PlanningAssistant() {
       }
 
       setPlan(data);
-      if (refresh) await refresh({ silent: true });
+
+      if (refresh) {
+        await refresh({ silent: true });
+      }
     } catch (err) {
       setError(err.message || "در فرآیند تولید برنامه خطایی رخ داد.");
     } finally {
       setGenerating(false);
     }
   };
+
+  if (true) {
+    return (
+      <StudyLoading
+        title="در حال آماده‌سازی دستیار برنامه‌ریزی"
+        subtitle="اطلاعات پروفایل و تنظیمات اولیه در حال بارگذاری است"
+        fullScreen={false}
+      />
+    );
+  }
 
   if (plan) {
     return (
@@ -585,7 +628,7 @@ export default function PlanningAssistant() {
                 <input
                   value={goal}
                   onChange={(event) => setGoal(event.target.value)}
-                  className="form-control text-end "
+                  className="form-control text-end"
                   style={inputStyle}
                 />
               </label>
@@ -606,10 +649,7 @@ export default function PlanningAssistant() {
             <div className="row g-3 mb-4">
               {DAYS.map((day) => (
                 <div className="col-6 col-md-3" key={day}>
-                  <label
-                    className="w-100"
-                    style={boxStyle}
-                  >
+                  <label className="w-100" style={boxStyle}>
                     <span className="d-block mb-2 fw-bold text-secondary" style={{ fontSize: "11px" }}>
                       {day}
                     </span>

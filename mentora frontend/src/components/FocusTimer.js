@@ -1,18 +1,110 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, RotateCcw, Coffee, Target, Zap } from "lucide-react";
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  Coffee,
+  Target,
+  Zap,
+  X,
+  CheckCircle2,
+} from "lucide-react";
 
 const FocusTimer = () => {
   const [focusMinutes, setFocusMinutes] = useState(25);
   const [breakMinutes, setBreakMinutes] = useState(5);
 
-  const [mode, setMode] = useState("focus"); // focus | break
+  const [mode, setMode] = useState("focus");
   const [seconds, setSeconds] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
 
+  const [showFinishPopup, setShowFinishPopup] = useState(false);
+  const [finishedMode, setFinishedMode] = useState("focus");
+
   const timerRef = useRef(null);
+  const audioContextRef = useRef(null);
 
   const totalTime = mode === "focus" ? focusMinutes * 60 : breakMinutes * 60;
   const progress = totalTime > 0 ? ((totalTime - seconds) / totalTime) * 100 : 0;
+
+  const circumference = 2 * Math.PI * 100;
+
+  const initAudio = () => {
+    if (!audioContextRef.current) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        audioContextRef.current = new AudioCtx();
+      }
+    }
+
+    if (audioContextRef.current?.state === "suspended") {
+      audioContextRef.current.resume();
+    }
+  };
+
+  const playBeepSequence = () => {
+    const ctx = audioContextRef.current;
+    if (!ctx) return;
+
+    const beeps = 3;
+    const beepDuration = 0.18;
+    const gap = 0.2;
+
+    for (let i = 0; i < beeps; i++) {
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      oscillator.type = "sine";
+
+      const startTime = ctx.currentTime + i * (beepDuration + gap);
+      const endTime = startTime + beepDuration;
+
+      oscillator.frequency.setValueAtTime(
+        mode === "focus" ? 980 : 760,
+        startTime
+      );
+
+      gainNode.gain.setValueAtTime(0.0001, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.18, startTime + 0.02);
+      gainNode.gain.linearRampToValueAtTime(0.0001, endTime);
+
+      oscillator.start(startTime);
+      oscillator.stop(endTime);
+    }
+  };
+
+  const formatTime = (secs) => {
+    const mins = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${mins.toString().padStart(2, "0")}:${s
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  const toggleTimer = () => {
+    initAudio();
+    setIsActive((prev) => !prev);
+  };
+
+  const resetTimer = () => {
+    setIsActive(false);
+    setShowFinishPopup(false);
+    setSeconds(mode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
+  };
+
+  const switchMode = (newMode) => {
+    setMode(newMode);
+    setIsActive(false);
+    setShowFinishPopup(false);
+    setSeconds(newMode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
+  };
+
+  const handleClosePopup = () => {
+    setShowFinishPopup(false);
+  };
 
   useEffect(() => {
     if (isActive && seconds > 0) {
@@ -22,295 +114,424 @@ const FocusTimer = () => {
     } else if (seconds === 0) {
       clearInterval(timerRef.current);
       setIsActive(false);
-      alert(mode === "focus" ? "زمان تمرکز تمام شد! وقت استراحته." : "استراحت تمام شد! آماده‌ای؟");
+
+      const endedMode = mode;
+      const nextMode = endedMode === "focus" ? "break" : "focus";
+
+      playBeepSequence();
+      setFinishedMode(endedMode);
+      setShowFinishPopup(true);
+
+      setMode(nextMode);
+      setSeconds(nextMode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
     } else {
       clearInterval(timerRef.current);
     }
 
     return () => clearInterval(timerRef.current);
-  }, [isActive, seconds, mode]);
+  }, [isActive, seconds, mode, focusMinutes, breakMinutes]);
 
   useEffect(() => {
     setIsActive(false);
     setSeconds(mode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
-  }, [focusMinutes, breakMinutes, mode]);
+  }, [focusMinutes, breakMinutes]);
 
-  const toggleTimer = () => {
-    setIsActive((prev) => !prev);
-  };
-
-  const resetTimer = () => {
-    setIsActive(false);
-    setSeconds(mode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
-  };
-
-  const switchMode = (newMode) => {
-    setMode(newMode);
-    setIsActive(false);
-    setSeconds(newMode === "focus" ? focusMinutes * 60 : breakMinutes * 60);
-  };
-
-  const formatTime = (secs) => {
-    const mins = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${mins.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
-
-  const circumference = 2 * Math.PI * 100;
+  useEffect(() => {
+    return () => {
+      clearInterval(timerRef.current);
+      if (audioContextRef.current && audioContextRef.current.state !== "closed") {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
 
   return (
-    <div
-      className="container py-5 d-flex justify-content-center"
-      style={{ direction: "rtl", fontFamily: "Vazir, Tahoma, sans-serif" }}
-      aria-label="تایمر تمرکز برای مطالعه"
-    >
+    <>
       <div
-        className="card border-0 shadow-lg"
-        style={{
-          borderRadius: "40px",
-          maxWidth: "430px",
-          width: "100%",
-          background: "#fff",
-        }}
+        className="container py-5 d-flex justify-content-center"
+        style={{ direction: "rtl", fontFamily: "Vazir, Tahoma, sans-serif" }}
+        aria-label="تایمر تمرکز برای مطالعه"
       >
-        <div className="card-body p-5 text-center">
-          <div className="mb-4">
-            <h2 className="fw-bold mb-1" style={{ fontSize: "20px", color: "#1f2937" }}>
-              حالت تمرکز عمیق
-            </h2>
-            <p className="text-muted" style={{ fontSize: "13px" }}>
-              ذهنت رو روی هدف قفل کن
-            </p>
-          </div>
-
-          <div className="row g-3 mb-4">
-            <div className="col-6">
-              <div
-                className="p-3"
-                style={{
-                  background: "#f8f9fc",
-                  borderRadius: "18px",
-                  border: "1px solid #eef0f6",
-                }}
+        <div
+          className="card border-0 shadow-lg"
+          style={{
+            borderRadius: "40px",
+            maxWidth: "430px",
+            width: "100%",
+            background: "#fff",
+          }}
+        >
+          <div className="card-body p-5 text-center">
+            <div className="mb-4">
+              <h2
+                className="fw-bold mb-1"
+                style={{ fontSize: "20px", color: "#1f2937" }}
               >
-                <label
-                  className="form-label fw-bold mb-2"
-                  style={{ fontSize: "13px", color: "#6255f5" }}
-                >
-                  زمان مطالعه
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="180"
-                  value={focusMinutes}
-                  onChange={(e) => setFocusMinutes(Number(e.target.value))}
-                  className="form-control text-center"
+                حالت تمرکز عمیق
+              </h2>
+              <p className="text-muted" style={{ fontSize: "13px" }}>
+                ذهنت رو روی هدف قفل کن
+              </p>
+            </div>
+
+            <div className="row g-3 mb-4">
+              <div className="col-6">
+                <div
+                  className="p-3"
                   style={{
-                    borderRadius: "12px",
-                    border: "1px solid #ddd",
-                    fontWeight: "700",
+                    background: "#f8f9fc",
+                    borderRadius: "18px",
+                    border: "1px solid #eef0f6",
                   }}
-                  aria-label="تنظیم زمان مطالعه"
-                />
-                <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
-                  دقیقه
+                >
+                  <label
+                    className="form-label fw-bold mb-2"
+                    style={{ fontSize: "13px", color: "#6255f5" }}
+                  >
+                    زمان مطالعه
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="180"
+                    value={focusMinutes}
+                    onChange={(e) => setFocusMinutes(Number(e.target.value))}
+                    className="form-control text-center"
+                    style={{
+                      borderRadius: "12px",
+                      border: "1px solid #ddd",
+                      fontWeight: "700",
+                    }}
+                  />
+                  <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
+                    دقیقه
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6">
+                <div
+                  className="p-3"
+                  style={{
+                    background: "#f8f9fc",
+                    borderRadius: "18px",
+                    border: "1px solid #eef0f6",
+                  }}
+                >
+                  <label
+                    className="form-label fw-bold mb-2"
+                    style={{ fontSize: "13px", color: "#10b981" }}
+                  >
+                    زمان استراحت
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={breakMinutes}
+                    onChange={(e) => setBreakMinutes(Number(e.target.value))}
+                    className="form-control text-center"
+                    style={{
+                      borderRadius: "12px",
+                      border: "1px solid #ddd",
+                      fontWeight: "700",
+                    }}
+                  />
+                  <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
+                    دقیقه
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-6">
-              <div
-                className="p-3"
+            <div
+              className="d-flex justify-content-center gap-2 mb-5 bg-light p-2"
+              style={{ borderRadius: "20px" }}
+            >
+              <button
+                onClick={() => switchMode("focus")}
+                className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "focus" ? "bg-white shadow-sm fw-bold" : "text-muted"
+                  }`}
                 style={{
-                  background: "#f8f9fc",
-                  borderRadius: "18px",
-                  border: "1px solid #eef0f6",
+                  borderRadius: "15px",
+                  transition: "0.3s",
+                  color: mode === "focus" ? "#6255f5" : "#6b7280",
                 }}
               >
-                <label
-                  className="form-label fw-bold mb-2"
-                  style={{ fontSize: "13px", color: "#10b981" }}
-                >
-                  زمان استراحت
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="60"
-                  value={breakMinutes}
-                  onChange={(e) => setBreakMinutes(Number(e.target.value))}
-                  className="form-control text-center"
-                  style={{
-                    borderRadius: "12px",
-                    border: "1px solid #ddd",
-                    fontWeight: "700",
-                  }}
-                  aria-label="تنظیم زمان استراحت"
+                <Zap size={16} /> تمرکز
+              </button>
 
+              <button
+                onClick={() => switchMode("break")}
+                className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "break" ? "bg-white shadow-sm fw-bold" : "text-muted"
+                  }`}
+                style={{
+                  borderRadius: "15px",
+                  transition: "0.3s",
+                  color: mode === "break" ? "#10b981" : "#6b7280",
+                }}
+              >
+                <Coffee size={16} /> استراحت
+              </button>
+            </div>
+
+            <div className="position-relative d-flex justify-content-center align-items-center mb-5">
+              <svg width="220" height="220" viewBox="0 0 220 220">
+                <circle
+                  cx="110"
+                  cy="110"
+                  r="100"
+                  fill="none"
+                  stroke="#f1f3f5"
+                  strokeWidth="8"
                 />
-                <div className="mt-2 text-muted" style={{ fontSize: "11px" }}>
-                  دقیقه
+                <circle
+                  cx="110"
+                  cy="110"
+                  r="100"
+                  fill="none"
+                  stroke={mode === "focus" ? "#6255f5" : "#10b981"}
+                  strokeWidth="8"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={circumference - (circumference * progress) / 100}
+                  strokeLinecap="round"
+                  style={{
+                    transition: "stroke-dashoffset 1s linear",
+                    transform: "rotate(-90deg)",
+                    transformOrigin: "center",
+                  }}
+                />
+              </svg>
+
+              <div className="position-absolute text-center">
+                <div
+                  style={{
+                    fontSize: "48px",
+                    fontWeight: "900",
+                    color: "#1f2937",
+                    letterSpacing: "-1px",
+                  }}
+                >
+                  {formatTime(seconds)}
+                </div>
+                <div className="text-muted fw-bold" style={{ fontSize: "12px" }}>
+                  {mode === "focus" ? "زمان مطالعه" : "زمان استراحت"}
                 </div>
               </div>
             </div>
-          </div>
 
-          <div
-            className="d-flex justify-content-center gap-2 mb-5 bg-light p-2"
-            style={{ borderRadius: "20px" }}
-          >
-            <button
-              onClick={() => switchMode("focus")}
-              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "focus" ? "bg-white shadow-sm fw-bold" : "text-muted"
-                }`}
-              style={{
-                borderRadius: "15px",
-                transition: "0.3s",
-                color: mode === "focus" ? "#6255f5" : "#6b7280",
-              }}
-              aria-label="حالت تمرکز"
-
-            >
-              <Zap size={16} /> تمرکز
-            </button>
-
-            <button
-              onClick={() => switchMode("break")}
-              className={`btn btn-sm border-0 flex-grow-1 d-flex align-items-center justify-content-center gap-2 ${mode === "break" ? "bg-white shadow-sm fw-bold" : "text-muted"
-                }`}
-              style={{
-                borderRadius: "15px",
-                transition: "0.3s",
-                color: mode === "break" ? "#10b981" : "#6b7280",
-              }}
-              aria-label="حالت استراحت"
-
-            >
-              <Coffee size={16} /> استراحت
-            </button>
-          </div>
-
-          <div className="position-relative d-flex justify-content-center align-items-center mb-5">
-            <svg width="220" height="220" viewBox="0 0 220 220">
-              <circle
-                cx="110"
-                cy="110"
-                r="100"
-                fill="none"
-                stroke="#f1f3f5"
-                strokeWidth="8"
-              />
-              <circle
-                cx="110"
-                cy="110"
-                r="100"
-                fill="none"
-                stroke={mode === "focus" ? "#6255f5" : "#10b981"}
-                strokeWidth="8"
-                strokeDasharray={circumference}
-                strokeDashoffset={circumference - (circumference * progress) / 100}
-                strokeLinecap="round"
+            <div className="d-flex justify-content-center align-items-center gap-4">
+              <button
+                onClick={resetTimer}
+                className="btn border-0 p-3"
                 style={{
-                  transition: "stroke-dashoffset 1s linear",
-                  transform: "rotate(-90deg)",
-                  transformOrigin: "center",
-                }}
-              />
-            </svg>
-
-            <div className="position-absolute text-center">
-              <div
-                style={{
-                  fontSize: "48px",
-                  fontWeight: "900",
-                  color: "#1f2937",
-                  letterSpacing: "-1px",
+                  borderRadius: "50%",
+                  background: "#f8f9fa",
+                  color: "#6b7280",
+                  width: "56px",
+                  height: "56px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                {formatTime(seconds)}
-              </div>
-              <div className="text-muted fw-bold" style={{ fontSize: "12px" }}>
-                {mode === "focus" ? "زمان مطالعه" : "زمان استراحت"}
-              </div>
+                <RotateCcw size={24} />
+              </button>
+
+              <button
+                onClick={toggleTimer}
+                className="btn shadow-lg"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  background: mode === "focus" ? "#6255f5" : "#10b981",
+                  color: "white",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                }}
+              >
+                {isActive ? <Pause size={32} /> : <Play size={32} fill="white" />}
+              </button>
+
+              <div
+                style={{
+                  width: "56px",
+                  height: "56px",
+                  opacity: 0,
+                }}
+              />
+            </div>
+
+            <div
+              className="mt-5 p-3 d-none d-md-block"
+              style={{
+                background:
+                  mode === "focus"
+                    ? "rgba(98, 85, 245, 0.05)"
+                    : "rgba(16, 185, 129, 0.08)",
+                borderRadius: "20px",
+              }}
+            >
+              <p className="mb-0 text-dark d-flex" style={{ fontSize: "11px", fontWeight: "500" }}>
+                <Target
+                  size={14}
+                  className="mx-2 d-flex"
+                  style={{ color: mode === "focus" ? "#6255f5" : "#10b981" }}
+                />
+                {mode === "focus"
+                  ? "بیشترین تمرکز در ۲۵ دقیقه اول اتفاق می‌افتد."
+                  : "استراحت کوتاه، بازدهی مطالعه را بیشتر می‌کند."}
+              </p>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="d-flex justify-content-center align-items-center gap-4">
-            <button
-              onClick={resetTimer}
-              className="btn border-0 p-3"
-              style={{
-                borderRadius: "50%",
-                background: "#f8f9fa",
-                color: "#6b7280",
-                width: "56px",
-                height: "56px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <RotateCcw size={24} />
-            </button>
-
-            <button
-              onClick={toggleTimer}
-              className="btn shadow-lg"
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                background: mode === "focus" ? "#6255f5" : "#10b981",
-                color: "white",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 0,
-              }}
-              aria-label="شروع یا توقف تایمر"
-
-            >
-              {isActive ? (
-                <Pause size={32} />
-              ) : (
-                <Play size={32} fill="white" />
-              )}
+      {showFinishPopup && (
+        <div style={overlayStyle}>
+          <div style={popupStyle}>
+            <button onClick={handleClosePopup} style={closeBtnStyle}>
+              <X size={18} />
             </button>
 
             <div
               style={{
-                width: "56px",
-                height: "56px",
-                opacity: 0,
+                width: "84px",
+                height: "84px",
+                borderRadius: "50%",
+                margin: "0 auto 18px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "Vazir, Tahoma",
+                background:
+                  finishedMode === "focus"
+                    ? "linear-gradient(135deg,#6255f5,#8f84ff)"
+                    : "linear-gradient(135deg,#10b981,#34d399)",
+                boxShadow:
+                  finishedMode === "focus"
+                    ? "0 18px 40px rgba(98,85,245,0.28)"
+                    : "0 18px 40px rgba(16,185,129,0.28)",
               }}
-            />
-          </div>
+            >
+              <CheckCircle2 size={34} color="#fff" />
+            </div>
 
-          {/* Motivational Tip */}
-          <div
-            className="mt-5 p-3"
-            style={{
-              background: mode === "focus" ? "rgba(98, 85, 245, 0.05)" : "rgba(16, 185, 129, 0.08)",
-              borderRadius: "20px",
-            }}
-          >
-            <p className="mb-0 text-dark" style={{ fontSize: "11px", fontWeight: "500" }}>
-              <Target
-                size={14}
-                className="me-1"
-                style={{ color: mode === "focus" ? "#6255f5" : "#10b981" }}
-              />
-              {mode === "focus"
-                ? "بیشترین تمرکز در ۲۵ دقیقه اول اتفاق می‌افتد."
-                : "استراحت کوتاه، بازدهی مطالعه را بیشتر می‌کند."}
+            <h3 style={popupTitleStyle}>
+              {finishedMode === "focus"
+                ? "جلسه تمرکز با موفقیت تمام شد"
+                : "استراحتت تموم شد، بزن بریم"}
+            </h3>
+
+            <p style={popupDescStyle}>
+              {finishedMode === "focus"
+                ? "عالی بود! حالا زمان یک استراحت کوتاهه تا با انرژی بیشتر برگردی."
+                : "بدنت و ذهنت آماده‌ان. حالا وقت یک دور تمرکز عمیقه."}
             </p>
+
+            <div style={nextModeBoxStyle}>
+              مرحله بعد:
+              <span
+                style={{
+                  color: finishedMode === "focus" ? "#10b981" : "#6255f5",
+                  fontWeight: "800",
+                  marginRight: "6px",
+                }}
+              >
+                {finishedMode === "focus" ? "استراحت" : "تمرکز"}
+              </span>
+            </div>
+
+            <button onClick={handleClosePopup} style={popupActionStyle}>
+              متوجه شدم
+            </button>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
+};
+
+const overlayStyle = {
+  position: "fixed",
+  inset: 0,
+  background: "rgba(15, 23, 42, 0.55)",
+  backdropFilter: "blur(8px)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontFamily: "Vazir, Tahoma",
+  zIndex: 9999,
+  padding: "18px",
+};
+
+const popupStyle = {
+  width: "100%",
+  maxWidth: "420px",
+  background: "linear-gradient(180deg, #ffffff 0%, #f8f7ff 100%)",
+  borderRadius: "28px",
+  padding: "28px 22px 22px",
+  boxShadow: "0 24px 70px rgba(15,23,42,0.18)",
+  position: "relative",
+  textAlign: "center",
+  border: "1px solid rgba(98,85,245,0.08)",
+  animation: "fadeUpScale 0.25s ease-out",
+};
+
+const closeBtnStyle = {
+  position: "absolute",
+  top: "14px",
+  left: "14px",
+  width: "36px",
+  height: "36px",
+  border: "none",
+  borderRadius: "50%",
+  background: "rgba(98,85,245,0.08)",
+  color: "#6255f5",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+};
+
+const popupTitleStyle = {
+  fontSize: "1.2rem",
+  fontWeight: "800",
+  color: "#1f2937",
+  marginBottom: "10px",
+};
+
+const popupDescStyle = {
+  fontSize: "0.95rem",
+  color: "#6b7280",
+  lineHeight: "1.9",
+  marginBottom: "18px",
+};
+
+const nextModeBoxStyle = {
+  background: "#fff",
+  border: "1px solid rgba(98,85,245,0.08)",
+  borderRadius: "16px",
+  padding: "14px",
+  color: "#374151",
+  marginBottom: "18px",
+  fontSize: "0.95rem",
+};
+
+const popupActionStyle = {
+  width: "100%",
+  border: "none",
+  borderRadius: "16px",
+  padding: "13px 18px",
+  background: "linear-gradient(135deg,#6255f5,#8f84ff)",
+  color: "#fff",
+  fontWeight: "700",
+  cursor: "pointer",
+  boxShadow: "0 14px 28px rgba(98,85,245,0.22)",
 };
 
 export default FocusTimer;

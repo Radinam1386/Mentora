@@ -149,7 +149,7 @@ export default function SubscriptionPlans() {
             <div key={plan.id} className="col-12 col-sm-6 col-lg-3">
 
               <div
-                className="card h-100 border-2 shadow-sm position-relative"
+                className="card h-100 border-2 shadow-sm position-relative "
                 onMouseEnter={() => setHoveredCard(plan.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 style={{
@@ -157,7 +157,9 @@ export default function SubscriptionPlans() {
                   border: plan.highlight
                     ? "2px solid #6255f5"
                     : "1px solid #eee",
-
+                  paddingTop: plan.highlight
+                    ? "15px"
+                    : "0px",
                   transform: isHovered
                     ? "translateY(-10px)"
                     : plan.highlight
@@ -215,12 +217,12 @@ export default function SubscriptionPlans() {
 
                       <li
                         key={index}
-                        className="mb-2 d-flex align-items-center"
+                        className="mb-2 d-flex align-items-start justify-content-start"
                         style={{ fontSize: "13px" }}
                       >
 
                         <Check
-                          size={16}
+                          size={10}
                           style={{ color: "#10b981" }}
                           className="me-2 flex-shrink-0"
                         />

@@ -24,6 +24,7 @@ import Subscription from './components/Subscription';
 import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
+import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup';
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
   const location = useLocation();
@@ -35,6 +36,7 @@ function AppLayout() {
         setSidebarOpen(true);
       }
     };
+    
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -81,6 +83,7 @@ function App() {
           <Route path="/focustimer" element={<FocusTimer />} />
           <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/subscriptionsuccesspopup" element={<SubscriptionSuccessPopup />} />
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
         </Route>

@@ -76,11 +76,16 @@ export default function Profile() {
       const p = data.profile || {};
       updateProfile({
         name: p.name,
+        email: p.email,
+        phone: p.phone,
         grade: p.grade,
         major: p.major,
         targetRank: p.targetRank,
+        bio: p.bio,
         studyHours: p.studyHours,
+        examYear: p.examYear,
       });
+
       alert("اطلاعات با موفقیت ذخیره شد");
     } catch (err) {
       alert(err.message);

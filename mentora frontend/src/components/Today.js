@@ -14,7 +14,15 @@ import { Link } from "react-router-dom";
 export default function Today() {
   const { profile, tasks, stats, toggleTask } = useApp();
   const onToggleTask = toggleTask;
-  const { readinessScore = 0, streakCount = 0, xpPoints = 0, calendarDate, programStartsTomorrow, upcomingTasksCount } = stats || {};
+  const today = new Date();
+
+  const formattedDate = new Date().toLocaleDateString("fa-IR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+
+  const { readinessScore = 0, streakCount = 0, xpPoints = 0, programStartsTomorrow, upcomingTasksCount } = stats || {};
 
   const safeProfile =
     profile && typeof profile === "object" ? profile : {};
@@ -35,10 +43,10 @@ export default function Today() {
     majorText === "ریاضی"
       ? "موفقیت مجموعه‌ای از مسئله‌های کوچکی است که هر روز حل می‌شوند. با تمرکز و استمرار ادامه بده؛ تو از چیزی که فکر می‌کنی قوی‌تری."
       : majorText === "تجربی"
-      ? "سلول به سلولِ تلاشت تو را به هدفت نزدیک‌تر می‌کند. امروز با نظم، آرامش و استمرار پیش برو تا نتیجه‌ای درخشان بسازی."
-      : majorText === "انسانی"
-      ? "پیشرفت بزرگ، حاصل قدم‌های کوچک اما پیوسته است. امروز هم با تمرکز و اعتمادبه‌نفس جلو برو؛ آینده با تلاش تو ساخته می‌شود."
-      : "هر قدمی که امروز برمی‌داری، تو را به هدفت نزدیک‌تر می‌کند. با تمرکز، نظم و امید ادامه بده.";
+        ? "سلول به سلولِ تلاشت تو را به هدفت نزدیک‌تر می‌کند. امروز با نظم، آرامش و استمرار پیش برو تا نتیجه‌ای درخشان بسازی."
+        : majorText === "انسانی"
+          ? "پیشرفت بزرگ، حاصل قدم‌های کوچک اما پیوسته است. امروز هم با تمرکز و اعتمادبه‌نفس جلو برو؛ آینده با تلاش تو ساخته می‌شود."
+          : "هر قدمی که امروز برمی‌داری، تو را به هدفت نزدیک‌تر می‌کند. با تمرکز، نظم و امید ادامه بده.";
 
   const handleToggleTask = (task) => {
     if (!onToggleTask || task?.id === undefined || task?.id === null) return;
@@ -121,7 +129,7 @@ export default function Today() {
                 color: "#374151",
               }}
             >
-              {calendarDate || "شنبه ۱۱ خرداد ۱۴۰۵"}
+              {formattedDate}
             </span>
           </div>
 
@@ -222,7 +230,7 @@ export default function Today() {
               </p>
             </div>
 
-            <div className="col-12 col-md-4 d-flex justify-content-center justify-content-md-start">
+            <div className="col-12 col-md-4 d-flex justify-content-center justify-content-md-end">
               <div
                 className="d-flex flex-column align-items-center justify-content-center"
                 style={{
