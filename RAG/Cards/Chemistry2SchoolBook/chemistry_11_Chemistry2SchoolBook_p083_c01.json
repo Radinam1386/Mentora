@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p083_c01",
+  "main_subject": "chemistry",
+  "subsubject": "thermochemistry",
+  "tag": "chemistry/thermochemistry",
+  "summary": "ارائه داده‌های آنتالپی برای واکنش‌های تولید آمونیاک و هیدرازین بر اساس یک نمودار آنتالپی.",
+  "key_points": [
+    "آنتالپی واکنش تولید آمونیاک از گازهای نیتروژن و هیدروژن: $N_2(g) + 3H_2(g) \\rightarrow 2NH_3(g), \\Delta H_2 = -92 \\text{ kJ}$",
+    "آنتالپی واکنش تبدیل هیدرازین به آمونیاک: $N_2H_4(g) + H_2(g) \\rightarrow 2NH_3(g), \\Delta H_1 = -183 \\text{ kJ}$"
+  ],
+  "main_text": "داده‌های ترموشیمیایی مربوط به تهیه آمونیاک به روش هابر در نمودار آنتالپی به شرح زیر است:\n$N_2(g) + 3H_2(g) \\rightarrow 2NH_3(g), \\Delta H_2 = -92 \\text{ kJ}$\n$N_2H_4(g) + H_2(g) \\rightarrow 2NH_3(g), \\Delta H_1 = -183 \\text{ kJ}$",
+  "other_details": [
+    "نمودار آنتالپی مسیرهای مختلف تولید آمونیاک از نیتروژن و هیدروژن، شامل مسیر مستقیم و مسیر غیرمستقیم از طریق هیدرازین را نشان می‌دهد."
+  ],
+  "source_page": 83,
+  "image_path": "Books/Chemistry2SchoolBook/page_083.png",
+  "confidence": 0.95
+}

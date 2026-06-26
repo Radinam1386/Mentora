@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p099_c01",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "ذکر ترکیب اصلی گاز شهری و محصولات حاصل از احتراق ناقص متان در محیط‌های کم‌اکسیژن.",
+  "key_points": [
+    "ترکیب اصلی گاز شهری: متان",
+    "شرایط احتراق ناقص: محیط با اکسیژن کم",
+    "محصولات احتراق ناقص متان: بخار آب، کربن مونوکسید، نور و گرما"
+  ],
+  "main_text": "گاز شهری به‌طور عمده از متان تشکیل شده و در محیطی که اکسیژن کم است به‌صورت ناقص می‌سوزد و بخار آب، کربن مونوکسید، نور و گرما تولید می‌کند.",
+  "other_details": [],
+  "source_page": 99,
+  "image_path": "Books/Chemistry1SchoolBook/page_099.png",
+  "confidence": 0.95
+}

@@ -1,0 +1,17 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p100_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "معیارهای تعیین برچسب آلایندگی خودرو بر اساس میزان انتشار گاز کربن دی‌اکسید.",
+  "key_points": [
+    "برچسب آلایندگی خودرو بر اساس گستره انتشار گاز کربن دی‌اکسید (بر حسب گرم) به ازای طی یک کیلومتر تعیین می‌شود."
+  ],
+  "main_text": "برچسب آلایندگی خودرو بر اساس گستره انتشار گاز کربن دی‌اکسید (گرم) به ازای طی یک کیلومتر تعیین می‌شود.",
+  "other_details": [
+    "جدول گستره انتشار گاز کربن دی‌اکسید برای برچسب‌های آلایندگی: برچسب A (کمتر از ۱۲۰ گرم)، برچسب B (۱۲۰-۱۴۰ گرم)، برچسب C (۱۴۰-۱۵۵ گرم)، برچسب D (۱۵۵-۱۷۰ گرم)، برچسب E (۱۷۰-۱۹۰ گرم)، برچسب F (۱۹۰-۲۲۵ گرم)، برچسب G (بیشتر از ۲۲۵ گرم)."
+  ],
+  "source_page": 100,
+  "image_path": "Books/Chemistry1SchoolBook/page_100.png",
+  "confidence": 0.95
+}

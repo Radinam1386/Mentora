@@ -35,6 +35,28 @@ class WeeklyPlan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class SubscriptionPlan(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.CharField(max_length=50, unique=True)
+    duration_days = models.IntegerField()
+    price = models.IntegerField()
+    highlight = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class UserSubscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=True)
+    plan_name = models.CharField(max_length=100)
+    price = models.IntegerField(default=0)
+    total_days = models.IntegerField(default=0)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chat_messages")
     role = models.CharField(max_length=20)  # user / assistant

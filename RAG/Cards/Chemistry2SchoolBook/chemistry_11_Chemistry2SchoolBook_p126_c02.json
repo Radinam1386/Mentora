@@ -1,0 +1,22 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p126_c02",
+  "main_subject": "chemistry",
+  "subsubject": "organic_chemistry",
+  "tag": "chemistry/organic_chemistry",
+  "summary": "معرفی نام و نشانه‌های شناسایی ۶ پلیمر رایج صنعتی که بخش بزرگی از پلیمرهای ساختگی را تشکیل می‌دهند.",
+  "key_points": [
+    "PET: پلی اتیلن ترفتالات",
+    "HDPE: پلی اتن سنگین",
+    "PVC: پلی وینیل کلرید",
+    "LDPE: پلی اتن سبک",
+    "PP: پلی پروپن",
+    "PS: پلی استیرن"
+  ],
+  "main_text": "مصرف برخی پلیمرها در صنایع گوناگون بیشتر است. به طوری که شش پلیمر نشان داده شده در جدول زیر نزدیک به ۷۵ درصد پلیمرهای ساختگی را تشکیل می‌دهند.",
+  "other_details": [
+    "جدول نشانه‌های پلیمرها:\n۱. PET: پلی اتیلن ترفتالات\n۲. HDPE: پلی اتن سنگین\n۳. PVC: پلی وینیل کلرید\n۴. LDPE: پلی اتن سبک\n۵. PP: پلی پروپن\n۶. PS: پلی استیرن"
+  ],
+  "source_page": 126,
+  "image_path": "Books/Chemistry2SchoolBook/page_126.png",
+  "confidence": 0.98
+}

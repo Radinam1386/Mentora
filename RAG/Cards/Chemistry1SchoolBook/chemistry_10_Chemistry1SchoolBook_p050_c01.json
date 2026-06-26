@@ -1,0 +1,21 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p050_c01",
+  "main_subject": "chemistry",
+  "subsubject": "chemical_bonding_and_molecular_geometry",
+  "tag": "chemistry/chemical_bonding_and_molecular_geometry",
+  "summary": "ارائه مثال‌هایی از ترکیب‌های یونی دوتایی، فرمول‌های شیمیایی و یون‌های سازنده آن‌ها.",
+  "key_points": [
+    "ترکیب MgO از یون‌های Mg^{2+} و O^{2-} تشکیل شده است.",
+    "ترکیب CaCl_{2} از یون‌های Ca^{2+} و Cl^{-} تشکیل شده است.",
+    "ترکیب K_{2}O از یون‌های K^{+} و O^{2-} تشکیل شده است.",
+    "ترکیب Na_{3}P (سدیم فسفید) از یون‌های Na^{+} و P^{3-} تشکیل شده است.",
+    "ترکیب LiBr از یون‌های Li^{+} و Br^{-} تشکیل شده است."
+  ],
+  "main_text": "جدول فرمول شیمیایی و یون‌های سازنده ترکیب‌های یونی:\n- MgO: Mg^{2+}, O^{2-}\n- CaCl_{2}: Ca^{2+}, Cl^{-}\n- K_{2}O: K^{+}, O^{2-}\n- Na_{3}P (سدیم فسفید): Na^{+}, P^{3-}\n- LiBr: Li^{+}, Br^{-}",
+  "other_details": [
+    "این جدول رابطه بین فرمول شیمیایی، نماد یون‌های سازنده و نام ترکیب یونی را نشان می‌دهد."
+  ],
+  "source_page": 50,
+  "image_path": "Books/Chemistry1SchoolBook/page_050.png",
+  "confidence": 0.95
+}

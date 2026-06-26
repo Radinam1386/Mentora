@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p021_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "توضیح اجزای هر خانه در جدول دوره‌ای عناصر و نمایش بخشی از جدول دوره‌ای شامل شماره اتمی، نماد، نام و جرم اتمی میانگین عناصر.",
+  "key_points": [
+    "هر خانه در جدول دوره‌ای شامل اطلاعاتی نظیر عدد اتمی، نماد شیمیایی، نام عنصر و جرم اتمی میانگین است."
+  ],
+  "main_text": "اجزای هر خانه در جدول دوره‌ای:\n- عدد اتمی\n- نماد شیمیایی\n- نام\n- جرم اتمی میانگین",
+  "other_details": [
+    "نمایش بخشی از جدول دوره‌ای شامل عناصر گروه‌های ۱ و ۲ و فلزات واسطه.",
+    "مثال: عنصر هیدروژن با عدد اتمی ۱، نماد H، نام هیدروژن و جرم اتمی میانگین ۱.۰۰۸.",
+    "نمایش بخشی از سری لانتانیدها (از La تا Sm) و اکتینیدها (از Ac تا Pu)."
+  ],
+  "source_page": 21,
+  "image_path": "Books/Chemistry1SchoolBook/page_021.png",
+  "confidence": 0.95
+}

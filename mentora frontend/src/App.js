@@ -24,6 +24,9 @@ import Subscription from './components/Subscription';
 import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
+import RequireAuth from './components/RequireAuth';
+import RequireProfile from './components/RequireProfile';
+
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
@@ -55,28 +58,41 @@ function App() {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/login" element={<Login />} />
 
-        <Route element={<AppLayout />}>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+        <Route
+          element={
+            <RequireAuth>
+              <AppLayout />
+            </RequireAuth>
+          }
+        >
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/tutor" element={<Tutor />} />
-          <Route path="/today" element={<Today />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/planningassistant" element={<PlanningAssistant />} />
-          <Route path="/focustimer" element={<FocusTimer />} />
-          <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-        </Route>
 
+          <Route
+            element={
+              <RequireProfile>
+                <Outlet />
+              </RequireProfile>
+            }
+          >
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/tutor" element={<Tutor />} />
+            <Route path="/today" element={<Today />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route path="/planningassistant" element={<PlanningAssistant />} />
+            <Route path="/focustimer" element={<FocusTimer />} />
+            <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );

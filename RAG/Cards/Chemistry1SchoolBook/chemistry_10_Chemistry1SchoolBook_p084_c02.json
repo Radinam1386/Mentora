@@ -1,0 +1,19 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p084_c02",
+  "main_subject": "chemistry",
+  "subsubject": "stoichiometry_and_chemical_reactions",
+  "tag": "chemistry/stoichiometry_and_chemical_reactions",
+  "summary": "روش تبدیل گاز دی‌اکسید کربن به مواد معدنی با استفاده از اکسیدهای کلسیم و منیزیم جهت کاهش آلودگی.",
+  "key_points": [
+    "برای تبدیل CO2 به مواد معدنی، گاز دی‌اکسید کربن تولید شده در نیروگاه‌ها و مراکز صنعتی را با اکسید منیزیم (MgO) یا اکسید کلسیم (CaO) واکنش می‌دهند.",
+    "واکنش CO2 با CaO: CO2(g) + CaO(s) -> CaCO3(s)",
+    "واکنش CO2 با MgO: CO2(g) + MgO(s) -> MgCO3(s)"
+  ],
+  "main_text": "برای این منظور کربن‌دی‌اکسید تولید شده در نیروگاه‌ها و مراکز صنعتی را با منیزیم اکسید یا کلسیم اکسید واکنش می‌دهند.\nCO2(g) + CaO(s) -> CaCO3(s)\nCO2(g) + MgO(s) -> MgCO3(s)",
+  "other_details": [
+    "این واکنش‌ها به عنوان راهکاری برای تبدیل CO2 به مواد معدنی در راستای حفاظت از هواکره معرفی شده‌اند."
+  ],
+  "source_page": 84,
+  "image_path": "Books/Chemistry1SchoolBook/page_084.png",
+  "confidence": 0.95
+}

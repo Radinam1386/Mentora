@@ -12,18 +12,26 @@ import {
   BarChart3,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useApp } from "../context/AppContext";
 
 export default function Home({
-  profile,
+  profile: profileProp,
 }) {
+  const { profile: contextProfile, tasks, stats } = useApp();
+  const profile = profileProp || contextProfile;
   const safeProfile =
     profile && typeof profile === "object" ? profile : {};
+  const safeTasks = Array.isArray(tasks) ? tasks : [];
+  const completedCount = safeTasks.filter((task) => task?.completed).length;
 
   const studentName = safeProfile.name || "دانش‌آموز عزیز";
   const major = safeProfile.major || "عمومی";
   const targetRank = safeProfile.targetRank || "ثبت نشده";
-  const streak = safeProfile.streak || 12;
-  const todayProgress = safeProfile.todayProgress || 68;
+  const streak = stats?.streakCount ?? 0;
+  const todayProgress =
+    safeTasks.length > 0
+      ? Math.round((completedCount / safeTasks.length) * 100)
+      : stats?.todayProgress ?? 0;
 
   const features = [
     {

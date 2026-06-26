@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_11_Chemistry2SchoolBook_p056_c01",
+  "main_subject": "chemistry",
+  "subsubject": "organic_chemistry",
+  "tag": "chemistry/organic_chemistry",
+  "summary": "بررسی ویژگی‌های هگزان و سیکلوهگزان و واکنش تبدیل بنزن به سیکلوهگزان.",
+  "key_points": [
+    "هگزان (C6H14) و سیکلوهگزان (C6H12) دو مایع بی‌رنگ هستند.",
+    "بنزن (C6H6) با حضور کاتالیزور نیکل (Ni) به سیکلوهگزان (C6H12) تبدیل می‌شود."
+  ],
+  "main_text": "هگزان (C6H14) و سیکلوهگزان (C6H12) دو مایع بی‌رنگ هستند.\nواکنش تبدیل بنزن به سیکلوهگزان:\nC6H6(l) + ..... --(Ni(s))--> C6H12(l)",
+  "other_details": [
+    "در بالای صفحه نمونه‌هایی از فرمول‌های ساختاری و خطی آلکان‌ها (مانند موارد پ، ت، ج، ث) نمایش داده شده است."
+  ],
+  "source_page": 56,
+  "image_path": "Books/Chemistry2SchoolBook/page_056.png",
+  "confidence": 0.9
+}

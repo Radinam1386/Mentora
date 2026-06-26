@@ -1,0 +1,18 @@
+{
+  "card_id": "chemistry_10_Chemistry1SchoolBook_p052_c01",
+  "main_subject": "chemistry",
+  "subsubject": "atomic_structure_and_periodic_table",
+  "tag": "chemistry/atomic_structure_and_periodic_table",
+  "summary": "معرفی ایزوتوپ‌های آهن و داده‌های فراوانی ایزوتوپ‌های منیزیم.",
+  "key_points": [
+    "آهن دارای ایزوتوپ‌های ^{54}Fe، ^{56}Fe و ^{57}Fe است.",
+    "منیزیم دارای سه ایزوتوپ ^{24}Mg، ^{25}Mg و ^{26}Mg با فراوانی‌های ۷۸.۹۹٪، ۱۰.۱۳٪ و ۱۱.۱۷٪ است."
+  ],
+  "main_text": "بررسی نمونه‌ای از یک شهاب‌سنگ نشان داد که در این شهاب‌سنگ ایزوتوپ‌های ^{54}Fe، ^{56}Fe و ^{57}Fe وجود دارد. همچنین داده‌های مربوط به ایزوتوپ‌های منیزیم (Mg) و درصد فراوانی آن‌ها به شرح زیر است:\n- ^{24}Mg: ۷۸.۹۹٪\n- ^{25}Mg: ۱۰.۱۳٪\n- ^{26}Mg: ۱۱.۱۷٪",
+  "other_details": [
+    "داده‌های مربوط به ایزوتوپ‌های منیزیم در قالب یک نمودار ستونی نمایش داده شده است."
+  ],
+  "source_page": 52,
+  "image_path": "Books/Chemistry1SchoolBook/page_052.png",
+  "confidence": 0.9
+}
