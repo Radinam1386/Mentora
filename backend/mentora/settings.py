@@ -9,12 +9,11 @@ PROJECT_ROOT = BASE_DIR.parent
 # Load environment variables (e.g. MODEL_API) so the Planning Assistant LLM
 # can be reached from the planner views. We look at the repo root first, then
 # the backend folder, without overriding anything already set in the shell.
-load_dotenv(PROJECT_ROOT / ".env")
-load_dotenv(BASE_DIR / ".env")
+load_dotenv(PROJECT_ROOT / '.env')
+load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    'django-insecure-mentora-secret-key-replace-in-production',
+    'DJANGO_SECRET_KEY', 'django-insecure-mentora-secret-key-replace-in-production'
 )
 
 # DEBUG defaults to True for local development. In production set
@@ -23,14 +22,17 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in {'1', 'true', 'yes'}
 
 # Comma separated list of hosts/domains, e.g. "mentora.ir,www.mentora.ir,1.2.3.4"
 ALLOWED_HOSTS = [
-    h.strip() for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',') if h.strip()
+    'mentoralearn.ir',
+    'www.mentoralearn.ir',
+    '78.157.54.151',
+    '127.0.0.1',
+    'localhost'
 ]
 
 # Domains that are trusted for CSRF-protected requests (Django admin login over
 # HTTPS needs these). Provide them with scheme, e.g. "https://mentora.ir".
-CSRF_TRUSTED_ORIGINS = [
-    o.strip() for o in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()
-]
+CSRF_TRUSTED_ORIGINS = ['http://mentoralearn.ir', 'http://www.mentoralearn.ir']
+
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -40,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'api',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'mentora.urls'
@@ -66,19 +68,16 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+                'django.contrib.messages.context_processors.messages'
+            ]
+        }
+    }
 ]
 
 WSGI_APPLICATION = 'mentora.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}
 }
 
 LANGUAGE_CODE = 'fa-ir'
