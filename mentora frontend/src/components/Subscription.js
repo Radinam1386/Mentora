@@ -53,15 +53,12 @@ export default function Subscription() {
     <div
       style={{
         minHeight: "100vh",
-        background:
-          "linear-gradient(180deg, #f8f7ff 0%, #ffffff 35%, #ffffff 100%)",
-        padding: "24px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, sans-serif",
+        maxWidth: "1200px",
       }}
     >
       <div className="container">
-        {/* Header */}
         <div
           className="mb-4"
           style={{
@@ -69,11 +66,10 @@ export default function Subscription() {
             borderRadius: "28px",
             padding: "28px",
             color: "#fff",
-            boxShadow: "0 20px 60px rgba(98,85,245,0.18)",
           }}
         >
-          <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div>
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-md-between gap-3">
+            <div className="text-center text-md-end">
               <div style={{ opacity: 0.9, fontSize: "14px", marginBottom: "8px" }}>
                 وضعیت اشتراک شما
               </div>
@@ -85,24 +81,28 @@ export default function Subscription() {
               </div>
             </div>
 
-            <div
-              style={{
-                background: "rgba(255,255,255,0.14)",
-                border: "1px solid rgba(255,255,255,0.18)",
-                borderRadius: "20px",
-                padding: "14px 18px",
-                minWidth: "180px",
-              }}
-            >
-              <div style={{ fontSize: "13px", opacity: 0.9 }}>باقی‌مانده اشتراک</div>
-              <div style={{ fontSize: "30px", fontWeight: 900, marginTop: "6px" }}>
-                {safeSubscription.remainingDays} روز
+            <div className="mx-auto mx-md-0">
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.14)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  borderRadius: "20px",
+                  padding: "14px 42px",
+                  minWidth: "180px",
+                  textAlign: "center",
+                  width: "fit-content",
+                }}
+              >
+                <div style={{ fontSize: "13px", opacity: 0.9 }}>باقی‌مانده اشتراک</div>
+                <div style={{ fontSize: "30px", fontWeight: 900, marginTop: "6px" }}>
+                  {safeSubscription.remainingDays} روز
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Cards */}
+
         <div className="row g-4">
           <div className="col-12 col-lg-8">
             <div
@@ -123,8 +123,8 @@ export default function Subscription() {
 
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-2">
-                  <span style={{ color: "#6b7280", fontSize: "14px" }}>درصد مصرف‌شده</span>
                   <span style={{ color: "#111827", fontWeight: 800 }}>{usedPercent}%</span>
+                  <span style={{ color: "#6b7280", fontSize: "14px" }}>درصد مصرف‌شده</span>
                 </div>
 
                 <div

@@ -358,7 +358,6 @@ export default function Tutor() {
         boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
       }}
     >
-      {/* Header */}
       <div
         className="bg-white d-flex align-items-center justify-content-between"
         style={{
@@ -372,14 +371,14 @@ export default function Tutor() {
           <div
             className="d-flex align-items-center justify-content-center text-white"
             style={{
-              width: "44px",
-              height: "44px",
+              width: "40px",
+              height: "40px",
               borderRadius: "16px",
               background: "linear-gradient(135deg, #6255f5, #4f46e5)",
               boxShadow: "0 8px 20px rgba(79,70,229,0.20)",
             }}
           >
-            <Bot size={22} />
+            <Bot size={18} />
           </div>
 
           <div className="text-end">
@@ -391,7 +390,6 @@ export default function Tutor() {
                 color: "#111827",
               }}
             >
-              منتورا AI
               <span
                 style={{
                   width: "8px",
@@ -402,9 +400,10 @@ export default function Tutor() {
                   boxShadow: "0 0 0 4px rgba(16,185,129,0.12)",
                 }}
               />
+              منتورا AI
             </h3>
             <p
-              className="mb-0"
+              className="mb-0 d-none d-md-block"
               style={{
                 fontSize: "11px",
                 color: "#9ca3af",
@@ -433,7 +432,6 @@ export default function Tutor() {
         </div>
       </div>
 
-      {/* Chat Section */}
       <div
         className="position-relative d-flex flex-column"
         style={{
@@ -462,9 +460,8 @@ export default function Tutor() {
               return (
                 <div
                   key={m.id}
-                  className={`d-flex gap-2 ${
-                    isModel ? "justify-content-start" : "justify-content-end"
-                  }`}
+                  className={`d-flex gap-2 ${isModel ? "justify-content-start" : "justify-content-end"
+                    }`}
                 >
                   {isModel && (
                     <div
@@ -540,7 +537,7 @@ export default function Tutor() {
                           rehypePlugins={[rehypeKatex]}
                           components={{
                             p: ({ children }) => (
-                              <p style={{ marginBottom: "8px" ,fontSize:"14px"}}>{children}</p>
+                              <p style={{ marginBottom: "8px", fontSize: "14px" }}>{children}</p>
                             ),
                             ul: ({ children }) => (
                               <ul
@@ -610,10 +607,10 @@ export default function Tutor() {
                                 style={
                                   className === "math math-display"
                                     ? {
-                                        margin: "12px 0",
-                                        overflowX: "auto",
-                                        padding: "4px 0",
-                                      }
+                                      margin: "12px 0",
+                                      overflowX: "auto",
+                                      padding: "4px 0",
+                                    }
                                     : {}
                                 }
                               >
@@ -737,7 +734,6 @@ export default function Tutor() {
           </div>
         </div>
 
-        {/* Scroll To Bottom */}
         {showScrollButton && (
           <button
             type="button"
@@ -766,7 +762,6 @@ export default function Tutor() {
         )}
       </div>
 
-      {/* Footer / Input */}
       <div
         style={{
           background:

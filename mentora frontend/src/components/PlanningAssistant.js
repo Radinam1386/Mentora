@@ -207,24 +207,15 @@ export default function PlanningAssistant() {
       <div
         className="container py-4"
         style={{
-          maxWidth: "1100px",
+          maxWidth: "1200px",
           direction: "rtl",
           fontFamily: "Vazir, Tahoma, Arial, sans-serif",
         }}
       >
-        <div className="d-flex flex-column gap-4">
+        <div className="d-flex flex-column gap-4" style={{ direction: "rtl" }}>
           <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
             <div className="card-body p-4 text-end">
               <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
-                <button
-                  type="button"
-                  onClick={handleCreateNewPlan}
-                  className="btn btn-light border d-inline-flex align-items-center gap-2 fw-bold"
-                  style={{ borderRadius: "14px", fontSize: "12px" }}
-                >
-                  <RotateCcw size={14} />
-                  دریافت برنامه جدید
-                </button>
 
                 <div>
                   <h2
@@ -238,6 +229,16 @@ export default function PlanningAssistant() {
                     منبع تولید: {plan.source === "llm" ? "مدل زبانی" : "موتور داخلی برنامه‌ریز"}
                   </p>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={handleCreateNewPlan}
+                  className="btn btn-light border d-inline-flex align-items-center gap-2 fw-bold"
+                  style={{ borderRadius: "14px", fontSize: "12px" }}
+                >
+                  <RotateCcw size={14} />
+                  دریافت برنامه جدید
+                </button>
               </div>
 
               {plan.generationError && (
@@ -274,14 +275,14 @@ export default function PlanningAssistant() {
             </div>
           </div>
 
-          <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
+          <div className="card border-0 shadow-sm" style={{ borderRadius: "24px", direction: "rtl" }}>
             <div className="card-body p-4 text-end">
               <h3
-                className="fw-bold d-flex align-items-center justify-content-end gap-2 mb-4"
+                className="fw-bold d-flex align-items-center justify-content-start gap-2 mb-4"
                 style={{ fontSize: "14px" }}
               >
-                اولویت‌بندی درس‌ها
                 <Target size={15} color="#6255f5" />
+                اولویت‌بندی درس‌ها
               </h3>
 
               <div className="row g-3">
@@ -314,11 +315,11 @@ export default function PlanningAssistant() {
                       }}
                     >
                       <div className="d-flex justify-content-between align-items-center gap-2 mb-3">
-                        <span className="fw-bold" style={{ fontSize: "12px", color: "#6255f5" }}>
-                          {course.recommendedWeeklyHours} ساعت پیشنهادی
-                        </span>
                         <span className="fw-bold text-dark" style={{ fontSize: "14px" }}>
                           {course.name}
+                        </span>
+                        <span className="fw-bold" style={{ fontSize: "12px", color: "#6255f5" }}>
+                          {course.recommendedWeeklyHours} ساعت پیشنهادی
                         </span>
                       </div>
 
@@ -364,11 +365,11 @@ export default function PlanningAssistant() {
           <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
             <div className="card-body p-4 text-end">
               <h3
-                className="fw-bold d-flex align-items-center justify-content-end gap-2 mb-4"
+                className="fw-bold d-flex align-items-center justify-content-start gap-2 mb-4"
                 style={{ fontSize: "14px" }}
               >
-                برنامه روزانه هفته
                 <CalendarDays size={15} color="#6255f5" />
+                برنامه روزانه هفته
               </h3>
 
               <div className="d-flex flex-column gap-3">
@@ -380,9 +381,18 @@ export default function PlanningAssistant() {
                       borderRadius: "18px",
                       padding: "16px",
                       boxShadow: "0 2px 8px rgba(15,23,42,0.04)",
+                      direction: "rtl"
                     }}
                   >
                     <div className="d-flex justify-content-between align-items-center gap-3 pb-2 mb-3 border-bottom">
+                      <div>
+                        <h4 className="mb-1 fw-bold text-dark" style={{ fontSize: "15px" }}>
+                          {day.day}
+                        </h4>
+                        <p className="mb-0 text-muted" style={{ fontSize: "11px" }}>
+                          {day.date}
+                        </p>
+                      </div>
                       <span
                         style={{
                           background: "#ecfdf5",
@@ -396,14 +406,6 @@ export default function PlanningAssistant() {
                       >
                         {day.totalHours}
                       </span>
-                      <div>
-                        <h4 className="mb-1 fw-bold text-dark" style={{ fontSize: "15px" }}>
-                          {day.day}
-                        </h4>
-                        <p className="mb-0 text-muted" style={{ fontSize: "11px" }}>
-                          {day.date}
-                        </p>
-                      </div>
                     </div>
 
                     <div className="d-flex flex-column gap-2">
@@ -506,11 +508,11 @@ export default function PlanningAssistant() {
           <div className="card border-0 shadow-sm" style={{ borderRadius: "24px" }}>
             <div className="card-body p-4 text-end">
               <h3
-                className="fw-bold d-flex align-items-center justify-content-end gap-2 mb-3"
+                className="fw-bold d-flex align-items-center justify-content-start gap-2 mb-3"
                 style={{ fontSize: "14px" }}
               >
-                پیشنهادها و به‌روزرسانی پروفایل
                 <ClipboardList size={15} color="#6255f5" />
+                پیشنهادها و به‌روزرسانی پروفایل
               </h3>
 
               <div className="d-flex flex-column gap-2">

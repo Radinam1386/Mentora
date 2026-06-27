@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import confetti from "canvas-confetti";
 import "katex/dist/katex.min.css";
 import {
   AlertCircle,
@@ -172,6 +173,7 @@ export default function Practice() {
   const [answers, setAnswers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sessionLoaded, setSessionLoaded] = useState(false);
+  const [showDamage, setShowDamage] = useState(false);
 
   const lessonConfig = useMemo(
     () => lessons.find((item) => item.name === lesson),
@@ -198,6 +200,43 @@ export default function Practice() {
 
     return { total, correct, wrong, unsolved, rawPercent, negativePercent };
   }, [answers, questions]);
+
+  const fireCorrectConfetti = () => {
+    const defaults = {
+      spread: 70,
+      ticks: 120,
+      gravity: 0.95,
+      decay: 0.94,
+      startVelocity: 28,
+      scalar: 1,
+      zIndex: 9999,
+    };
+
+    confetti({
+      ...defaults,
+      particleCount: 70,
+      origin: { x: 0.2, y: 0.5 },
+    });
+
+    confetti({
+      ...defaults,
+      particleCount: 70,
+      origin: { x: 0.8, y: 0.6 },
+    });
+
+    confetti({
+      ...defaults,
+      particleCount: 45,
+      origin: { x: 0.5, y: 0.45 },
+    });
+  };
+
+  const triggerWrongFlash = () => {
+    setShowDamage(true);
+    window.setTimeout(() => {
+      setShowDamage(false);
+    }, 420);
+  };
 
   const resetRun = () => {
     clearPracticeSession();
@@ -364,11 +403,18 @@ export default function Practice() {
 
   const answerQuestion = (optionIndex) => {
     if (!currentQuestion || hasAnswered) return;
+
     setAnswers((prev) => {
       const next = [...prev];
       next[currentIndex] = optionIndex;
       return next;
     });
+
+    if (optionIndex === currentQuestion.correctAnswer) {
+      fireCorrectConfetti();
+    } else {
+      triggerWrongFlash();
+    }
   };
 
   const goNext = () => {
@@ -389,11 +435,35 @@ export default function Practice() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "1040px",
+        maxWidth: "1200px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
+        position: "relative",
       }}
     >
+      {showDamage && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(239, 68, 68, 0.22)",
+            pointerEvents: "none",
+            zIndex: 9998,
+            animation: "damageFlash 420ms ease-out",
+          }}
+        />
+      )}
+
+      <style>
+        {`
+          @keyframes damageFlash {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+        `}
+      </style>
+
       <div className="d-flex flex-column gap-3">
         <div
           className="bg-white border shadow-sm"

@@ -24,8 +24,10 @@ import Subscription from './components/Subscription';
 import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
-import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup';
+import StudyLoading from './components/StudyLoading'
+import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup'
 import { useApp } from './context/AppContext';
+import ComingSoon from './components/ComingSoon';
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
   const { profile } = useApp();
@@ -87,7 +89,8 @@ function App() {
           <Route path="/focustimer" element={<FocusTimer />} />
           <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
           <Route path="/subscription" element={<Subscription />} />
-          <Route path="/subscriptionsuccesspopup" element={<SubscriptionSuccessPopup />} />
+          <Route path="/loading" element={<StudyLoading />} />
+          <Route path="/exams" element={<ComingSoon />} />
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
         </Route>

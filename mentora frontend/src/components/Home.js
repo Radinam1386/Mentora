@@ -295,9 +295,9 @@ export default function Home({
 
         <div className="row g-3">
           {quickStats.map((item, index) => (
-            <div className="col-12 col-sm-6 col-lg-3 " key={index}>
+            <div className="col-12 col-sm-6 col-lg-3" key={index}>
               <div
-                className="bg-white h-100"
+                className="bg-white h-100 d-flex flex-row align-items-center gap-3 gap-sm-0 align-items-start"
                 style={{
                   borderRadius: "22px",
                   padding: "16px",
@@ -306,7 +306,7 @@ export default function Home({
                 }}
               >
                 <div
-                  className="d-flex align-items-center justify-content-center mb-3"
+                  className="d-flex align-items-center justify-content-center flex-shrink-0"
                   style={{
                     width: "42px",
                     height: "42px",
@@ -318,29 +318,33 @@ export default function Home({
                   {item.icon}
                 </div>
 
-                <div
-                  style={{
-                    fontSize: "11px",
-                    color: "#6b7280",
-                    marginBottom: "6px",
-                  }}
-                >
-                  {item.title}
-                </div>
+                <div className="flex-grow-1 m-2">
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      color: "#6b7280",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {item.title}
+                  </div>
 
-                <div
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: 900,
-                    color: "#111827",
-                  }}
-                >
-                  {item.value}
+                  <div
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 900,
+                      color: "#111827",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {item.value}
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
+
         <section aria-labelledby="mentora-features">
           <div className="d-flex align-items-center justify-content-between mb-3 px-1">
             <h2

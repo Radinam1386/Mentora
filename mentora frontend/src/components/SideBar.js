@@ -12,6 +12,7 @@ import {
     X,
     TextIcon,
     ShoppingBasket,
+    NotebookTabs
 } from "lucide-react";
 
 export default function AppSidebar({ open, onClose }) {
@@ -32,6 +33,7 @@ export default function AppSidebar({ open, onClose }) {
         { key: "/tutor", label: "مربی هوشمند", icon: <Bot size={18} /> },
         { key: "/practice", label: "تمرین و آزمون", icon: <BookMarked size={18} /> },
         { key: "/reports", label: "گزارش‌ها", icon: <BarChart3 size={18} /> },
+        { key: "/exams", label: "نهایی", icon: <NotebookTabs size={18} /> },
         { key: "/focustimer", label: "تایمر فوکوس", icon: <Hourglass size={18} /> },
         { key: "/blog", label: "بلاگ", icon: <TextIcon size={18} /> },
         { key: "/subscription", label: "اشتراک", icon: <ShoppingBasket size={18} /> },
@@ -89,7 +91,6 @@ export default function AppSidebar({ open, onClose }) {
             border-left: 1px solid #eef2f7;
             z-index: 2000;
             transform: translateX(100%);
-            box-shadow: -20px 0 60px rgba(15, 23, 42, 0.18);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
           }
@@ -182,13 +183,12 @@ export default function AppSidebar({ open, onClose }) {
                     </div>
 
                     <div
-                        className="d-none d-md-block"
+                        className="d-none d-md-block text-center"
                         style={{
                             background: "linear-gradient(to left, #6255f5, #4f46e5)",
-                            borderRadius: "24px",
-                            padding: "18px",
+                            borderRadius: "12px",
+                            padding: "15px",
                             color: "white",
-                            marginBottom: "18px",
                         }}
                     >
                         <div
@@ -199,16 +199,6 @@ export default function AppSidebar({ open, onClose }) {
                             }}
                         >
                             مسیر موفقیت تو شروع شده ✨
-                        </div>
-
-                        <div
-                            style={{
-                                fontSize: "11px",
-                                lineHeight: "2",
-                                color: "#e9e7ff",
-                            }}
-                        >
-                            هر روز با یک قدم کوچک اما پیوسته، به هدفت نزدیک‌تر می‌شوی.
                         </div>
                     </div>
 
@@ -225,7 +215,7 @@ export default function AppSidebar({ open, onClose }) {
                                     padding: "12px",
                                     borderRadius: "12px",
                                     textDecoration: "none",
-                                    
+
                                     color: isActive ? "#6255f5" : "#374151",
                                     background: isActive
                                         ? "rgba(98,85,245,0.1)"

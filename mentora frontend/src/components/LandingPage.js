@@ -147,7 +147,7 @@ export default function LandingPage() {
 
   const stats = [
     {
-      value: "+۱۲",
+      value: "۱۲+",
       label: "روز استمرار پیشنهادی",
       icon: <Flame size={20} />,
     },
@@ -1060,7 +1060,6 @@ export default function LandingPage() {
         </Row>
       </Container>
 
-      {/* Features */}
       <Container
         id="features-section"
         className="landing-shell"
@@ -1148,7 +1147,6 @@ export default function LandingPage() {
         </Row>
       </Container>
 
-      {/* How it works */}
       <Container className="landing-shell" style={{ paddingBottom: "70px" }}>
         <Row className="align-items-center g-4 mb-4">
           <Col lg={7}>
@@ -1266,7 +1264,6 @@ export default function LandingPage() {
         </Row>
       </Container>
 
-      {/* Audience */}
       <Container className="landing-shell" style={{ paddingBottom: "70px" }}>
         <Card
           className="audience-card-mentora"

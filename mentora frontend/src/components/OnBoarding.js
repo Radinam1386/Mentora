@@ -31,7 +31,7 @@ const Onboarding = () => {
       }
 
       completeOnboarding(data.profile, data.tasks);
-      navigate("/today");
+      navigate("/home");
     } catch (err) {
       setError(err.message || "برقراری ارتباط با سرور برقرار نشد.");
     } finally {
@@ -41,15 +41,14 @@ const Onboarding = () => {
 
   return (
     <div
-      className="min-vh-100 d-flex align-items-center justify-content-center p-3"
+      className="min-vh-100 d-flex align-items-center justify-content-center p-2"
       style={{
-        background: "linear-gradient(to bottom, #f8fafc, #eef2f6)",
         fontFamily: "Vazir ,Tahoma, Arial, sans-serif",
         direction: "rtl"
       }}
     >
       <div
-        className="row g-0 overflow-hidden shadow-lg"
+        className="row g-0 overflow-hidden"
         style={{
           maxWidth: "1200px",
           width: "100%",
@@ -58,7 +57,6 @@ const Onboarding = () => {
           border: "1px solid #f1f5f9"
         }}
       >
-        {/* Left Side (Decorative Header) */}
         <div
           className="col-md-5 d-flex flex-column justify-content-center align-items-center text-center text-md-end p-4 p-md-5 position-relative text-white"
           style={{
@@ -76,7 +74,6 @@ const Onboarding = () => {
           </p>
         </div>
 
-        {/* Right Side (Form) */}
         <div className="col-md-7 p-4 p-md-5">
           <form onSubmit={handleSubmit}>
             <div className="text-center mb-4">
@@ -90,7 +87,6 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Grade Selection */}
             <div className="mb-4 text-end">
               <label className="form-label d-flex align-items-center justify-content-start gap-2 fw-bold text-secondary small">
                 <BookOpen size={16} className="text-primary" />
@@ -103,8 +99,8 @@ const Onboarding = () => {
                       type="button"
                       onClick={() => setGrade(g)}
                       className={`btn w-100 py-2 fw-bold small ${grade === g
-                          ? "btn-primary shadow-sm"
-                          : "btn-light border text-muted"
+                        ? "btn-primary shadow-sm"
+                        : "btn-light border text-muted"
                         }`}
                       style={{ borderRadius: "12px" }}
                     >
@@ -115,7 +111,6 @@ const Onboarding = () => {
               </div>
             </div>
 
-            {/* Major Selection */}
             <div className="mb-4 text-end">
               <label className="form-label d-flex align-items-center justify-content-start gap-2 fw-bold text-secondary small">
                 <Trophy size={16} className="text-primary" />
@@ -128,8 +123,8 @@ const Onboarding = () => {
                       type="button"
                       onClick={() => setMajor(m)}
                       className={`btn w-100 py-2 fw-bold small ${major === m
-                          ? "btn-primary shadow-sm"
-                          : "btn-light border text-muted"
+                        ? "btn-primary shadow-sm"
+                        : "btn-light border text-muted"
                         }`}
                       style={{ borderRadius: "12px" }}
                     >

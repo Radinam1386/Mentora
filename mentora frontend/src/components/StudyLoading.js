@@ -102,8 +102,6 @@ const wrapperStyle = {
     padding: "24px",
     direction: "rtl",
     fontFamily: "Vazir, Tahoma",
-    background:
-        "radial-gradient(circle at top, rgba(98,85,245,0.12), transparent 35%), #f8f7ff",
 };
 
 const cardStyle = {
