@@ -20,7 +20,7 @@ from .auth_utils import (
     verify_password,
     WEEKDAY_TO_PERSIAN,
 )
-from .models import ChatMessage, DailyTask, SubscriptionPlan, User, UserSubscription, WeeklyPlan
+from .models import ChatMessage, DailyTask, QuizQuestion, SubscriptionPlan, User, UserSubscription, WeeklyPlan
 from .question_solver import QuestionSolverConfigError, solve_student_question
 
 PLANNING_ASSISTANT_DIR = Path(__file__).resolve().parents[2] / "Planning-Assistant"
@@ -56,6 +56,13 @@ SUBSCRIPTION_ACTIVATION_CODE = os.environ.get(
 ).strip()
 FREE_TRIAL_DAYS = 10
 WEEKLY_PLANNING_LIMIT = 10
+
+
+def env_flag(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
 def to_int(value, default=0):
@@ -285,6 +292,141 @@ def serialize_task(task):
         "completed": task.is_completed,
         "category": task.category,
         "scheduledDate": task.scheduled_date.isoformat(),
+    }
+
+
+PRACTICE_ALL_TOPICS = "همه مباحث"
+PRACTICE_ALL_GRADES = "جامع"
+PRACTICE_DEFAULT_COUNT_OPTIONS = [5, 10, 15, 20, 25, 30]
+PRACTICE_MAX_QUESTIONS = 50
+PRACTICE_ENABLE_TOPICS = env_flag("PRACTICE_ENABLE_TOPICS", False)
+PRACTICE_ENABLE_EXPLANATIONS = env_flag("PRACTICE_ENABLE_EXPLANATIONS", False)
+PRACTICE_ENABLE_DIFFICULTY = env_flag("PRACTICE_ENABLE_DIFFICULTY", False)
+PRACTICE_COMMON_GRADES = ["دهم", "یازدهم", "دوازدهم", PRACTICE_ALL_GRADES]
+PRACTICE_CATALOG = {
+    "ریاضی": [
+        {"name": "حسابان", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "هندسه", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "شیمی", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "فیزیک", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "گسسته", "grades": ["دوازدهم", PRACTICE_ALL_GRADES]},
+        {"name": "آمار", "grades": ["یازدهم", PRACTICE_ALL_GRADES]},
+    ],
+    "تجربی": [
+        {"name": "ریاضی", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "فیزیک", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "شیمی", "grades": PRACTICE_COMMON_GRADES},
+        {"name": "زیست", "grades": PRACTICE_COMMON_GRADES},
+    ],
+}
+
+
+def normalize_practice_major(value, user=None):
+    major = validate_major(value or "")
+    if major:
+        return major
+    if user:
+        major = validate_major(user.major or "")
+        if major:
+            return major
+    return "تجربی"
+
+
+def practice_lessons_for_major(major):
+    return [
+        {"name": item["name"], "grades": list(item["grades"])}
+        for item in PRACTICE_CATALOG.get(major, PRACTICE_CATALOG["تجربی"])
+    ]
+
+
+def practice_lesson_map(major):
+    return {item["name"]: item["grades"] for item in practice_lessons_for_major(major)}
+
+
+def default_practice_lesson(major):
+    lessons = practice_lessons_for_major(major)
+    return lessons[0]["name"] if lessons else ""
+
+
+def normalize_practice_lesson(major, lesson):
+    lesson_map = practice_lesson_map(major)
+    if lesson in lesson_map:
+        return lesson
+    return default_practice_lesson(major)
+
+
+def normalize_practice_grade(major, lesson, grade, user=None):
+    grades = practice_lesson_map(major).get(lesson, [])
+    if grade in grades:
+        return grade
+    if user and user.grade in grades:
+        return user.grade
+    if PRACTICE_ALL_GRADES in grades:
+        return PRACTICE_ALL_GRADES
+    return grades[0] if grades else ""
+
+
+def practice_question_queryset(major, lesson, grade, topic=""):
+    queryset = QuizQuestion.objects.filter(
+        lesson=lesson,
+        major__in=[major, "مشترک"],
+    )
+
+    if grade and grade != PRACTICE_ALL_GRADES:
+        queryset = queryset.filter(grade=grade)
+    elif grade == PRACTICE_ALL_GRADES:
+        grade_options = [
+            item_grade
+            for item_grade in practice_lesson_map(major).get(lesson, [])
+        ]
+        if grade_options:
+            queryset = queryset.filter(grade__in=grade_options)
+
+    if PRACTICE_ENABLE_TOPICS and topic and topic != PRACTICE_ALL_TOPICS:
+        queryset = queryset.filter(topic=topic)
+
+    return queryset
+
+
+def practice_topics_for_selection(major, lesson, grade):
+    if not PRACTICE_ENABLE_TOPICS:
+        return [PRACTICE_ALL_TOPICS]
+
+    topics = list(
+        practice_question_queryset(major, lesson, grade)
+        .exclude(topic="")
+        .order_by("topic")
+        .values_list("topic", flat=True)
+        .distinct()
+    )
+    return [PRACTICE_ALL_TOPICS, *topics] if topics else [PRACTICE_ALL_TOPICS]
+
+
+def serialize_practice_question(question):
+    payload = {
+        "id": question.id,
+        "major": question.major,
+        "lesson": question.lesson,
+        "grade": question.grade,
+        "subject": question.subject,
+        "questionText": question.question_text,
+        "options": question.options,
+        "correctAnswer": question.correct_answer_index,
+    }
+    if PRACTICE_ENABLE_TOPICS:
+        payload["topic"] = question.topic
+    if PRACTICE_ENABLE_EXPLANATIONS:
+        payload["explanation"] = question.explanation
+    if PRACTICE_ENABLE_DIFFICULTY:
+        payload["difficulty"] = question.difficulty
+    return payload
+
+
+def practice_feature_flags():
+    return {
+        "topics": PRACTICE_ENABLE_TOPICS,
+        "explanations": PRACTICE_ENABLE_EXPLANATIONS,
+        "difficulty": PRACTICE_ENABLE_DIFFICULTY,
     }
 
 
@@ -855,6 +997,74 @@ def weekly_plans_list(request):
     plans = user.weekly_plans.order_by("-created_at")[:10]
     return Response({
         "plans": [serialize_weekly_plan(p) for p in plans],
+    })
+
+
+@api_view(["GET"])
+@require_auth
+def practice_filters(request):
+    user = request.mentora_user
+    major = normalize_practice_major(request.GET.get("major"), user)
+    lesson = normalize_practice_lesson(major, request.GET.get("lesson") or "")
+    grade = normalize_practice_grade(major, lesson, request.GET.get("grade") or "", user)
+    topics = practice_topics_for_selection(major, lesson, grade)
+    topic = request.GET.get("topic") or (topics[0] if topics else PRACTICE_ALL_TOPICS)
+    if topic not in topics:
+        topic = topics[0] if topics else PRACTICE_ALL_TOPICS
+
+    return Response({
+        "major": major,
+        "lessons": practice_lessons_for_major(major),
+        "selectedLesson": lesson,
+        "selectedGrade": grade,
+        "selectedTopic": topic,
+        "topics": topics,
+        "questionCounts": PRACTICE_DEFAULT_COUNT_OPTIONS,
+        "features": practice_feature_flags(),
+        "availableCount": practice_question_queryset(major, lesson, grade, topic).count(),
+    })
+
+
+@api_view(["POST"])
+@require_auth
+def practice_questions(request):
+    user = request.mentora_user
+    major = normalize_practice_major(request.data.get("major"), user)
+    lesson = request.data.get("lesson") or ""
+    grade = request.data.get("grade") or ""
+    topic = request.data.get("topic") or PRACTICE_ALL_TOPICS
+    count = max(1, min(PRACTICE_MAX_QUESTIONS, to_int(request.data.get("count"), 10)))
+
+    lesson_map = practice_lesson_map(major)
+    if lesson not in lesson_map:
+        return Response({"error": "درس انتخاب‌شده برای این رشته معتبر نیست."}, status=400)
+    if grade not in lesson_map[lesson]:
+        return Response({"error": "پایه انتخاب‌شده برای این درس معتبر نیست."}, status=400)
+
+    topics = practice_topics_for_selection(major, lesson, grade)
+    if PRACTICE_ENABLE_TOPICS and topic not in topics:
+        return Response({"error": "مبحث انتخاب‌شده برای این درس و پایه پیدا نشد."}, status=400)
+    if not PRACTICE_ENABLE_TOPICS:
+        topic = PRACTICE_ALL_TOPICS
+
+    queryset = practice_question_queryset(major, lesson, grade, topic)
+    available_count = queryset.count()
+    if not available_count:
+        return Response({
+            "error": "برای این ترکیب درس، پایه و مبحث هنوز سوالی در بانک سوال ثبت نشده است.",
+            "availableCount": 0,
+        }, status=404)
+
+    questions = list(queryset.order_by("?")[:count])
+    return Response({
+        "major": major,
+        "lesson": lesson,
+        "grade": grade,
+        "topic": topic,
+        "requestedCount": count,
+        "availableCount": available_count,
+        "features": practice_feature_flags(),
+        "questions": [serialize_practice_question(question) for question in questions],
     })
 
 

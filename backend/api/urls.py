@@ -12,6 +12,8 @@ urlpatterns = [
     path('planner/courses', views.planning_courses),
     path('planner/weekly', views.weekly_planning),
     path('planner/plans', views.weekly_plans_list),
+    path('practice/filters', views.practice_filters),
+    path('practice/questions', views.practice_questions),
     path('subscription/plans', views.subscription_plans),
     path('subscription', views.subscription_status),
     path('subscription/activate', views.activate_subscription),

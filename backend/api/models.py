@@ -65,12 +65,16 @@ class ChatMessage(models.Model):
 
 
 class QuizQuestion(models.Model):
+    major = models.CharField(max_length=50, blank=True, default="", db_index=True)
+    lesson = models.CharField(max_length=100, blank=True, default="", db_index=True)
+    grade = models.CharField(max_length=50, blank=True, default="", db_index=True)
+    topic = models.CharField(max_length=255, blank=True, default="", db_index=True)
     subject = models.CharField(max_length=255)
     question_text = models.TextField()
     options = models.JSONField(default=list)
     correct_answer_index = models.IntegerField()
-    explanation = models.TextField()
-    difficulty = models.CharField(max_length=50, default="متوسط")
+    explanation = models.TextField(blank=True, default="")
+    difficulty = models.CharField(max_length=50, blank=True, default="")
 
 
 class DiagnosticTest(models.Model):
