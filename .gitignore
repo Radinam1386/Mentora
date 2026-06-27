@@ -8,4 +8,3 @@ backend/staticfiles/
 RAG/Books/
 mentora frontend/node_modules/
 backend/db.sqlite3
-mentora frontend/package-lock.json
