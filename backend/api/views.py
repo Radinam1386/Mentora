@@ -54,6 +54,8 @@ SUBSCRIPTION_ACTIVATION_CODE = os.environ.get(
     "SUBSCRIPTION_ACTIVATION_CODE",
     "mentora-admin-subscription-extending-code",
 ).strip()
+FREE_TRIAL_DAYS = 10
+WEEKLY_PLANNING_LIMIT = 10
 
 
 def to_int(value, default=0):
@@ -200,6 +202,47 @@ def serialize_subscription(subscription):
         "endDate": format_persian_date(subscription.end_date),
         "price": subscription.price,
         "priceLabel": format_price(subscription.price),
+    }
+
+
+def grant_free_trial_subscription(user):
+    if not user or user.subscriptions.exists():
+        return None
+
+    start_date = current_local_date()
+    end_date = start_date + timedelta(days=FREE_TRIAL_DAYS - 1)
+    return UserSubscription.objects.create(
+        user=user,
+        plan=None,
+        plan_name=f"اشتراک رایگان {to_persian_digits(FREE_TRIAL_DAYS)} روزه",
+        price=0,
+        total_days=FREE_TRIAL_DAYS,
+        start_date=start_date,
+        end_date=end_date,
+        is_active=True,
+    )
+
+
+def weekly_plan_limit_window():
+    today = current_local_date()
+    days_since_saturday = (today.weekday() - 5) % 7
+    return today - timedelta(days=days_since_saturday)
+
+
+def serialize_weekly_plan(plan):
+    if not plan:
+        return None
+
+    return {
+        "id": plan.id,
+        "planId": plan.id,
+        "startDate": plan.start_date.isoformat(),
+        "status": plan.status,
+        "dailyPlan": plan.daily_plan,
+        "recommendations": plan.recommendations,
+        "markdown": plan.markdown,
+        "source": plan.source,
+        "createdAt": plan.created_at.isoformat(),
     }
 
 
@@ -613,6 +656,7 @@ def register(request):
         password=hash_password(password),
         onboarding_completed=False,
     )
+    grant_free_trial_subscription(user)
     token = generate_token(user)
     return Response({
         "message": "ثبت‌نام با موفقیت انجام شد.",
@@ -658,14 +702,7 @@ def auth_me(request):
     latest_plan = user.weekly_plans.order_by("-created_at").first()
     return Response({
         "profile": serialize_profile(user),
-        "latestWeeklyPlan": {
-            "id": latest_plan.id,
-            "startDate": latest_plan.start_date.isoformat(),
-            "status": latest_plan.status,
-            "dailyPlan": latest_plan.daily_plan,
-            "recommendations": latest_plan.recommendations,
-            "createdAt": latest_plan.created_at.isoformat(),
-        } if latest_plan else None,
+        "latestWeeklyPlan": serialize_weekly_plan(latest_plan),
     })
 
 
@@ -729,6 +766,16 @@ def weekly_planning(request):
     user = request.mentora_user
     if build_profile is None or build_planning_prompt is None:
         return Response({"error": "ماژول Planning Assistant در پروژه پیدا نشد."}, status=500)
+
+    week_start = weekly_plan_limit_window()
+    generated_this_week = user.weekly_plans.filter(created_at__date__gte=week_start).count()
+    if generated_this_week >= WEEKLY_PLANNING_LIMIT:
+        return Response({
+            "error": f"سقف تولید برنامه این هفته تمام شده است. هر کاربر در هر هفته می‌تواند {to_persian_digits(WEEKLY_PLANNING_LIMIT)} برنامه دریافت کند.",
+            "plansUsedThisWeek": generated_this_week,
+            "plansRemainingThisWeek": 0,
+            "weeklyLimit": WEEKLY_PLANNING_LIMIT,
+        }, status=429)
 
     try:
         student, availability, course_inputs, courses_data = normalize_planning_payload(request.data, user)
@@ -795,6 +842,9 @@ def weekly_planning(request):
         "planId": weekly_plan.id,
         "tasksCreated": len(created_tasks),
         "generationError": fallback.get("generationError"),
+        "plansUsedThisWeek": generated_this_week + 1,
+        "plansRemainingThisWeek": max(0, WEEKLY_PLANNING_LIMIT - generated_this_week - 1),
+        "weeklyLimit": WEEKLY_PLANNING_LIMIT,
     })
 
 
@@ -804,18 +854,7 @@ def weekly_plans_list(request):
     user = request.mentora_user
     plans = user.weekly_plans.order_by("-created_at")[:10]
     return Response({
-        "plans": [
-            {
-                "id": p.id,
-                "startDate": p.start_date.isoformat(),
-                "status": p.status,
-                "dailyPlan": p.daily_plan,
-                "recommendations": p.recommendations,
-                "source": p.source,
-                "createdAt": p.created_at.isoformat(),
-            }
-            for p in plans
-        ],
+        "plans": [serialize_weekly_plan(p) for p in plans],
     })
 
 

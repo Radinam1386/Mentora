@@ -2,21 +2,27 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, Sparkles, X } from "lucide-react";
 import { useApp } from "../context/AppContext";
 
-export default function SubscriptionSuccessPopup({ isPurchased }) {
-    const [showPopup, setShowPopup] = useState(true);
+export default function SubscriptionSuccessPopup({ isPurchased = true }) {
+    const [showPopup, setShowPopup] = useState(false);
     const { profile } = useApp();
     const safeProfile = profile && typeof profile === "object" ? profile : {};
     const subscriptionDays = safeProfile.subscription_days || 10;
 
     useEffect(() => {
-        if (isPurchased) {
-            const hasSeen = localStorage.getItem("subscription_success_seen");
-            if (!hasSeen) {
-                setShowPopup(true);
-                localStorage.setItem("subscription_success_seen", "true");
-            }
+        if (!isPurchased) {
+            setShowPopup(false);
+            return;
         }
-    }, [isPurchased]);
+
+        const userKey = safeProfile.email || "guest";
+        const storageKey = `subscription_success_seen_${userKey}`;
+        const hasSeen = localStorage.getItem(storageKey);
+
+        if (!hasSeen) {
+            setShowPopup(true);
+            localStorage.setItem(storageKey, "true");
+        }
+    }, [isPurchased, safeProfile.email]);
 
     const closePopup = () => setShowPopup(false);
 

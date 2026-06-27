@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import './App.css';
 import './index.css';
 
@@ -25,9 +25,11 @@ import NotFound from './components/NotFound'
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
 import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup';
+import { useApp } from './context/AppContext';
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
-  const location = useLocation();
+  const { profile } = useApp();
+  const hasActiveSubscription = Boolean(profile?.subscriptionActive);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 992) {
@@ -54,6 +56,8 @@ function AppLayout() {
         <div className="main-content p-3">
           <Outlet />
         </div>
+
+        {hasActiveSubscription && <SubscriptionSuccessPopup isPurchased />}
 
         <AppFooter />
       </div>

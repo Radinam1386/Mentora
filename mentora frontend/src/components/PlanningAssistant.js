@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { apiJson } from "../utils/api";
-import StudyLoading from "./StudyLoading";
 
 const DAYS = ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"];
 
@@ -25,9 +24,8 @@ const defaultCourseInput = () => ({
 });
 
 export default function PlanningAssistant() {
-  const { profile, refresh } = useApp();
+  const { profile, latestWeeklyPlan, refresh, loadMe } = useApp();
 
-  const [pageLoading, setPageLoading] = useState(true);
   const [studentName, setStudentName] = useState("دانش‌آموز منتورا");
   const [grade, setGrade] = useState((profile && profile.grade) || "دوازدهم");
   const [major, setMajor] = useState((profile && profile.major) || "تجربی");
@@ -46,10 +44,12 @@ export default function PlanningAssistant() {
   const [catalog, setCatalog] = useState([]);
   const [courses, setCourses] = useState({});
   const [plan, setPlan] = useState(null);
+  const [creatingNewPlan, setCreatingNewPlan] = useState(false);
   const [loadingCatalog, setLoadingCatalog] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
   const [initializedFromProfile, setInitializedFromProfile] = useState(false);
+  const [initializedLatestPlan, setInitializedLatestPlan] = useState(false);
 
   const weeklyHours = useMemo(() => {
     return Object.values(dailyHours).reduce((sum, value) => sum + Number(value || 0), 0);
@@ -57,7 +57,6 @@ export default function PlanningAssistant() {
 
   useEffect(() => {
     if (!profile || initializedFromProfile) {
-      setPageLoading(false);
       return;
     }
 
@@ -75,8 +74,30 @@ export default function PlanningAssistant() {
     setDailyHours(Object.fromEntries(DAYS.map((day) => [day, defaultStudyHours])));
 
     setInitializedFromProfile(true);
-    setPageLoading(false);
   }, [profile, initializedFromProfile]);
+
+  useEffect(() => {
+    const loadLatestPlan = async () => {
+      if (latestWeeklyPlan || initializedLatestPlan) {
+        return;
+      }
+
+      if (loadMe) {
+        await loadMe();
+      }
+      setInitializedLatestPlan(true);
+    };
+
+    loadLatestPlan();
+  }, [latestWeeklyPlan, initializedLatestPlan, loadMe]);
+
+  useEffect(() => {
+    if (!latestWeeklyPlan || plan || creatingNewPlan || !initializedFromProfile) {
+      return;
+    }
+
+    setPlan(latestWeeklyPlan);
+  }, [latestWeeklyPlan, plan, creatingNewPlan, initializedFromProfile]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -122,11 +143,11 @@ export default function PlanningAssistant() {
 
   const buildPayload = () => ({
     student: {
-      name: studentName,
-      grade,
-      major,
-      exam_year: examYear,
-      goal,
+      name: profile?.name || studentName || "دانش‌آموز منتورا",
+      grade: profile?.grade || grade || "دوازدهم",
+      major: profile?.major || major || "تجربی",
+      exam_year: profile?.examYear || examYear,
+      goal: profile?.targetRank ? `رسیدن به رتبه ${profile.targetRank}` : goal,
     },
     availability: {
       daily_hours: dailyHours,
@@ -156,9 +177,13 @@ export default function PlanningAssistant() {
       }
 
       setPlan(data);
+      setCreatingNewPlan(false);
 
       if (refresh) {
         await refresh({ silent: true });
+      }
+      if (loadMe) {
+        await loadMe();
       }
     } catch (err) {
       setError(err.message || "در فرآیند تولید برنامه خطایی رخ داد.");
@@ -167,17 +192,17 @@ export default function PlanningAssistant() {
     }
   };
 
-  if (true) {
-    return (
-      <StudyLoading
-        title="در حال آماده‌سازی دستیار برنامه‌ریزی"
-        subtitle="اطلاعات پروفایل و تنظیمات اولیه در حال بارگذاری است"
-        fullScreen={false}
-      />
-    );
-  }
+  const handleCreateNewPlan = () => {
+    setCreatingNewPlan(true);
+    setPlan(null);
+    setError("");
+  };
 
-  if (plan) {
+  if (plan && !creatingNewPlan) {
+    const courseSummary = Array.isArray(plan.courseSummary) ? plan.courseSummary : [];
+    const dailyPlan = Array.isArray(plan.dailyPlan) ? plan.dailyPlan : [];
+    const recommendations = Array.isArray(plan.recommendations) ? plan.recommendations : [];
+
     return (
       <div
         className="container py-4"
@@ -193,12 +218,12 @@ export default function PlanningAssistant() {
               <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
                 <button
                   type="button"
-                  onClick={() => setPlan(null)}
+                  onClick={handleCreateNewPlan}
                   className="btn btn-light border d-inline-flex align-items-center gap-2 fw-bold"
                   style={{ borderRadius: "14px", fontSize: "12px" }}
                 >
                   <RotateCcw size={14} />
-                  ویرایش اطلاعات
+                  دریافت برنامه جدید
                 </button>
 
                 <div>
@@ -260,7 +285,24 @@ export default function PlanningAssistant() {
               </h3>
 
               <div className="row g-3">
-                {plan.courseSummary.map((course) => (
+                {courseSummary.length === 0 && (
+                  <div className="col-12">
+                    <div
+                      className="text-center text-muted"
+                      style={{
+                        border: "1px solid #f1f5f9",
+                        background: "rgba(248,250,252,0.8)",
+                        borderRadius: "18px",
+                        padding: "18px",
+                        fontSize: "12px",
+                      }}
+                    >
+                      خلاصه درس‌ها برای این برنامه ذخیره نشده است.
+                    </div>
+                  </div>
+                )}
+
+                {courseSummary.map((course) => (
                   <div className="col-12 col-md-6" key={course.name}>
                     <div
                       className="h-100"
@@ -330,7 +372,7 @@ export default function PlanningAssistant() {
               </h3>
 
               <div className="d-flex flex-column gap-3">
-                {plan.dailyPlan.map((day) => (
+                {dailyPlan.map((day) => (
                   <div
                     key={`${day.date}-${day.day}`}
                     className="border bg-white"
@@ -472,7 +514,7 @@ export default function PlanningAssistant() {
               </h3>
 
               <div className="d-flex flex-column gap-2">
-                {plan.recommendations.map((item, index) => (
+                {recommendations.map((item, index) => (
                   <div
                     key={index}
                     style={{
@@ -525,7 +567,7 @@ export default function PlanningAssistant() {
                   دستیار برنامه‌ریزی
                 </h2>
                 <p className="text-muted mb-0" style={{ fontSize: "12px", lineHeight: "1.9" }}>
-                  اطلاعاتت را وارد کن تا منتورا یک برنامه هفتگی شخصی‌سازی‌شده و قابل اجرا برایت بسازد.
+                  زمان‌های آزاد و وضعیت درس‌ها را تنظیم کن تا منتورا برنامه هفتگی قابل اجرا بسازد.
                 </p>
               </div>
             </div>
@@ -544,95 +586,6 @@ export default function PlanningAssistant() {
                 {error}
               </div>
             )}
-
-            <div className="row g-3 mt-1">
-              <div className="col-12 col-md-6">
-                <label className="w-100">
-                  <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
-                    نام دانش‌آموز
-                  </span>
-                  <input
-                    value={studentName}
-                    onChange={(event) => setStudentName(event.target.value)}
-                    className="form-control text-end"
-                    style={inputStyle}
-                  />
-                </label>
-              </div>
-
-              <div className="col-12 col-md-6">
-                <label className="w-100">
-                  <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
-                    سال کنکور
-                  </span>
-                  <input
-                    value={examYear}
-                    onChange={(event) => setExamYear(event.target.value)}
-                    className="form-control text-end"
-                    style={inputStyle}
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className="row g-3 mt-1">
-              <div className="col-12 col-md-6">
-                <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
-                  پایه تحصیلی
-                </span>
-                <div className="row g-2">
-                  {["یازدهم", "دوازدهم"].map((item) => (
-                    <div className="col-4" key={item}>
-                      <button
-                        type="button"
-                        onClick={() => setGrade(item)}
-                        className="btn w-100"
-                        style={choiceButtonStyle(grade === item)}
-                      >
-                        {item}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="col-12 col-md-6">
-                <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
-                  رشته
-                </span>
-                <div className="row g-2">
-                  {["تجربی", "ریاضی"].map((item) => (
-                    <div className="col-6" key={item}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setMajor(item);
-                          setPlan(null);
-                        }}
-                        className="btn w-100"
-                        style={choiceButtonStyle(major === item)}
-                      >
-                        {item}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3">
-              <label className="w-100">
-                <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
-                  هدف اصلی
-                </span>
-                <input
-                  value={goal}
-                  onChange={(event) => setGoal(event.target.value)}
-                  className="form-control text-end"
-                  style={inputStyle}
-                />
-              </label>
-            </div>
           </div>
         </div>
 
@@ -940,13 +893,3 @@ const boxStyle = {
   borderRadius: "16px",
   padding: "12px",
 };
-
-const choiceButtonStyle = (active) => ({
-  borderRadius: "14px",
-  border: active ? "1px solid #6255f5" : "1px solid #e5e7eb",
-  background: active ? "rgba(98,85,245,0.06)" : "#f8fafc",
-  color: active ? "#6255f5" : "#6b7280",
-  fontSize: "12px",
-  fontWeight: 700,
-  padding: "10px 8px",
-});
