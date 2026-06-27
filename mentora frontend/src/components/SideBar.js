@@ -188,6 +188,7 @@ export default function AppSidebar({ open, onClose }) {
                             background: "linear-gradient(to left, #6255f5, #4f46e5)",
                             borderRadius: "12px",
                             padding: "15px",
+                            marginBottom : "10px",
                             color: "white",
                         }}
                     >
@@ -195,7 +196,6 @@ export default function AppSidebar({ open, onClose }) {
                             style={{
                                 fontSize: "13px",
                                 fontWeight: 800,
-                                marginBottom: "6px",
                             }}
                         >
                             مسیر موفقیت تو شروع شده ✨
@@ -215,7 +215,6 @@ export default function AppSidebar({ open, onClose }) {
                                     padding: "12px",
                                     borderRadius: "12px",
                                     textDecoration: "none",
-
                                     color: isActive ? "#6255f5" : "#374151",
                                     background: isActive
                                         ? "rgba(98,85,245,0.1)"

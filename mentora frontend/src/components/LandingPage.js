@@ -757,19 +757,6 @@ export default function LandingPage() {
 
             <div className="landing-nav-actions d-flex align-items-center gap-2">
               <Button
-                style={{
-                  borderRadius: "14px",
-                  padding: "10px 18px",
-                  background: "#6255f5",
-                  border: "none",
-                  fontWeight: "800",
-                  boxShadow: "0 10px 30px rgba(98,85,245,0.25)",
-                }}
-                onClick={() => navigate("/aboutus")}
-              >
-                درباره ما
-              </Button>
-              <Button
                 variant="light"
                 style={{
                   borderRadius: "14px",

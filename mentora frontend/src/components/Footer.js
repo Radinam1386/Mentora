@@ -61,19 +61,21 @@ export default function AppFooter() {
               <a href="/home" className="footer-link">داشبورد اصلی</a>
               <a href="/reports" className="footer-link">تحلیل عملکرد</a>
               <a href="/subscription" className="footer-link">ارتقای اشتراک</a>
+              <a href="/aboutus" className="footer-link">درباره ی ما</a>
             </div>
 
             <div className="footer-section" aria-label="لینک‌های سریع سایت">
               <h6 style={{ fontSize: "13px", fontWeight: 800, marginBottom: "12px", color: "#111827" }}>ارتباط با ما</h6>
-              <a href="mailto:support@mentora.ir" className="footer-link d-flex align-items-center gap-2 justify-content-center justify-content-md-start" aria-label="ارسال ایمیل به پشتیبانی منتورا"
+              <a href="mentora.support1@gmail.com" className="footer-link d-flex align-items-center gap-2 justify-content-center justify-content-md-start" aria-label="ارسال ایمیل به پشتیبانی منتورا"
               >
-                <Mail size={14} /> پشتیبانی ایمیلی
+                mentora.support1@gmail.com
+                <Mail size={14} />
               </a>
               <div className="d-flex gap-3 mt-2 justify-content-center justify-content-md-start">
-                <a href="#" aria-label="اینستاگرام منتورا">
+                <a href="https://www.instagram.com/mentoralearn" aria-label="اینستاگرام منتورا">
                   <Instagram size={20} color="#6b7280" />
                 </a>
-                <a href="https://t.me/ARS00hia" aria-label="تلگرام منتورا">
+                <a href="https://t.me/MentoraSupport1" aria-label="تلگرام منتورا">
                   <Send size={20} color="#6b7280" />
                 </a>
 
