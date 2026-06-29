@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/me', views.auth_me),
     path('auth/onboarding', views.onboarding),
     path('planner/today', views.today_plan),
+    path('planner/tasks', views.create_task),
     path('planner/tasks/<int:task_id>', views.update_task),
     path('planner/courses', views.planning_courses),
     path('planner/weekly', views.weekly_planning),

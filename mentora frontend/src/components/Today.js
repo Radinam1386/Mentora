@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CheckCircle2,
   Circle,
@@ -7,14 +7,39 @@ import {
   Sparkles,
   BookOpen,
   Clock,
+  Edit3,
+  Plus,
+  Save,
+  Trash2,
+  X,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { Link } from "react-router-dom";
 
+const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export default function Today() {
-  const { profile, tasks, stats, toggleTask } = useApp();
+  const { profile, tasks, stats, toggleTask, createTask, updateTask, deleteTask } = useApp();
   const onToggleTask = toggleTask;
   const today = new Date();
+  const todayIso = formatLocalDate(today);
+  const emptyTaskForm = {
+    title: "",
+    duration: "",
+    category: "شخصی",
+    scheduledDate: todayIso,
+  };
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [taskForm, setTaskForm] = useState(emptyTaskForm);
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingForm, setEditingForm] = useState(emptyTaskForm);
+  const [taskActionError, setTaskActionError] = useState("");
+  const [savingTask, setSavingTask] = useState(false);
 
   const formattedDate = new Date().toLocaleDateString("fa-IR", {
     weekday: "long",
@@ -51,6 +76,71 @@ export default function Today() {
   const handleToggleTask = (task) => {
     if (!onToggleTask || task?.id === undefined || task?.id === null) return;
     onToggleTask(task.id, !task.completed);
+  };
+
+  const startEditTask = (task) => {
+    setTaskActionError("");
+    setEditingTaskId(task.id);
+    setEditingForm({
+      title: task.title || "",
+      duration: task.duration || "",
+      category: task.category || "عمومی",
+      scheduledDate: task.scheduledDate || todayIso,
+    });
+  };
+
+  const handleAddTask = async (event) => {
+    event.preventDefault();
+    if (!taskForm.title.trim()) {
+      setTaskActionError("عنوان تسک را وارد کن.");
+      return;
+    }
+
+    setSavingTask(true);
+    setTaskActionError("");
+    try {
+      await createTask(taskForm);
+      setTaskForm(emptyTaskForm);
+      setShowAddTask(false);
+    } catch (err) {
+      setTaskActionError(err.message || "افزودن تسک ناموفق بود.");
+    } finally {
+      setSavingTask(false);
+    }
+  };
+
+  const handleSaveTask = async (event) => {
+    event.preventDefault();
+    if (!editingTaskId || !editingForm.title.trim()) {
+      setTaskActionError("عنوان تسک نمی‌تواند خالی باشد.");
+      return;
+    }
+
+    setSavingTask(true);
+    setTaskActionError("");
+    try {
+      await updateTask(editingTaskId, editingForm);
+      setEditingTaskId(null);
+    } catch (err) {
+      setTaskActionError(err.message || "ویرایش تسک ناموفق بود.");
+    } finally {
+      setSavingTask(false);
+    }
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    setSavingTask(true);
+    setTaskActionError("");
+    try {
+      await deleteTask(taskId);
+      if (editingTaskId === taskId) {
+        setEditingTaskId(null);
+      }
+    } catch (err) {
+      setTaskActionError(err.message || "حذف تسک ناموفق بود.");
+    } finally {
+      setSavingTask(false);
+    }
   };
 
   const getCategoryStyles = (category) => {
@@ -429,17 +519,66 @@ export default function Today() {
 
         {/* فهرست کارهای امروز */}
         <div>
-          <h3
-            className="d-flex align-items-center gap-2 mb-3 px-1"
-            style={{
-              fontSize: "14px",
-              fontWeight: 700,
-              color: "#1f2937",
-            }}
-          >
-            <BookOpen size={16} color="#6255f5" />
-            برنامه امروز شما
-          </h3>
+          <div className="d-flex justify-content-between align-items-center gap-2 mb-3 px-1 flex-wrap">
+            <button
+              type="button"
+              onClick={() => {
+                setTaskActionError("");
+                setShowAddTask((prev) => !prev);
+              }}
+              className="btn d-inline-flex align-items-center gap-2 fw-bold"
+              style={{
+                borderRadius: "12px",
+                background: "#6255f5",
+                color: "#fff",
+                border: "none",
+                fontSize: "12px",
+                padding: "9px 12px",
+              }}
+            >
+              {showAddTask ? <X size={14} /> : <Plus size={14} />}
+              {showAddTask ? "بستن" : "افزودن تسک"}
+            </button>
+
+            <h3
+              className="d-flex align-items-center gap-2 mb-0"
+              style={{
+                fontSize: "14px",
+                fontWeight: 700,
+                color: "#1f2937",
+              }}
+            >
+              <BookOpen size={16} color="#6255f5" />
+              برنامه امروز شما
+            </h3>
+          </div>
+
+          {taskActionError && (
+            <div
+              className="mb-2"
+              style={{
+                border: "1px solid #fecaca",
+                background: "#fef2f2",
+                color: "#dc2626",
+                borderRadius: "14px",
+                padding: "10px 12px",
+                fontSize: "12px",
+              }}
+            >
+              {taskActionError}
+            </div>
+          )}
+
+          {showAddTask && (
+            <TaskEditor
+              values={taskForm}
+              onChange={setTaskForm}
+              onSubmit={handleAddTask}
+              onCancel={() => setShowAddTask(false)}
+              saving={savingTask}
+              submitLabel="افزودن"
+            />
+          )}
 
           {safeTasks.length === 0 ? (
             <div
@@ -460,12 +599,27 @@ export default function Today() {
             <div className="d-flex flex-column gap-2">
               {safeTasks.map((task, index) => {
                 const categoryStyles = getCategoryStyles(task?.category);
+                const isEditing = editingTaskId === task?.id;
+
+                if (isEditing) {
+                  return (
+                    <TaskEditor
+                      key={task?.id ?? index}
+                      values={editingForm}
+                      onChange={setEditingForm}
+                      onSubmit={handleSaveTask}
+                      onCancel={() => setEditingTaskId(null)}
+                      saving={savingTask}
+                      submitLabel="ذخیره"
+                    />
+                  );
+                }
 
                 return (
                   <div
                     key={task?.id ?? index}
                     onClick={() => handleToggleTask(task)}
-                    className="d-flex justify-content-between align-items-center"
+                    className="d-flex justify-content-between align-items-center gap-3 flex-wrap"
                     style={{
                       padding: "16px",
                       borderRadius: "20px",
@@ -525,6 +679,34 @@ export default function Today() {
                     >
                       {task?.category || "عمومی"}
                     </span>
+
+                    <div className="d-flex align-items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          startEditTask(task);
+                        }}
+                        className="btn btn-light border d-inline-flex align-items-center justify-content-center"
+                        style={{ width: "34px", height: "34px", borderRadius: "10px", padding: 0 }}
+                        aria-label="ویرایش تسک"
+                      >
+                        <Edit3 size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleDeleteTask(task.id);
+                        }}
+                        className="btn btn-light border d-inline-flex align-items-center justify-content-center"
+                        style={{ width: "34px", height: "34px", borderRadius: "10px", padding: 0, color: "#dc2626" }}
+                        aria-label="حذف تسک"
+                        disabled={savingTask}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -586,3 +768,106 @@ export default function Today() {
     </div>
   );
 }
+
+function TaskEditor({ values, onChange, onSubmit, onCancel, saving, submitLabel }) {
+  const updateField = (field, value) => {
+    onChange((prev) => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="bg-white mb-2"
+      style={{
+        border: "1px solid #e5e7eb",
+        borderRadius: "18px",
+        padding: "14px",
+        boxShadow: "0 2px 8px rgba(15,23,42,0.04)",
+      }}
+    >
+      <div className="row g-2 align-items-end">
+        <div className="col-12 col-md-4">
+          <label className="w-100">
+            <span className="d-block mb-1 fw-bold text-muted" style={{ fontSize: "10px" }}>
+              عنوان
+            </span>
+            <input
+              value={values.title}
+              onChange={(event) => updateField("title", event.target.value)}
+              className="form-control text-end"
+              style={taskInputStyle}
+              placeholder="مثلاً حسابان - تست"
+            />
+          </label>
+        </div>
+
+        <div className="col-12 col-md-3">
+          <label className="w-100">
+            <span className="d-block mb-1 fw-bold text-muted" style={{ fontSize: "10px" }}>
+              ساعت / مدت
+            </span>
+            <input
+              value={values.duration}
+              onChange={(event) => updateField("duration", event.target.value)}
+              className="form-control text-end"
+              style={taskInputStyle}
+              placeholder="08:00 تا 09:30"
+            />
+          </label>
+        </div>
+
+        <div className="col-12 col-md-2">
+          <label className="w-100">
+            <span className="d-block mb-1 fw-bold text-muted" style={{ fontSize: "10px" }}>
+              دسته
+            </span>
+            <input
+              value={values.category}
+              onChange={(event) => updateField("category", event.target.value)}
+              className="form-control text-end"
+              style={taskInputStyle}
+              placeholder="درس"
+            />
+          </label>
+        </div>
+
+        <div className="col-12 col-md-3">
+          <div className="d-flex gap-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="btn flex-fill d-inline-flex align-items-center justify-content-center gap-1 fw-bold"
+              style={{
+                borderRadius: "12px",
+                background: "#10b981",
+                color: "#fff",
+                border: "none",
+                fontSize: "12px",
+                padding: "10px",
+              }}
+            >
+              <Save size={14} />
+              {saving ? "در حال ذخیره..." : submitLabel}
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="btn btn-light border d-inline-flex align-items-center justify-content-center"
+              style={{ width: "42px", borderRadius: "12px" }}
+              aria-label="لغو"
+            >
+              <X size={15} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+const taskInputStyle = {
+  borderRadius: "12px",
+  background: "#f8fafc",
+  fontSize: "12px",
+  fontWeight: 700,
+};

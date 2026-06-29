@@ -2,7 +2,7 @@ import json
 import os
 import re
 import sys
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from django.db.utils import OperationalError, ProgrammingError
@@ -253,8 +253,7 @@ def serialize_weekly_plan(plan):
     }
 
 
-def week_from_tomorrow():
-    start = current_local_date() + timedelta(days=1)
+def week_from_date(start):
     return [
         {
             "day": WEEKDAY_TO_PERSIAN[(start + timedelta(days=i)).weekday()],
@@ -262,6 +261,10 @@ def week_from_tomorrow():
         }
         for i in range(7)
     ]
+
+
+def week_from_tomorrow():
+    return week_from_date(current_local_date() + timedelta(days=1))
 
 
 def serialize_profile(user):
@@ -293,6 +296,61 @@ def serialize_task(task):
         "category": task.category,
         "scheduledDate": task.scheduled_date.isoformat(),
     }
+
+
+def infer_task_category(title, fallback="برنامه"):
+    text = str(title or "").strip()
+    if not text:
+        return fallback
+    for separator in [" - ", "-", "–", "—", ":"]:
+        if separator in text:
+            candidate = text.split(separator, 1)[0].strip()
+            if candidate:
+                return candidate[:100]
+    return text.split()[0][:100] if text.split() else fallback
+
+
+def plan_text_to_task_entries(plan_text, fallback_duration="", fallback_category="برنامه"):
+    text = str(plan_text or "").strip()
+    if not text or text == "استراحت و بازیابی":
+        return []
+
+    normalized = re.sub(r"\s*[·•]\s*", "\n", text)
+    normalized = re.sub(r"\s+\|\s+", "\n", normalized)
+    chunks = [
+        part.strip(" -\t")
+        for part in re.split(r"\n+|(?:^|\s)\d+[\).\s]+", normalized)
+        if part.strip(" -\t")
+    ]
+
+    entries = []
+    time_pattern = re.compile(r"((?:[۰-۹0-9]{1,2}:[۰-۹0-9]{2})\s*تا\s*(?:[۰-۹0-9]{1,2}:[۰-۹0-9]{2}))")
+    for chunk in chunks:
+        match = time_pattern.search(chunk)
+        duration = fallback_duration
+        title = chunk
+        if match:
+            duration = re.sub(r"\s+", " ", match.group(1)).strip()
+            title = (chunk[:match.start()] + chunk[match.end():]).strip(" -\t")
+
+        title = re.sub(r"\s+", " ", title).strip()
+        if not title:
+            continue
+
+        entries.append({
+            "title": title[:255],
+            "duration": str(duration or "").strip(),
+            "category": infer_task_category(title, fallback_category),
+        })
+
+    if entries:
+        return entries
+
+    return [{
+        "title": text[:255],
+        "duration": str(fallback_duration or "").strip(),
+        "category": fallback_category,
+    }]
 
 
 PRACTICE_ALL_TOPICS = "همه مباحث"
@@ -723,29 +781,64 @@ def create_tasks_from_plan(user, daily_plan, start_date):
     created = []
     for index, day_row in enumerate(daily_plan):
         task_date = start_date + timedelta(days=index)
-        main_plan = day_row.get("mainPlan", "")
-        if main_plan and main_plan != "استراحت و بازیابی":
+        created.extend(create_tasks_for_plan_day(user, day_row, task_date))
+    return created
+
+
+def create_tasks_for_plan_day(user, day_row, task_date):
+    created = []
+    main_plan = day_row.get("mainPlan", "")
+    for entry in plan_text_to_task_entries(
+        main_plan,
+        fallback_duration=day_row.get("totalHours", ""),
+        fallback_category=day_row.get("day", "برنامه"),
+    ):
+        task = DailyTask.objects.create(
+            user=user,
+            title=entry["title"],
+            duration=entry["duration"],
+            is_completed=False,
+            category=entry["category"],
+            scheduled_date=task_date,
+        )
+        created.append(task)
+    floating = day_row.get("floatingPlan", "")
+    if floating and "اختیاری" not in floating:
+        for entry in plan_text_to_task_entries(
+            floating,
+            fallback_duration="شناور",
+            fallback_category=f"{day_row.get('day', '')} - جبرانی",
+        ):
             task = DailyTask.objects.create(
                 user=user,
-                title=main_plan[:255],
-                duration=day_row.get("totalHours", ""),
+                title=entry["title"],
+                duration=entry["duration"] or "شناور",
                 is_completed=False,
-                category=day_row.get("day", "برنامه"),
-                scheduled_date=task_date,
-            )
-            created.append(task)
-        floating = day_row.get("floatingPlan", "")
-        if floating and "اختیاری" not in floating:
-            task = DailyTask.objects.create(
-                user=user,
-                title=floating[:255],
-                duration="شناور",
-                is_completed=False,
-                category=f"{day_row.get('day', '')} - جبرانی",
+                category=entry["category"],
                 scheduled_date=task_date,
             )
             created.append(task)
     return created
+
+
+def ensure_today_tasks_from_latest_plan(user, today):
+    if user.tasks.filter(scheduled_date=today).exists():
+        return
+
+    latest_plan = user.weekly_plans.order_by("-created_at").first()
+    if not latest_plan or not latest_plan.daily_plan:
+        return
+
+    plan_start = latest_plan.start_date
+    day_index = (today - plan_start).days
+    created_today = timezone.localtime(latest_plan.created_at).date() == today
+    if day_index < 0 and created_today:
+        day_index = 0
+
+    if day_index < 0 or day_index >= len(latest_plan.daily_plan):
+        return
+
+    create_tasks_for_plan_day(user, latest_plan.daily_plan[day_index], today)
 
 
 def tutor_error_response(message, status=500):
@@ -922,7 +1015,8 @@ def weekly_planning(request):
     try:
         student, availability, course_inputs, courses_data = normalize_planning_payload(request.data, user)
         profile = build_profile(student, availability, course_inputs, courses_data)
-        week = week_from_tomorrow()
+        start_date = current_local_date()
+        week = week_from_date(start_date)
         prompt = build_planning_prompt(profile, courses_data)
     except ValueError as exc:
         return Response({"error": str(exc)}, status=400)
@@ -953,7 +1047,6 @@ def weekly_planning(request):
 
     status_text = parse_markdown_status(markdown, fallback)
     recommendations = parse_markdown_recommendations(markdown, fallback)
-    start_date = current_local_date() + timedelta(days=1)
 
     WeeklyPlan.objects.filter(user=user, start_date__gte=start_date).delete()
     weekly_plan = WeeklyPlan.objects.create(
@@ -1147,6 +1240,7 @@ def today_plan(request):
     user = request.mentora_user
     today = current_local_date()
     tomorrow = today + timedelta(days=1)
+    ensure_today_tasks_from_latest_plan(user, today)
     tasks = user.tasks.filter(scheduled_date=today).order_by("id")
     upcoming_count = user.tasks.filter(scheduled_date=tomorrow).count()
     stats = user_stats(user)
@@ -1166,7 +1260,42 @@ def today_plan(request):
     })
 
 
-@api_view(["PATCH"])
+@api_view(["POST"])
+@require_auth
+def create_task(request):
+    user = request.mentora_user
+    title = str(request.data.get("title") or "").strip()
+    if not title:
+        return Response({"error": "عنوان تسک الزامی است."}, status=400)
+
+    scheduled_date_text = request.data.get("scheduledDate") or request.data.get("scheduled_date")
+    scheduled_date = current_local_date()
+    if scheduled_date_text:
+        try:
+            scheduled_date = datetime.fromisoformat(str(scheduled_date_text)).date()
+        except ValueError:
+            return Response({"error": "تاریخ تسک معتبر نیست."}, status=400)
+
+    task = DailyTask.objects.create(
+        user=user,
+        title=title[:255],
+        duration=str(request.data.get("duration") or "").strip(),
+        category=str(request.data.get("category") or infer_task_category(title, "شخصی")).strip()[:100],
+        scheduled_date=scheduled_date,
+        is_completed=bool(request.data.get("completed") or request.data.get("is_completed") or False),
+    )
+    stats = user_stats(user)
+
+    return Response({
+        "task": serialize_task(task),
+        "readinessScore": stats["readinessScore"],
+        "streakCount": stats["streakCount"],
+        "todayProgress": stats["todayProgress"],
+        "xpPoints": stats["xpPoints"],
+    }, status=201)
+
+
+@api_view(["PATCH", "DELETE"])
 @require_auth
 def update_task(request, task_id):
     user = request.mentora_user
@@ -1175,11 +1304,51 @@ def update_task(request, task_id):
     except DailyTask.DoesNotExist:
         return Response({"error": "تسک مورد نظر پیدا نشد."}, status=404)
 
-    completed = request.data.get("completed")
-    if completed is None:
-        completed = request.data.get("is_completed")
-    task.is_completed = bool(completed)
-    task.save(update_fields=["is_completed"])
+    if request.method == "DELETE":
+        task.delete()
+        stats = user_stats(user)
+        return Response({
+            "deleted": True,
+            "taskId": task_id,
+            "readinessScore": stats["readinessScore"],
+            "streakCount": stats["streakCount"],
+            "todayProgress": stats["todayProgress"],
+            "xpPoints": stats["xpPoints"],
+        })
+
+    update_fields = []
+    if "completed" in request.data or "is_completed" in request.data:
+        completed = request.data.get("completed")
+        if completed is None:
+            completed = request.data.get("is_completed")
+        task.is_completed = bool(completed)
+        update_fields.append("is_completed")
+
+    if "title" in request.data:
+        title = str(request.data.get("title") or "").strip()
+        if not title:
+            return Response({"error": "عنوان تسک نمی‌تواند خالی باشد."}, status=400)
+        task.title = title[:255]
+        update_fields.append("title")
+
+    if "duration" in request.data:
+        task.duration = str(request.data.get("duration") or "").strip()
+        update_fields.append("duration")
+
+    if "category" in request.data:
+        task.category = str(request.data.get("category") or "عمومی").strip()[:100]
+        update_fields.append("category")
+
+    scheduled_date_text = request.data.get("scheduledDate") or request.data.get("scheduled_date")
+    if scheduled_date_text:
+        try:
+            task.scheduled_date = datetime.fromisoformat(str(scheduled_date_text)).date()
+        except ValueError:
+            return Response({"error": "تاریخ تسک معتبر نیست."}, status=400)
+        update_fields.append("scheduled_date")
+
+    if update_fields:
+        task.save(update_fields=list(dict.fromkeys(update_fields)))
     stats = user_stats(user)
 
     return Response({

@@ -176,6 +176,62 @@ export function AppProvider({ children }) {
     }
   }, []);
 
+  const applyTaskStats = useCallback((data) => {
+    setStats((prev) => ({
+      ...prev,
+      readinessScore: data.readinessScore ?? prev.readinessScore,
+      streakCount: data.streakCount ?? prev.streakCount,
+      todayProgress: data.todayProgress ?? prev.todayProgress,
+      xpPoints: data.xpPoints ?? prev.xpPoints,
+    }));
+  }, []);
+
+  const createTask = useCallback(async (task) => {
+    const { response, data } = await apiJson("/api/planner/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(task),
+    });
+
+    if (!response.ok) {
+      throw new Error(data.error || "افزودن تسک ناموفق بود.");
+    }
+
+    setTasks((prev) => [...prev, data.task]);
+    applyTaskStats(data);
+    return data.task;
+  }, [applyTaskStats]);
+
+  const updateTask = useCallback(async (taskId, updates) => {
+    const { response, data } = await apiJson(`/api/planner/tasks/${taskId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+
+    if (!response.ok) {
+      throw new Error(data.error || "ویرایش تسک ناموفق بود.");
+    }
+
+    setTasks((prev) => prev.map((t) => (t.id === taskId ? data.task : t)));
+    applyTaskStats(data);
+    return data.task;
+  }, [applyTaskStats]);
+
+  const deleteTask = useCallback(async (taskId) => {
+    const { response, data } = await apiJson(`/api/planner/tasks/${taskId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(data.error || "حذف تسک ناموفق بود.");
+    }
+
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    applyTaskStats(data);
+    return data;
+  }, [applyTaskStats]);
+
   const updateProfile = useCallback((partial) => {
     setProfile((prev) => ({ ...(prev || {}), ...partial }));
   }, []);
@@ -191,6 +247,9 @@ export function AppProvider({ children }) {
     setBridgeQuestion,
     completeOnboarding,
     toggleTask,
+    createTask,
+    updateTask,
+    deleteTask,
     updateProfile,
     login,
     register,
