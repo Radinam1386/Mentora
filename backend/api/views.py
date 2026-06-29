@@ -873,6 +873,71 @@ def friendly_tutor_error(exc=None, kind="general"):
 # ── Auth endpoints ──
 
 @api_view(["POST"])
+def login_send_otp(request):
+    """مرحله ۱ ورود با OTP: ارسال کد به کاربر موجود"""
+
+    phone = (request.data.get("phone") or "").strip()
+
+    if not phone:
+        return Response({"error": "شماره موبایل الزامی است."}, status=400)
+
+    if len(phone) < 10:
+        return Response({"error": "شماره موبایل معتبر نیست."}, status=400)
+
+    try:
+        user = User.objects.get(phone=phone)
+    except User.DoesNotExist:
+        return Response({"error": "کاربری با این شماره موبایل وجود ندارد."}, status=404)
+
+    code = OTPCode.generate_code()
+    OTPCode.objects.create(phone=phone, code=code)
+
+    try:
+        sms_send_otp(phone, code)
+    except RuntimeError as exc:
+        return Response({"error": str(exc)}, status=500)
+
+    return Response({
+        "message": "کد ورود ارسال شد.",
+        "phone": phone,
+    })
+
+@api_view(["POST"])
+def login_verify_otp(request):
+    """مرحله ۲ ورود با OTP: تایید کد و صدور توکن"""
+
+    phone = (request.data.get("phone") or "").strip()
+    code = (request.data.get("code") or "").strip()
+
+    if not phone or not code:
+        return Response({"error": "شماره موبایل و کد تایید الزامی است."}, status=400)
+
+    try:
+        user = User.objects.get(phone=phone)
+    except User.DoesNotExist:
+        return Response({"error": "کاربری با این شماره موبایل وجود ندارد."}, status=404)
+
+    otp = OTPCode.objects.filter(phone=phone, code=code, is_used=False).order_by("-created_at").first()
+
+    if not otp or not otp.is_valid():
+        return Response({"error": "کد تایید اشتباه یا منقضی شده است."}, status=400)
+
+    otp.is_used = True
+    otp.save()
+
+    if not user.is_phone_verified:
+        user.is_phone_verified = True
+        user.save(update_fields=["is_phone_verified"])
+
+    token = generate_token(user)
+
+    return Response({
+        "message": "ورود با موفقیت انجام شد.",
+        "token": token,
+        "profile": serialize_profile(user),
+    })
+
+@api_view(["POST"])
 def send_otp(request):
     """مرحله ۱ ثبت‌نام: ارسال OTP به شماره موبایل"""
     phone = (request.data.get("phone") or "").strip()
@@ -938,7 +1003,6 @@ def verify_otp(request):
         "token": token,
         "profile": serialize_profile(user),
     })
-
 
 @api_view(["POST"])
 def login(request):
