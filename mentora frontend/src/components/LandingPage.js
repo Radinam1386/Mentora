@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -1407,6 +1407,59 @@ export default function LandingPage() {
             </Card>
           </Col>
         </Row>
+      </Container>
+      {/* Reviews CTA */}
+      <Container className="landing-shell" style={{ paddingBottom: "70px" }}>
+        <Card
+          className="feature-card-mentora"
+          style={{
+            borderRadius: "30px",
+            overflow: "hidden",
+            textAlign: "center",
+          }}
+        >
+          <Card.Body style={{ padding: "36px" }}>
+            <Badge
+              bg=""
+              style={{
+                background: "rgba(98,85,245,0.1)",
+                color: "#6255f5",
+                borderRadius: "999px",
+                padding: "9px 16px",
+                fontWeight: "800",
+                marginBottom: "14px",
+              }}
+            >
+              تجربه کاربران
+            </Badge>
+
+            <h2 className="section-title">
+              دانش‌آموزها درباره <span className="gradient-text">Mentora</span> چی می‌گن؟
+            </h2>
+
+            <p
+              className="section-subtitle"
+              style={{
+                maxWidth: "600px",
+                margin: "12px auto 26px",
+              }}
+            >
+              ببین دانش‌آموزان چطور با منتورا برنامه‌ریزی درسی،
+              تمرکز و پیشرفت خودشان را بهتر مدیریت کرده‌اند.
+            </p>
+
+
+            <Link
+              to="/testimonials"
+              className="primary-cta d-inline-flex align-items-center text-white"
+              style={{ textDecoration: "none" }}
+            >
+              مشاهده نظرات کاربران
+              <ArrowLeft size={18} className="me-2" />
+            </Link>
+
+          </Card.Body>
+        </Card>
       </Container>
 
       {/* CTA */}

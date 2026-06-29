@@ -29,6 +29,8 @@ import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup'
 import { useApp } from './context/AppContext';
 import ComingSoon from './components/ComingSoon';
 import AboutUs from './components/AboutUs';
+import OTPlogin from './components/OTPlogin';
+import Testimonials from './components/Testimonials'
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
   const { profile } = useApp();
@@ -76,7 +78,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/login/otp" element={<OTPlogin />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/testimonials" element={<Testimonials />} />
         <Route element={<AppLayout />}>
           <Route path="*" element={<NotFound />} />
           <Route path="/home" element={<Home />} />
