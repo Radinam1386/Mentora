@@ -18,9 +18,9 @@ SECRET_KEY = os.environ.get(
     'django-insecure-mentora-secret-key-replace-in-production',
 )
 
-# DEBUG defaults to True for local development. In production set
-# DJANGO_DEBUG=False in the .env file.
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in {'1', 'true', 'yes'}
+# DEBUG defaults to False for security. In local development set
+# DJANGO_DEBUG=True in the .env file.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() in {'1', 'true', 'yes'}
 
 # Comma separated list of hosts/domains, e.g. "mentora.ir,www.mentora.ir,1.2.3.4"
 ALLOWED_HOSTS = [
@@ -94,4 +94,38 @@ STATIC_URL = 'django-static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOW_ALL_ORIGINS = True
+
+# --- Security Settings ---
+
+# 1. CORS Configuration
+CORS_ALLOW_ALL_ORIGINS = False
+# Provide your frontend URLs in .env (e.g. http://localhost:3000,https://yourdomain.com)
+CORS_ALLOWED_ORIGINS = [
+    o.strip() for o in os.environ.get('DJANGO_CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',') if o.strip()
+]
+
+# 2. Password Validation
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+# 3. DRF Throttling (Rate Limiting)
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
+}
+
+# 4. Secure Cookies & HTTPS (Enable these in production via .env)
+SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'False').lower() in {'1', 'true', 'yes'}
+SESSION_COOKIE_SECURE = os.environ.get('DJANGO_SESSION_COOKIE_SECURE', 'False').lower() in {'1', 'true', 'yes'}
+CSRF_COOKIE_SECURE = os.environ.get('DJANGO_CSRF_COOKIE_SECURE', 'False').lower() in {'1', 'true', 'yes'}
+SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_SECURE_HSTS_SECONDS', 0))
