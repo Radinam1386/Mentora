@@ -105,12 +105,13 @@ export function AppProvider({ children }) {
     return data;
   }, [loadToday]);
 
-  const register = useCallback(async ({ fullName, email, password, confirmPassword }) => {
+  const register = useCallback(async ({ fullName, phone, email, password, confirmPassword }) => {
     const { response, data } = await apiJson("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: fullName,
+        phone: phone || email,
         email,
         password,
         confirmPassword,

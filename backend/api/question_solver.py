@@ -1,7 +1,9 @@
 import json
 import mimetypes
 import os
+import random
 import re
+import time
 from pathlib import Path
 
 try:
@@ -15,13 +17,30 @@ except ImportError:
 REPO_DIR = Path(__file__).resolve().parents[2]
 RAG_DIR = REPO_DIR / "RAG"
 
+
+def env_int(name: str, default: int, minimum: int = 0) -> int:
+    try:
+        return max(minimum, int(os.environ.get(name, str(default))))
+    except ValueError:
+        return default
+
+
+def env_bool(name: str, default: bool = False) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
 MODEL_NAME = os.environ.get("RAG_MODEL_NAME", "gemma-4-31b-it")
 GOOGLE_BASE_URL = os.environ.get("RAG_GOOGLE_BASE_URL", "").strip()
 GOOGLE_API_VERSION = os.environ.get("RAG_GOOGLE_API_VERSION", "").strip()
-MAX_CARDS_PER_SUBSUBJECT = int(os.environ.get("RAG_MAX_CARDS_PER_SUBSUBJECT", "10000"))
-MAX_SOURCE_CHARS = int(os.environ.get("RAG_MAX_SOURCE_CHARS", "10000000"))
+MAX_CARDS_PER_SUBSUBJECT = env_int("RAG_MAX_CARDS_PER_SUBSUBJECT", 10000)
+MAX_SOURCE_CHARS = env_int("RAG_MAX_SOURCE_CHARS", 10000000)
 INCLUDE_SOURCE_IMAGES = os.environ.get("RAG_INCLUDE_SOURCE_IMAGES", "true").lower() in {"1", "true", "yes"}
-MAX_SOURCE_IMAGES = int(os.environ.get("RAG_MAX_SOURCE_IMAGES", "10000"))
+MAX_SOURCE_IMAGES = env_int("RAG_MAX_SOURCE_IMAGES", 10000)
+MAX_RETRIES = env_int("RAG_MAX_RETRIES", env_int("RAG_MAX_RETRY", 2))
+RAG_DEBUG = env_bool("RAG_DEBUG", False)
 
 TOPIC_PROMPT_PATH = RAG_DIR / "Topic-Classifier-Prompt.txt"
 SOLVE_PROMPT_PATH = RAG_DIR / "Solve-Question-Prompt.txt"
@@ -38,34 +57,123 @@ class QuestionSolverConfigError(Exception):
     pass
 
 
-def api_key() -> str:
+def debug_log(message: str, **fields) -> None:
+    if not RAG_DEBUG:
+        return
+
+    suffix = ""
+    if fields:
+        safe_fields = " ".join(f"{key}={value}" for key, value in fields.items())
+        suffix = f" | {safe_fields}"
+    print(f"[RAG DEBUG] {message}{suffix}", flush=True)
+
+
+def mask_api_key(key: str) -> str:
+    if not key:
+        return "missing"
+    if len(key) <= 8:
+        return "***"
+    return f"{key[:4]}...{key[-4:]}"
+
+
+def short_error(error: Exception, max_length: int = 500) -> str:
+    text = str(error).replace("\n", " ").strip()
+    if len(text) <= max_length:
+        return text
+    return f"{text[:max_length]}..."
+
+
+def split_api_keys(value: str) -> list[str]:
+    return [part.strip() for part in re.split(r"[\s,;]+", value or "") if part.strip()]
+
+
+def api_keys() -> list[str]:
     if genai is None or types is None:
         raise QuestionSolverConfigError("google-genai is not installed. Run: pip install -r backend/requirements.txt")
 
-    key = (
-        os.environ.get("GOOGLE_API_KEY")
-        or os.environ.get("GEMINI_API_KEY")
-        or os.environ.get("RAG_GOOGLE_API_KEY")
-    )
-    if not key:
-        raise QuestionSolverConfigError("Google API key is missing. Set GOOGLE_API_KEY, GEMINI_API_KEY, or RAG_GOOGLE_API_KEY.")
-    return key
+    keys = []
+    for env_name in (
+        "RAG_API_KEYS",
+        "RAG_GOOGLE_API_KEYS",
+        "GOOGLE_API_KEYS",
+        "GEMINI_API_KEYS",
+        "RAG_GOOGLE_API_KEY",
+        "GOOGLE_API_KEY",
+        "GEMINI_API_KEY",
+    ):
+        keys.extend(split_api_keys(os.environ.get(env_name, "")))
+
+    unique_keys = list(dict.fromkeys(keys))
+    if not unique_keys:
+        raise QuestionSolverConfigError(
+            "Google API key is missing. Set RAG_GOOGLE_API_KEYS, GOOGLE_API_KEY, GEMINI_API_KEY, or RAG_GOOGLE_API_KEY."
+        )
+    debug_log("api keys loaded", count=len(unique_keys))
+    return unique_keys
 
 
-def make_client():
+def make_client(selected_api_key: str | None = None):
+    selected_api_key = selected_api_key or random.choice(api_keys())
     http_options = {}
     if GOOGLE_BASE_URL:
         http_options["base_url"] = GOOGLE_BASE_URL
     if GOOGLE_API_VERSION:
         http_options["api_version"] = GOOGLE_API_VERSION
 
+    debug_log(
+        "creating model client",
+        model=MODEL_NAME,
+        key=mask_api_key(selected_api_key),
+        base_url=GOOGLE_BASE_URL or "default",
+        api_version=GOOGLE_API_VERSION or "default",
+    )
+
     if http_options:
         return genai.Client(
-            api_key=api_key(),
+            api_key=selected_api_key,
             http_options=types.HttpOptions(**http_options),
         )
 
-    return genai.Client(api_key=api_key())
+    return genai.Client(api_key=selected_api_key)
+
+
+def run_with_retries(operation, operation_name: str):
+    keys = api_keys()
+    random.shuffle(keys)
+
+    for attempt in range(1, MAX_RETRIES + 2):
+        selected_api_key = keys[(attempt - 1) % len(keys)]
+        started_at = time.perf_counter()
+        try:
+            debug_log(
+                "model call attempt",
+                operation=operation_name,
+                attempt=attempt,
+                max_attempts=MAX_RETRIES + 1,
+                key=mask_api_key(selected_api_key),
+            )
+            result = operation(make_client(selected_api_key))
+            debug_log(
+                "model call success",
+                operation=operation_name,
+                attempt=attempt,
+                elapsed_ms=round((time.perf_counter() - started_at) * 1000),
+            )
+            return result
+        except QuestionSolverConfigError:
+            raise
+        except Exception as exc:
+            debug_log(
+                "model call failed",
+                operation=operation_name,
+                attempt=attempt,
+                elapsed_ms=round((time.perf_counter() - started_at) * 1000),
+                error_type=exc.__class__.__name__,
+                error=short_error(exc),
+            )
+            if attempt <= MAX_RETRIES:
+                continue
+            raise
 
 
 def load_text(path: Path) -> str:
@@ -140,7 +248,7 @@ def image_part(image_bytes: bytes, mime_type: str | None, file_name: str = ""):
     return types.Part.from_bytes(data=image_bytes, mime_type=detected_mime)
 
 
-def classify_question(client, question_text: str, image_bytes: bytes | None, mime_type: str | None, file_name: str) -> dict:
+def classify_question(question_text: str, image_bytes: bytes | None, mime_type: str | None, file_name: str) -> dict:
     topics_json = load_text(TOPICS_PATH)
     prompt = load_text(TOPIC_PROMPT_PATH).replace("{TOPICS_JSON}", topics_json)
     contents = [prompt]
@@ -150,8 +258,25 @@ def classify_question(client, question_text: str, image_bytes: bytes | None, mim
     if question_text.strip():
         contents.append("Student question:\n" + question_text.strip())
 
-    response = client.models.generate_content(model=MODEL_NAME, contents=contents)
-    return clean_json_response(response_text(response))
+    debug_log(
+        "classification prepared",
+        text_chars=len(question_text.strip()),
+        has_image=bool(image_bytes),
+        file_name=file_name or "-",
+        content_parts=len(contents),
+    )
+
+    def operation(client):
+        response = client.models.generate_content(model=MODEL_NAME, contents=contents)
+        return clean_json_response(response_text(response))
+
+    result = run_with_retries(operation, "classify_question")
+    debug_log(
+        "classification result",
+        main_subject=result.get("main_subject"),
+        subsubjects=len(result.get("subsubjects", []) or []),
+    )
+    return result
 
 
 def selected_subsubjects(classified_topics: dict) -> list[str]:
@@ -173,17 +298,27 @@ def load_relevant_cards(classified_topics: dict) -> tuple[list[dict], list[str]]
     if not index_path:
         raise ValueError(f"Unsupported main_subject from classifier: {subject}")
 
+    selected = selected_subsubjects(classified_topics)
+    debug_log(
+        "loading relevant cards",
+        subject=subject,
+        selected_subsubjects=len(selected),
+        index=index_path.name,
+    )
+
     index = load_json(index_path)
     groups = index.get("groups", {})
     cards = []
     image_paths = []
     seen_cards = set()
 
-    for subsubject in selected_subsubjects(classified_topics):
+    for subsubject in selected:
         group = groups.get(subsubject)
         if not group:
+            debug_log("subsubject has no card group", subsubject=subsubject)
             continue
 
+        loaded_for_subsubject = 0
         for card_file in group.get("json_files", [])[:MAX_CARDS_PER_SUBSUBJECT]:
             if card_file in seen_cards:
                 continue
@@ -193,11 +328,26 @@ def load_relevant_cards(classified_topics: dict) -> tuple[list[dict], list[str]]
                 card = load_json(card_path)
                 if card.get("card_id"):
                     cards.append(card)
+                    loaded_for_subsubject += 1
 
         for image_file in group.get("image_files", []):
             if image_file and image_file not in image_paths:
                 image_paths.append(image_file)
 
+        debug_log(
+            "subsubject cards loaded",
+            subsubject=subsubject,
+            cards=loaded_for_subsubject,
+            total_cards=len(cards),
+            total_images=len(image_paths),
+        )
+
+    debug_log(
+        "relevant cards ready",
+        cards=len(cards),
+        image_paths=min(len(image_paths), MAX_SOURCE_IMAGES),
+        max_source_images=MAX_SOURCE_IMAGES,
+    )
     return cards, image_paths[:MAX_SOURCE_IMAGES]
 
 
@@ -234,11 +384,17 @@ def cards_to_text(cards: list[dict]) -> tuple[str, list[dict]]:
             }
         )
 
-    return "\n\n---\n\n".join(parts), used_sources
+    sources_text = "\n\n---\n\n".join(parts)
+    debug_log(
+        "cards converted to source text",
+        used_sources=len(used_sources),
+        source_chars=len(sources_text),
+        max_source_chars=MAX_SOURCE_CHARS,
+    )
+    return sources_text, used_sources
 
 
 def solve_with_sources(
-    client,
     question_text: str,
     image_bytes: bytes | None,
     mime_type: str | None,
@@ -259,17 +415,34 @@ def solve_with_sources(
     if image_bytes:
         contents.append(image_part(image_bytes, mime_type, file_name))
 
+    attached_images = 0
     if INCLUDE_SOURCE_IMAGES:
         for image_path_text in image_paths:
             source_path = resolve_rag_path(image_path_text)
             if source_path.exists():
                 contents.append(image_part(source_path.read_bytes(), None, source_path.name))
+                attached_images += 1
 
-    response = client.models.generate_content(model=MODEL_NAME, contents=contents)
-    return response_text(response), used_sources
+    debug_log(
+        "solve prompt prepared",
+        prompt_chars=len(prompt),
+        used_sources=len(used_sources),
+        source_image_candidates=len(image_paths),
+        attached_source_images=attached_images,
+        content_parts=len(contents),
+    )
+
+    def operation(client):
+        response = client.models.generate_content(model=MODEL_NAME, contents=contents)
+        return response_text(response)
+
+    answer = run_with_retries(operation, "solve_with_sources")
+    debug_log("solve result ready", answer_chars=len(answer), sources=len(used_sources))
+    return answer, used_sources
 
 
 def solve_student_question(question_text: str, uploaded_file=None) -> dict:
+    started_at = time.perf_counter()
     image_bytes = None
     mime_type = None
     file_name = ""
@@ -282,11 +455,19 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
     if not question_text.strip() and not image_bytes:
         raise ValueError("Question text or image is required.")
 
-    client = make_client()
-    classified_topics = classify_question(client, question_text, image_bytes, mime_type, file_name)
+    debug_log(
+        "student question solve started",
+        text_chars=len(question_text.strip()),
+        has_image=bool(image_bytes),
+        image_bytes=len(image_bytes) if image_bytes else 0,
+        mime_type=mime_type or "-",
+        file_name=file_name or "-",
+        max_retries=MAX_RETRIES,
+    )
+
+    classified_topics = classify_question(question_text, image_bytes, mime_type, file_name)
     cards, image_paths = load_relevant_cards(classified_topics)
     answer, sources = solve_with_sources(
-        client,
         question_text,
         image_bytes,
         mime_type,
@@ -296,9 +477,16 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
         image_paths,
     )
 
-    return {
+    result = {
         "reply": answer,
         "classified_topics": classified_topics,
         "sources": sources,
         "source_count": len(sources),
     }
+    debug_log(
+        "student question solve finished",
+        elapsed_ms=round((time.perf_counter() - started_at) * 1000),
+        source_count=len(sources),
+        reply_chars=len(answer),
+    )
+    return result

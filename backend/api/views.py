@@ -873,6 +873,42 @@ def friendly_tutor_error(exc=None, kind="general"):
 # ── Auth endpoints ──
 
 @api_view(["POST"])
+def register(request):
+    """ثبت‌نام مستقیم با شماره موبایل و رمز عبور."""
+    phone = (request.data.get("phone") or request.data.get("email") or "").strip()
+    name = (request.data.get("name") or request.data.get("fullName") or "").strip()
+    password = request.data.get("password") or ""
+    confirm = request.data.get("confirmPassword") or password
+
+    if not phone or not name or not password:
+        return Response({"error": "نام، شماره موبایل و رمز عبور الزامی است."}, status=400)
+    if len(phone) < 10:
+        return Response({"error": "شماره موبایل معتبر نیست."}, status=400)
+    if password != confirm:
+        return Response({"error": "رمز عبور و تکرار آن یکسان نیست."}, status=400)
+    if len(password) < 6:
+        return Response({"error": "رمز عبور باید حداقل ۶ کاراکتر باشد."}, status=400)
+    if User.objects.filter(phone=phone).exists():
+        return Response({"error": "این شماره موبایل قبلاً ثبت شده است."}, status=400)
+
+    user = User.objects.create(
+        name=name,
+        phone=phone,
+        password=hash_password(password),
+        is_phone_verified=False,
+        onboarding_completed=False,
+    )
+    grant_free_trial_subscription(user)
+    token = generate_token(user)
+
+    return Response({
+        "message": "ثبت‌نام با موفقیت انجام شد.",
+        "token": token,
+        "profile": serialize_profile(user),
+    })
+
+
+@api_view(["POST"])
 def login_send_otp(request):
     """مرحله ۱ ورود با OTP: ارسال کد به کاربر موجود"""
 

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import OtpInput from "react-otp-input";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * کامپوننت مشترک OTP برای ورود و ثبت‌نام
@@ -38,6 +37,7 @@ export default function OTPPage({
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState(initialCodeSent ? "کد تایید ارسال شد." : "");
+  const otpInputRefs = useRef([]);
 
   useEffect(() => {
     setCodeSent(initialCodeSent);
@@ -109,6 +109,51 @@ export default function OTPPage({
     if (error) setError("");
   };
 
+  const focusOtpInput = (index) => {
+    otpInputRefs.current[index]?.focus();
+  };
+
+  const updateOtpDigit = (index, value) => {
+    const digits = String(value || "").replace(/\D/g, "");
+    const nextOtp = Array.from({ length: codeLength }, (_, digitIndex) => otp[digitIndex] || "");
+
+    if (!digits) {
+      nextOtp[index] = "";
+      handleOtpChange(nextOtp.join(""));
+      return;
+    }
+
+    digits
+      .slice(0, codeLength - index)
+      .split("")
+      .forEach((digit, offset) => {
+        nextOtp[index + offset] = digit;
+      });
+
+    handleOtpChange(nextOtp.join(""));
+    focusOtpInput(Math.min(index + digits.length, codeLength - 1));
+  };
+
+  const handleOtpKeyDown = (index, event) => {
+    if (event.key === "Backspace" && !otp[index] && index > 0) {
+      event.preventDefault();
+      const nextOtp = Array.from({ length: codeLength }, (_, digitIndex) => otp[digitIndex] || "");
+      nextOtp[index - 1] = "";
+      handleOtpChange(nextOtp.join(""));
+      focusOtpInput(index - 1);
+    }
+
+    if (event.key === "ArrowLeft" && index < codeLength - 1) {
+      event.preventDefault();
+      focusOtpInput(index + 1);
+    }
+
+    if (event.key === "ArrowRight" && index > 0) {
+      event.preventDefault();
+      focusOtpInput(index - 1);
+    }
+  };
+
   return (
     <div className="d-flex flex-column gap-3">
       <div className="text-center">
@@ -172,16 +217,27 @@ export default function OTPPage({
             کد تایید به شماره <span dir="ltr">{phone}</span> ارسال شد.
           </p>
 
-          <div className="d-flex justify-content-center" style={{ direction: "ltr" }}>
-            <OtpInput
-              value={otp}
-              onChange={handleOtpChange}
-              numInputs={codeLength}
-              inputType="tel"
-              shouldAutoFocus
-              renderSeparator={<span style={{ width: "8px" }} />}
-              renderInput={(props) => <input {...props} style={otpStyle} />}
-            />
+          <div className="d-flex justify-content-center gap-2" style={{ direction: "ltr" }}>
+            {Array.from({ length: codeLength }, (_, index) => (
+              <input
+                key={index}
+                ref={(element) => {
+                  otpInputRefs.current[index] = element;
+                }}
+                type="tel"
+                inputMode="numeric"
+                autoComplete={index === 0 ? "one-time-code" : "off"}
+                autoFocus={index === 0}
+                value={otp[index] || ""}
+                onChange={(event) => updateOtpDigit(index, event.target.value)}
+                onKeyDown={(event) => handleOtpKeyDown(index, event)}
+                onPaste={(event) => {
+                  event.preventDefault();
+                  updateOtpDigit(index, event.clipboardData.getData("text"));
+                }}
+                style={otpStyle}
+              />
+            ))}
           </div>
 
           <button

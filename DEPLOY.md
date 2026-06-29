@@ -53,7 +53,10 @@ nano .env
 - `DJANGO_ALLOWED_HOSTS` → دامنه یا IP سرور (مثلاً `mentora.ir,1.2.3.4`)
 - `DJANGO_CSRF_TRUSTED_ORIGINS` → `https://mentora.ir`
 - `MODEL_API` → کلید LLM پلنر (سرویس hormouz/OpenAI-compatible)
-- `GOOGLE_API_KEY` → کلید Gemini برای حل سؤال RAG
+- `AVALAI_API_KEY` → کلید AvalAI برای حل سؤال RAG
+- `RAG_CLIENT=google` یا `RAG_CLIENT=openai` → انتخاب مسیر Google GenAI SDK یا OpenAI-compatible
+- `RAG_GOOGLE_BASE_URL=https://api.avalai.ir` و `RAG_GOOGLE_API_VERSION=v1beta` → مسیر Google GenAI از طریق AvalAI
+- `RAG_OPENAI_BASE_URL=https://api.avalai.ir/v1` → مسیر OpenAI-compatible از طریق AvalAI
 
 ## ۴) راه‌اندازی بک‌اند (Django + gunicorn)
 
@@ -160,5 +163,6 @@ sudo systemctl reload nginx
   ```
 - **خطای ALLOWED_HOSTS / DisallowedHost:** دامنه/IP را در `DJANGO_ALLOWED_HOSTS` داخل `.env` اضافه کن و `sudo systemctl restart mentora`.
 - **صفحهٔ ادمین بدون استایل:** `collectstatic` را اجرا کن و مطمئن شو nginx مسیر `/django-static/` را درست سرو می‌کند.
-- **خطای LLM/RAG هنگام چت یا حل سؤال:** کلیدهای `MODEL_API` و `GOOGLE_API_KEY` در `.env` درست پر شده باشند؛ بعد سرویس را ری‌استارت کن.
+- **`GET /login` در لاگ Django و 404:** صفحه‌های React مثل `/login` نباید مستقیم به Django/gunicorn برسند. در local باید آدرس فرانت را باز کنی، مثلاً `http://localhost:3000/login`. در production مطمئن شو nginx ریشهٔ سایت را از build فرانت سرو می‌کند و فقط `/api/` را به gunicorn می‌فرستد؛ بخش `location / { try_files $uri $uri/ /index.html; }` همین کار را انجام می‌دهد.
+- **خطای LLM/RAG هنگام چت یا حل سؤال:** کلیدهای `MODEL_API` و `AVALAI_API_KEY` در `.env` درست پر شده باشند و `RAG_GOOGLE_BASE_URL=https://api.avalai.ir` تنظیم شده باشد؛ بعد سرویس را ری‌استارت کن.
 - **دیتابیس "readonly":** دسترسی نوشتن روی `db.sqlite3` و پوشهٔ `backend` را طبق مرحلهٔ ۶ تنظیم کن.

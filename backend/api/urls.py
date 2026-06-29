@@ -2,11 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('auth/send-otp', views.send_otp),  
-    path('auth/verify-otp', views.verify_otp),  
-    path('auth/login/send-otp', views.login_send_otp),
-    path('auth/login/verify-otp', views.login_verify_otp),  
-    # path('auth/register', views.register),  
+    path('auth/register', views.register),
     path('auth/login', views.login),
     path('auth/logout', views.logout),
     path('auth/me', views.auth_me),

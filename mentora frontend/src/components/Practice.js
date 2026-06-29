@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import confetti from "canvas-confetti";
 import "katex/dist/katex.min.css";
 import {
   AlertCircle,
@@ -174,6 +173,7 @@ export default function Practice() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sessionLoaded, setSessionLoaded] = useState(false);
   const [showDamage, setShowDamage] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const lessonConfig = useMemo(
     () => lessons.find((item) => item.name === lesson),
@@ -202,33 +202,9 @@ export default function Practice() {
   }, [answers, questions]);
 
   const fireCorrectConfetti = () => {
-    const defaults = {
-      spread: 70,
-      ticks: 120,
-      gravity: 0.95,
-      decay: 0.94,
-      startVelocity: 28,
-      scalar: 1,
-      zIndex: 9999,
-    };
-
-    confetti({
-      ...defaults,
-      particleCount: 70,
-      origin: { x: 0.2, y: 0.5 },
-    });
-
-    confetti({
-      ...defaults,
-      particleCount: 70,
-      origin: { x: 0.8, y: 0.6 },
-    });
-
-    confetti({
-      ...defaults,
-      particleCount: 45,
-      origin: { x: 0.5, y: 0.45 },
-    });
+    setShowCelebration(false);
+    window.setTimeout(() => setShowCelebration(true), 0);
+    window.setTimeout(() => setShowCelebration(false), 700);
   };
 
   const triggerWrongFlash = () => {
@@ -244,6 +220,8 @@ export default function Practice() {
     setQuestions([]);
     setAnswers([]);
     setCurrentIndex(0);
+    setShowCelebration(false);
+    setShowDamage(false);
   };
 
   useEffect(() => {
@@ -454,12 +432,31 @@ export default function Practice() {
         />
       )}
 
+      {showCelebration && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 20% 35%, rgba(34, 197, 94, 0.24), transparent 18%), radial-gradient(circle at 78% 42%, rgba(99, 102, 241, 0.2), transparent 16%), radial-gradient(circle at 50% 25%, rgba(250, 204, 21, 0.22), transparent 14%)",
+            pointerEvents: "none",
+            zIndex: 9998,
+            animation: "successFlash 700ms ease-out",
+          }}
+        />
+      )}
+
       <style>
         {`
           @keyframes damageFlash {
             0% { opacity: 0; }
             20% { opacity: 1; }
             100% { opacity: 0; }
+          }
+          @keyframes successFlash {
+            0% { opacity: 0; transform: scale(0.98); }
+            20% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.02); }
           }
         `}
       </style>

@@ -2,26 +2,46 @@ from pathlib import Path
 import json
 import re
 import time
+import os
 
 from google import genai
 from google.genai import types
+from google.genai.types import HttpOptions
+from dotenv import load_dotenv
+
+
+def load_project_env() -> None:
+    candidates = [Path.cwd() / ".env"]
+    if "__file__" in globals():
+        candidates.append(Path(__file__).resolve().parents[2] / ".env")
+
+    for env_path in candidates:
+        if env_path.exists():
+            load_dotenv(env_path)
+            return
+
+
+load_project_env()
 
 
 # ====== SETTINGS ======
-API_KEY = "YOUR_GOOGLE_AI_STUDIO_API_KEY"
+API_KEY = os.environ.get("GOOGLE_API_KEY", "AIzaSyCQW5xTX4t14kaoNGyT3-OtZReI5eWtBDs")
 MODEL_NAME = "gemma-4-31b-it"
+# GOOGLE_BASE_URL = os.environ.get("RAG_GOOGLE_BASE_URL", "").strip()
+GOOGLE_BASE_URL = None
 # MODEL_NAME = "gemini-2.5-flash"
 
-BOOK_CODE = "Physics3SchoolBook"
-MAIN_SUBJECT = "physics"
-GRADE = "12"
+BOOK_CODE = "Chemistry2SchoolBook"
+MAIN_SUBJECT = "chemistry" # physics
+GRADE = "11"
 
-START_PAGE = 109
-END_PAGE = 166
-FAILED_PAGES = []
+START_PAGE = 1
+END_PAGE = 1
+FAILED_PAGES = ['48', '73', '107', '112', '119', '127']
 OVERWRITE = False
 DELAY_SECONDS = 1
 PREVIOUS_CARDS_PAGES = 2
+MAX_RETRIES = 2
 failed_pages = []
 # ======================
 
@@ -36,7 +56,7 @@ except NameError:
     if not RAG_DIR.exists():
         RAG_DIR = Path.cwd() / "RAG"
     CARD_MAKING_DIR = RAG_DIR / "Card-Making"
-PROMPT_PATH = CARD_MAKING_DIR / "Card-Maker-Math-Prompt.txt"
+PROMPT_PATH = CARD_MAKING_DIR / "Card-Maker-Chemistry-Prompt.txt"
 TOPICS_PATH = RAG_DIR / "Topics" / f"{MAIN_SUBJECT}-topics.json"
 BOOK_IMAGES_DIR = RAG_DIR / "Books" / BOOK_CODE
 CARDS_OUTPUT_DIR = RAG_DIR / "Cards" / BOOK_CODE
@@ -51,6 +71,13 @@ def page_number_from_image(image_path: Path) -> int:
     if not match:
         raise ValueError(f"Image name must look like page_009.png: {image_path.name}")
     return int(match.group(1))
+
+
+def normalize_page_number(value) -> int | None:
+    try:
+        return int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
 
 
 def load_allowed_subsubjects() -> list[str]:
@@ -211,11 +238,23 @@ def make_cards_for_image(client: genai.Client, image_path: Path, allowed_subsubj
 
 def main() -> None:
     allowed_subsubjects = load_allowed_subsubjects()
-    client = genai.Client(api_key=API_KEY)
+    client_options = {"api_key": API_KEY}
+    if GOOGLE_BASE_URL:
+        client_options["http_options"] = HttpOptions(base_url=GOOGLE_BASE_URL)
+    client = genai.Client(**client_options)
 
     page_images = sorted(BOOK_IMAGES_DIR.glob("page_*.png"))
     if FAILED_PAGES:
-        page_images = [image for image in page_images if image.name in FAILED_PAGES]
+        failed_page_numbers = {
+            page
+            for page in (normalize_page_number(page) for page in FAILED_PAGES)
+            if page is not None
+        }
+        page_images = [
+            image
+            for image in page_images
+            if page_number_from_image(image) in failed_page_numbers
+        ]
     else:
         page_images = [
             image
@@ -231,22 +270,29 @@ def main() -> None:
 
     for image_path in page_images:
       print(f"\nprocessing: {image_path.name}")
-      try:
-          make_cards_for_image(client, image_path, allowed_subsubjects)
-      except Exception as error:
-          print(f"ERROR on {image_path.name}: {error}")
-          failed_pages.append({
-            "page": page_number_from_image(image_path),
-            "image": str(image_path),
-            "error": str(error)
-            })
-          if failed_pages:
-              failed_path = CARDS_OUTPUT_DIR / "_failed_pages.json"
-              failed_path.write_text(
-                  json.dumps(failed_pages, ensure_ascii=False, indent=2),
-                  encoding="utf-8"
-              )
-              print(f"\nSaved failed pages list: {failed_path}")
+      for attempt in range(1, MAX_RETRIES + 2):
+          try:
+              make_cards_for_image(client, image_path, allowed_subsubjects)
+              break
+          except Exception as error:
+              if attempt <= MAX_RETRIES:
+                  print(f"retry {attempt}/{MAX_RETRIES} after error: {error}")
+                  time.sleep(max(DELAY_SECONDS, 1))
+                  continue
+
+              print(f"ERROR on {image_path.name}: {error}")
+              failed_pages.append({
+                "page": page_number_from_image(image_path),
+                "image": str(image_path),
+                "error": str(error)
+                })
+              if failed_pages:
+                  failed_path = CARDS_OUTPUT_DIR / "_failed_pages.json"
+                  failed_path.write_text(
+                      json.dumps(failed_pages, ensure_ascii=False, indent=2),
+                      encoding="utf-8"
+                  )
+                  print(f"\nSaved failed pages list: {failed_path}")
       time.sleep(DELAY_SECONDS)
 
 
