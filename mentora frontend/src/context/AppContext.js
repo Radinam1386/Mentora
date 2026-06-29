@@ -89,11 +89,11 @@ export function AppProvider({ children }) {
     init();
   }, [loadMe, loadToday]);
 
-  const login = useCallback(async (email, password) => {
+  const login = useCallback(async (phone, password) => {
     const { response, data } = await apiJson("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ phone, password }),  // ← email → phone
     });
     if (!response.ok) {
       throw new Error(data.error || "ورود ناموفق بود.");

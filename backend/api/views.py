@@ -20,8 +20,12 @@ from .auth_utils import (
     verify_password,
     WEEKDAY_TO_PERSIAN,
 )
-from .models import ChatMessage, DailyTask, QuizQuestion, SubscriptionPlan, User, UserSubscription, WeeklyPlan
 from .question_solver import QuestionSolverConfigError, solve_student_question
+
+from .models import ChatMessage, DailyTask, OTPCode, QuizQuestion, SubscriptionPlan, User, UserSubscription, WeeklyPlan
+from .sms import send_otp as sms_send_otp
+
+
 
 PLANNING_ASSISTANT_DIR = Path(__file__).resolve().parents[2] / "Planning-Assistant"
 if PLANNING_ASSISTANT_DIR.exists() and str(PLANNING_ASSISTANT_DIR) not in sys.path:
@@ -869,30 +873,66 @@ def friendly_tutor_error(exc=None, kind="general"):
 # ── Auth endpoints ──
 
 @api_view(["POST"])
-def register(request):
-    data = request.data
-    name = (data.get("name") or data.get("fullName") or "").strip()
-    email = (data.get("email") or "").strip().lower()
-    password = data.get("password") or ""
-    confirm = data.get("confirmPassword") or password
+def send_otp(request):
+    """مرحله ۱ ثبت‌نام: ارسال OTP به شماره موبایل"""
+    phone = (request.data.get("phone") or "").strip()
+    name = (request.data.get("name") or "").strip()
+    password = request.data.get("password") or ""
+    confirm = request.data.get("confirmPassword") or password
 
-    if not name or not email or not password:
-        return Response({"error": "نام، ایمیل و رمز عبور الزامی است."}, status=400)
+    if not phone or not name or not password:
+        return Response({"error": "نام، شماره موبایل و رمز عبور الزامی است."}, status=400)
+    if len(phone) < 10:
+        return Response({"error": "شماره موبایل معتبر نیست."}, status=400)
     if password != confirm:
         return Response({"error": "رمز عبور و تکرار آن یکسان نیست."}, status=400)
     if len(password) < 6:
         return Response({"error": "رمز عبور باید حداقل ۶ کاراکتر باشد."}, status=400)
-    if User.objects.filter(email=email).exists():
-        return Response({"error": "این ایمیل قبلاً ثبت شده است."}, status=400)
+    if User.objects.filter(phone=phone).exists():
+        return Response({"error": "این شماره موبایل قبلاً ثبت شده است."}, status=400)
+
+    code = OTPCode.generate_code()
+    OTPCode.objects.create(phone=phone, code=code)
+
+    try:
+        sms_send_otp(phone, code)
+    except RuntimeError as exc:
+        return Response({"error": str(exc)}, status=500)
+
+    return Response({"message": "کد تایید ارسال شد.", "phone": phone})
+
+
+@api_view(["POST"])
+def verify_otp(request):
+    """مرحله ۲ ثبت‌نام: تایید OTP و ساخت حساب"""
+    phone = (request.data.get("phone") or "").strip()
+    code = (request.data.get("code") or "").strip()
+    name = (request.data.get("name") or "").strip()
+    password = request.data.get("password") or ""
+
+    if not phone or not code or not name or not password:
+        return Response({"error": "همه فیلدها الزامی است."}, status=400)
+
+    otp = OTPCode.objects.filter(phone=phone, code=code, is_used=False).first()
+    if not otp or not otp.is_valid():
+        return Response({"error": "کد تایید اشتباه یا منقضی شده است."}, status=400)
+
+    otp.is_used = True
+    otp.save()
+
+    if User.objects.filter(phone=phone).exists():
+        return Response({"error": "این شماره موبایل قبلاً ثبت شده است."}, status=400)
 
     user = User.objects.create(
         name=name,
-        email=email,
+        phone=phone,
         password=hash_password(password),
+        is_phone_verified=True,
         onboarding_completed=False,
     )
     grant_free_trial_subscription(user)
     token = generate_token(user)
+
     return Response({
         "message": "ثبت‌نام با موفقیت انجام شد.",
         "token": token,
@@ -902,22 +942,21 @@ def register(request):
 
 @api_view(["POST"])
 def login(request):
-    email = (request.data.get("email") or "").strip().lower()
+    phone = (request.data.get("phone") or "").strip()
     password = request.data.get("password") or ""
 
-    if not email or not password:
-        return Response({"error": "ایمیل و رمز عبور الزامی است."}, status=400)
+    if not phone or not password:
+        return Response({"error": "شماره موبایل و رمز عبور الزامی است."}, status=400)
 
     try:
-        user = User.objects.get(email=email)
+        user = User.objects.get(phone=phone)
     except User.DoesNotExist:
-        return Response({"error": "ایمیل یا رمز عبور اشتباه است."}, status=401)
+        return Response({"error": "شماره موبایل یا رمز عبور اشتباه است."}, status=401)
 
     if not verify_password(password, user.password):
-        return Response({"error": "ایمیل یا رمز عبور اشتباه است."}, status=401)
+        return Response({"error": "شماره موبایل یا رمز عبور اشتباه است."}, status=401)
 
     token = generate_token(user)
-
     return Response({
         "message": "ورود موفقیت‌آمیز بود.",
         "token": token,

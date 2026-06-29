@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useApp();
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");        // ← email → phone
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ const Login = () => {
     setLoading(true);
     setError("");
     try {
-      const data = await login(email, password);
+      const data = await login(phone, password);   // ← email → phone
       const from = location.state?.from || "/home";
       if (data.profile?.onboardingCompleted) {
         navigate(from, { replace: true });
@@ -35,6 +35,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div
@@ -71,20 +72,20 @@ const Login = () => {
         )}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>
-              ایمیل
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="ایمیل خود را وارد کنید"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={inputStyle}
-            />
-          </div>
+      <div className="mb-3">
+        <label className="form-label fw-semibold" style={{ fontSize: "14px", color: "#334155" }}>
+          شماره موبایل          {/* ← ایمیل → شماره موبایل */}
+        </label>
+        <input
+          type="tel"      
+          className="form-control"
+          placeholder="۰۹۱۲۳۴۵۶۷۸۹"   
+          value={phone}  
+          onChange={(e) => setPhone(e.target.value)}
+          required
+          style={inputStyle}
+        />
+      </div>
 
           <div className="mb-3">
             <label
