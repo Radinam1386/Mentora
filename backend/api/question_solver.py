@@ -1,16 +1,13 @@
 import json
 import mimetypes
 import os
-import random
 import re
 import time
 from pathlib import Path
 
 try:
-    from google import genai
     from google.genai import types
 except ImportError:
-    genai = None
     types = None
 
 from .model_providers import ModelProviderConfigError, generate_google_content
@@ -67,114 +64,6 @@ def debug_log(message: str, **fields) -> None:
         safe_fields = " ".join(f"{key}={value}" for key, value in fields.items())
         suffix = f" | {safe_fields}"
     print(f"[RAG DEBUG] {message}{suffix}", flush=True)
-
-
-def mask_api_key(key: str) -> str:
-    if not key:
-        return "missing"
-    if len(key) <= 8:
-        return "***"
-    return f"{key[:4]}...{key[-4:]}"
-
-
-def short_error(error: Exception, max_length: int = 500) -> str:
-    text = str(error).replace("\n", " ").strip()
-    if len(text) <= max_length:
-        return text
-    return f"{text[:max_length]}..."
-
-
-def split_api_keys(value: str) -> list[str]:
-    return [part.strip() for part in re.split(r"[\s,;]+", value or "") if part.strip()]
-
-
-def api_keys() -> list[str]:
-    if genai is None or types is None:
-        raise QuestionSolverConfigError("google-genai is not installed. Run: pip install -r backend/requirements.txt")
-
-    keys = []
-    for env_name in (
-        "RAG_API_KEYS",
-        "RAG_GOOGLE_API_KEYS",
-        "GOOGLE_API_KEYS",
-        "GEMINI_API_KEYS",
-        "RAG_GOOGLE_API_KEY",
-        "GOOGLE_API_KEY",
-        "GEMINI_API_KEY",
-    ):
-        keys.extend(split_api_keys(os.environ.get(env_name, "")))
-
-    unique_keys = list(dict.fromkeys(keys))
-    if not unique_keys:
-        raise QuestionSolverConfigError(
-            "Google API key is missing. Set RAG_GOOGLE_API_KEYS, GOOGLE_API_KEY, GEMINI_API_KEY, or RAG_GOOGLE_API_KEY."
-        )
-    debug_log("api keys loaded", count=len(unique_keys))
-    return unique_keys
-
-
-def make_client(selected_api_key: str | None = None):
-    selected_api_key = selected_api_key or random.choice(api_keys())
-    http_options = {}
-    if GOOGLE_BASE_URL:
-        http_options["base_url"] = GOOGLE_BASE_URL
-    if GOOGLE_API_VERSION:
-        http_options["api_version"] = GOOGLE_API_VERSION
-
-    debug_log(
-        "creating model client",
-        model=MODEL_NAME,
-        key=mask_api_key(selected_api_key),
-        base_url=GOOGLE_BASE_URL or "default",
-        api_version=GOOGLE_API_VERSION or "default",
-    )
-
-    if http_options:
-        return genai.Client(
-            api_key=selected_api_key,
-            http_options=types.HttpOptions(**http_options),
-        )
-
-    return genai.Client(api_key=selected_api_key)
-
-
-def run_with_retries(operation, operation_name: str):
-    keys = api_keys()
-    random.shuffle(keys)
-
-    for attempt in range(1, MAX_RETRIES + 2):
-        selected_api_key = keys[(attempt - 1) % len(keys)]
-        started_at = time.perf_counter()
-        try:
-            debug_log(
-                "model call attempt",
-                operation=operation_name,
-                attempt=attempt,
-                max_attempts=MAX_RETRIES + 1,
-                key=mask_api_key(selected_api_key),
-            )
-            result = operation(make_client(selected_api_key))
-            debug_log(
-                "model call success",
-                operation=operation_name,
-                attempt=attempt,
-                elapsed_ms=round((time.perf_counter() - started_at) * 1000),
-            )
-            return result
-        except QuestionSolverConfigError:
-            raise
-        except Exception as exc:
-            debug_log(
-                "model call failed",
-                operation=operation_name,
-                attempt=attempt,
-                elapsed_ms=round((time.perf_counter() - started_at) * 1000),
-                error_type=exc.__class__.__name__,
-                error=short_error(exc),
-            )
-            if attempt <= MAX_RETRIES:
-                continue
-            raise
 
 
 def load_text(path: Path) -> str:
