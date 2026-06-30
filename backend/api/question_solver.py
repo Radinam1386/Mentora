@@ -13,6 +13,7 @@ except ImportError:
     genai = None
     types = None
 
+from .model_providers import ModelProviderConfigError, generate_google_content
 
 REPO_DIR = Path(__file__).resolve().parents[2]
 RAG_DIR = REPO_DIR / "RAG"
@@ -244,6 +245,8 @@ def resolve_rag_path(path_text: str) -> Path:
 
 
 def image_part(image_bytes: bytes, mime_type: str | None, file_name: str = ""):
+    if types is None:
+        raise QuestionSolverConfigError("google-genai is not installed. Run: pip install -r backend/requirements.txt")
     detected_mime = mime_type or mimetypes.guess_type(file_name)[0] or "image/png"
     return types.Part.from_bytes(data=image_bytes, mime_type=detected_mime)
 
@@ -266,11 +269,24 @@ def classify_question(question_text: str, image_bytes: bytes | None, mime_type: 
         content_parts=len(contents),
     )
 
-    def operation(client):
-        response = client.models.generate_content(model=MODEL_NAME, contents=contents)
-        return clean_json_response(response_text(response))
+    try:
+        response = generate_google_content(
+            operation="classify_question",
+            model=MODEL_NAME,
+            contents=contents,
+            base_url=GOOGLE_BASE_URL,
+            api_version=GOOGLE_API_VERSION,
+            max_retries=MAX_RETRIES,
+            metadata={
+                "hasImage": bool(image_bytes),
+                "textChars": len(question_text.strip()),
+                "contentParts": len(contents),
+            },
+        )
+    except ModelProviderConfigError as exc:
+        raise QuestionSolverConfigError(str(exc))
 
-    result = run_with_retries(operation, "classify_question")
+    result = clean_json_response(response_text(response))
     debug_log(
         "classification result",
         main_subject=result.get("main_subject"),
@@ -432,11 +448,25 @@ def solve_with_sources(
         content_parts=len(contents),
     )
 
-    def operation(client):
-        response = client.models.generate_content(model=MODEL_NAME, contents=contents)
-        return response_text(response)
+    try:
+        response = generate_google_content(
+            operation="solve_with_sources",
+            model=MODEL_NAME,
+            contents=contents,
+            base_url=GOOGLE_BASE_URL,
+            api_version=GOOGLE_API_VERSION,
+            max_retries=MAX_RETRIES,
+            metadata={
+                "hasImage": bool(image_bytes),
+                "usedSources": len(used_sources),
+                "attachedSourceImages": attached_images,
+                "contentParts": len(contents),
+            },
+        )
+    except ModelProviderConfigError as exc:
+        raise QuestionSolverConfigError(str(exc))
 
-    answer = run_with_retries(operation, "solve_with_sources")
+    answer = response_text(response)
     debug_log("solve result ready", answer_chars=len(answer), sources=len(used_sources))
     return answer, used_sources
 

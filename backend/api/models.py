@@ -18,6 +18,7 @@ class User(models.Model):
     daily_study_hours = models.IntegerField(default=4)
     onboarding_completed = models.BooleanField(default=False)
     is_phone_verified = models.BooleanField(default=False)        # ← جدید
+    is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -93,9 +94,7 @@ class QuizQuestion(models.Model):
     lesson = models.CharField(max_length=100, blank=True, default="", db_index=True)
     grade = models.CharField(max_length=50, blank=True, default="", db_index=True)
     topic = models.CharField(max_length=255, blank=True, default="", db_index=True)
-    subject = models.CharField(max_length=255)
-    question_text = models.TextField()
-    options = models.JSONField(default=list)
+    question_image = models.CharField(max_length=500, blank=True, default="")
     correct_answer_index = models.IntegerField()
     explanation = models.TextField(blank=True, default="")
     difficulty = models.CharField(max_length=50, blank=True, default="")
@@ -108,3 +107,107 @@ class DiagnosticTest(models.Model):
     correct_answers = models.IntegerField(default=0)
     readiness_percentage = models.FloatField(default=0.0)
     tested_at = models.DateTimeField(auto_now_add=True)
+
+
+class SupportTicket(models.Model):
+    STATUS_OPEN = "open"
+    STATUS_IN_PROGRESS = "in_progress"
+    STATUS_RESOLVED = "resolved"
+    STATUS_CLOSED = "closed"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="support_tickets")
+    title = models.CharField(max_length=255)
+    category = models.CharField(max_length=100, blank=True, default="عمومی")
+    status = models.CharField(max_length=30, default=STATUS_OPEN, db_index=True)
+    priority = models.CharField(max_length=30, blank=True, default="normal")
+    internal_note = models.TextField(blank=True, default="")
+    assigned_admin = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="assigned_support_tickets",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    closed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["-updated_at", "-created_at"]
+
+
+class SupportMessage(models.Model):
+    ticket = models.ForeignKey(SupportTicket, on_delete=models.CASCADE, related_name="messages")
+    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    sender_role = models.CharField(max_length=20)
+    body = models.TextField()
+    is_internal = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at"]
+
+
+class AdminAuditLog(models.Model):
+    admin_user = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="admin_audit_logs",
+    )
+    action = models.CharField(max_length=100, db_index=True)
+    target_type = models.CharField(max_length=100, blank=True, default="")
+    target_id = models.CharField(max_length=100, blank=True, default="")
+    note = models.TextField(blank=True, default="")
+    metadata = models.JSONField(default=dict, blank=True)
+    ip_address = models.CharField(max_length=64, blank=True, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class ApiUsageLog(models.Model):
+    STATUS_SUCCESS = "success"
+    STATUS_ERROR = "error"
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="api_usage_logs")
+    provider = models.CharField(max_length=80, db_index=True)
+    sdk = models.CharField(max_length=80, blank=True, default="")
+    model = models.CharField(max_length=120, blank=True, default="")
+    operation = models.CharField(max_length=120, db_index=True)
+    key_fingerprint = models.CharField(max_length=40, blank=True, default="")
+    status = models.CharField(max_length=20, default=STATUS_SUCCESS, db_index=True)
+    latency_ms = models.IntegerField(default=0)
+    retry_count = models.IntegerField(default=0)
+    prompt_tokens = models.IntegerField(default=0)
+    completion_tokens = models.IntegerField(default=0)
+    total_tokens = models.IntegerField(default=0)
+    response_id = models.CharField(max_length=180, blank=True, default="")
+    finish_reason = models.CharField(max_length=100, blank=True, default="")
+    error_type = models.CharField(max_length=120, blank=True, default="")
+    error_message = models.TextField(blank=True, default="")
+    http_status = models.IntegerField(null=True, blank=True)
+    metadata = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["created_at", "status"]),
+            models.Index(fields=["provider", "operation"]),
+        ]
+
+
+class AppEventLog(models.Model):
+    level = models.CharField(max_length=20, default="info", db_index=True)
+    source = models.CharField(max_length=80, blank=True, default="")
+    event_type = models.CharField(max_length=120, db_index=True)
+    message = models.TextField(blank=True, default="")
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="app_event_logs")
+    metadata = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]

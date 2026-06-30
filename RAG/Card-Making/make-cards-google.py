@@ -25,7 +25,7 @@ load_project_env()
 
 
 # ====== SETTINGS ======
-API_KEY = os.environ.get("GOOGLE_API_KEY", "AIzaSyCQW5xTX4t14kaoNGyT3-OtZReI5eWtBDs")
+API_KEY = os.environ.get("GOOGLE_API_KEY")
 MODEL_NAME = "gemma-4-31b-it"
 # GOOGLE_BASE_URL = os.environ.get("RAG_GOOGLE_BASE_URL", "").strip()
 GOOGLE_BASE_URL = None

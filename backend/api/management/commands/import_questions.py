@@ -12,11 +12,11 @@ REQUIRED_COLUMNS = {
     "major",
     "lesson",
     "grade",
-    "question_text",
+    "question_image",
     "correct_answer",
 }
 
-OPTION_COLUMNS = ["option_1", "option_2", "option_3", "option_4"]
+OPTION_COUNT = 4
 VALID_MAJORS = {"ریاضی", "تجربی", "مشترک"}
 VALID_GRADES = {"دهم", "یازدهم", "دوازدهم", "جامع"}
 GRADE_ALIASES = {
@@ -99,11 +99,9 @@ class Command(BaseCommand):
 
     def normalize_row(self, row, line_number):
         missing = [column for column in REQUIRED_COLUMNS if not str(row.get(column, "")).strip()]
-        has_options_list = isinstance(row.get("options"), list) and row.get("options")
-        missing_options = [column for column in OPTION_COLUMNS if not str(row.get(column, "")).strip()]
 
-        if missing or (not has_options_list and missing_options):
-            missing_text = ", ".join([*missing, *([] if has_options_list else missing_options)])
+        if missing:
+            missing_text = ", ".join(missing)
             raise CommandError(f"Row {line_number}: missing required fields: {missing_text}")
 
         major = str(row["major"]).strip()
@@ -112,9 +110,7 @@ class Command(BaseCommand):
         topic = str(row.get("topic") or "").strip()
 
         self.validate_taxonomy(line_number, major, lesson, grade)
-        options = self.normalize_options(row, line_number)
-        correct_answer_index = self.normalize_correct_answer(row["correct_answer"], len(options), line_number)
-        subject = str(row.get("subject") or (f"{lesson} ({topic})" if topic else lesson)).strip()
+        correct_answer_index = self.normalize_correct_answer(row["correct_answer"], OPTION_COUNT, line_number)
         question_id = str(row.get("id") or "").strip()
 
         normalized = {
@@ -122,9 +118,7 @@ class Command(BaseCommand):
             "lesson": lesson,
             "grade": grade,
             "topic": topic,
-            "subject": subject,
-            "question_text": str(row["question_text"]).strip(),
-            "options": options,
+            "question_image": str(row["question_image"]).strip(),
             "correct_answer_index": correct_answer_index,
             "explanation": str(row.get("explanation") or "").strip(),
             "difficulty": str(row.get("difficulty") or "").strip(),
@@ -157,17 +151,6 @@ class Command(BaseCommand):
         if normalized:
             return normalized
         raise CommandError(f"Row {line_number}: grade must be one of {', '.join(sorted(VALID_GRADES))}.")
-
-    def normalize_options(self, row, line_number):
-        raw_options = row.get("options")
-        if isinstance(raw_options, list):
-            options = [str(option).strip() for option in raw_options if str(option).strip()]
-        else:
-            options = [str(row.get(column, "")).strip() for column in OPTION_COLUMNS]
-
-        if len(options) < 2:
-            raise CommandError(f"Row {line_number}: at least two answer options are required.")
-        return options
 
     def normalize_correct_answer(self, value, option_count, line_number):
         try:
