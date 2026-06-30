@@ -34,3 +34,25 @@ export async function apiJson(url, options = {}) {
   const data = await response.json().catch(() => ({}));
   return { response, data };
 }
+
+export function resolveMediaUrl(url) {
+  if (!url) return "";
+  if (/^(https?:|blob:|data:)/i.test(url)) return url;
+
+  const configuredOrigin = process.env.REACT_APP_API_ORIGIN || process.env.REACT_APP_API_BASE_URL || "";
+  if (configuredOrigin) {
+    return new URL(url, configuredOrigin).toString();
+  }
+
+  if (
+    typeof window !== "undefined" &&
+    url.startsWith("/media/") &&
+    ["localhost", "127.0.0.1"].includes(window.location.hostname) &&
+    window.location.port &&
+    window.location.port !== "8000"
+  ) {
+    return `${window.location.protocol}//${window.location.hostname}:8000${url}`;
+  }
+
+  return url;
+}

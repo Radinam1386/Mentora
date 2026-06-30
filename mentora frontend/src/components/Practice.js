@@ -19,19 +19,20 @@ import {
   X,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import { apiJson } from "../utils/api";
+import { apiJson, resolveMediaUrl } from "../utils/api";
 
 const ALL_TOPICS = "همه مباحث";
 const MAJORS = ["تجربی", "ریاضی"];
 const FALLBACK_COUNTS = [5, 10, 15, 20, 25, 30];
 const PRACTICE_SESSION_STORAGE_KEY = "mentora_practice_session_v1";
-const PRACTICE_SESSION_VERSION = 1;
+const PRACTICE_SESSION_VERSION = 2;
 const SAVED_PHASES = ["running", "results"];
 const DEFAULT_FEATURES = {
   topics: false,
   explanations: false,
   difficulty: false,
 };
+const OPTION_LABELS = ["گزینه ۱", "گزینه ۲", "گزینه ۳", "گزینه ۴"];
 
 const toFa = (value, maximumFractionDigits = 0) => {
   const number = Number(value);
@@ -117,20 +118,6 @@ const clearPracticeSession = () => {
   window.localStorage.removeItem(PRACTICE_SESSION_STORAGE_KEY);
 };
 
-function InlineMarkdown({ children }) {
-  return (
-    <ReactMarkdown
-      remarkPlugins={[remarkMath]}
-      rehypePlugins={[rehypeKatex]}
-      components={{
-        p: ({ children: paragraphChildren }) => <span>{paragraphChildren}</span>,
-      }}
-    >
-      {children || ""}
-    </ReactMarkdown>
-  );
-}
-
 function BlockMarkdown({ children }) {
   return (
     <ReactMarkdown
@@ -183,6 +170,7 @@ export default function Practice() {
   const currentQuestion = questions[currentIndex];
   const currentAnswer = answers[currentIndex];
   const hasAnswered = currentAnswer !== null && currentAnswer !== undefined;
+  const currentIsCorrect = currentAnswer === currentQuestion?.correctAnswer;
 
   const result = useMemo(() => {
     const total = questions.length;
@@ -405,7 +393,8 @@ export default function Practice() {
 
   const askTutor = (question) => {
     if (!question) return;
-    setBridgeQuestion(`این سوال را مرحله‌به‌مرحله توضیح بده: "${question.questionText}"`);
+    const questionLabel = `سوال تصویری ${currentIndex + 1}`.trim();
+    setBridgeQuestion(`این سوال را مرحله‌به‌مرحله توضیح بده: "${questionLabel}"`);
     navigate("/tutor");
   };
 
@@ -788,11 +777,29 @@ export default function Practice() {
                   </div>
 
                   <div className="text-end fw-bold mb-3" style={{ fontSize: "15px", lineHeight: "2", color: "#111827" }}>
-                    <BlockMarkdown>{currentQuestion.questionText}</BlockMarkdown>
+                    {currentQuestion.questionImage && (
+                      <img
+                        src={resolveMediaUrl(currentQuestion.questionImage)}
+                        alt={`Question ${currentIndex + 1}`}
+                        style={{
+                          width: "100%",
+                          maxHeight: "640px",
+                          objectFit: "contain",
+                          borderRadius: "14px",
+                          border: "1px solid #e5e7eb",
+                          background: "#fff",
+                        }}
+                      />
+                    )}
+                    {!currentQuestion.questionImage && (
+                      <div style={{ color: "#991b1b", fontSize: "13px" }}>
+                        تصویر سوال برای این ردیف پیدا نشد.
+                      </div>
+                    )}
                   </div>
 
                   <div className="d-flex flex-column gap-2">
-                    {currentQuestion.options.map((option, index) => (
+                    {OPTION_LABELS.map((option, index) => (
                       <button
                         key={index}
                         type="button"
@@ -809,7 +816,7 @@ export default function Practice() {
                         }}
                       >
                         <span style={{ flex: 1, textAlign: "right", lineHeight: "1.9" }}>
-                          <InlineMarkdown>{option}</InlineMarkdown>
+                          {option}
                         </span>
                         {hasAnswered && index === currentQuestion.correctAnswer && <Check size={17} color="#16a34a" />}
                         {hasAnswered && index === currentAnswer && index !== currentQuestion.correctAnswer && (
@@ -823,9 +830,9 @@ export default function Practice() {
                     <div
                       className="mt-3"
                       style={{
-                        background: currentAnswer === currentQuestion.correctAnswer ? "#ecfdf5" : "#fff1f2",
-                        border: currentAnswer === currentQuestion.correctAnswer ? "1px solid #bbf7d0" : "1px solid #fecdd3",
-                        color: currentAnswer === currentQuestion.correctAnswer ? "#166534" : "#9f1239",
+                        background: currentIsCorrect ? "#ecfdf5" : "#fff1f2",
+                        border: currentIsCorrect ? "1px solid #bbf7d0" : "1px solid #fecdd3",
+                        color: currentIsCorrect ? "#166534" : "#9f1239",
                         borderRadius: "16px",
                         padding: "14px",
                         fontSize: "12px",
@@ -833,7 +840,7 @@ export default function Practice() {
                       }}
                     >
                       <div className="fw-bold mb-1">
-                        {currentAnswer === currentQuestion.correctAnswer ? "پاسخ درست بود." : "پاسخ انتخاب‌شده درست نبود."}
+                        {currentIsCorrect ? "پاسخ درست بود." : "پاسخ انتخاب‌شده درست نبود."}
                       </div>
                       {features.explanations && currentQuestion.explanation && (
                         <BlockMarkdown>{currentQuestion.explanation}</BlockMarkdown>

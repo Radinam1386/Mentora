@@ -5,6 +5,7 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from django.conf import settings
 from django.db.utils import OperationalError, ProgrammingError
 from django.utils import timezone
 from rest_framework.decorators import api_view
@@ -288,6 +289,7 @@ def serialize_profile(user):
         "onboardingCompleted": user.onboarding_completed,
         "subscription_days": subscription_days,
         "subscriptionActive": subscription_days > 0,
+        "isAdmin": bool(getattr(user, "is_admin", False)),
     }
 
 
@@ -432,7 +434,7 @@ def practice_question_queryset(major, lesson, grade, topic=""):
     queryset = QuizQuestion.objects.filter(
         lesson=lesson,
         major__in=[major, "مشترک"],
-    )
+    ).exclude(question_image="")
 
     if grade and grade != PRACTICE_ALL_GRADES:
         queryset = queryset.filter(grade=grade)
@@ -464,15 +466,19 @@ def practice_topics_for_selection(major, lesson, grade):
     return [PRACTICE_ALL_TOPICS, *topics] if topics else [PRACTICE_ALL_TOPICS]
 
 
-def serialize_practice_question(question):
+def serialize_practice_question(question, request=None):
+    image_url = ""
+    if question.question_image:
+        image_url = f"{settings.MEDIA_URL}{question.question_image}"
+        if request is not None:
+            image_url = request.build_absolute_uri(image_url)
+
     payload = {
         "id": question.id,
         "major": question.major,
         "lesson": question.lesson,
         "grade": question.grade,
-        "subject": question.subject,
-        "questionText": question.question_text,
-        "options": question.options,
+        "questionImage": image_url,
         "correctAnswer": question.correct_answer_index,
     }
     if PRACTICE_ENABLE_TOPICS:
@@ -1296,7 +1302,7 @@ def practice_questions(request):
         "requestedCount": count,
         "availableCount": available_count,
         "features": practice_feature_flags(),
-        "questions": [serialize_practice_question(question) for question in questions],
+        "questions": [serialize_practice_question(question, request) for question in questions],
     })
 
 

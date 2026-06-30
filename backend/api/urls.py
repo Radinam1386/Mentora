@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import admin_views, support_views, views
 
 urlpatterns = [
     path('auth/register', views.register),
@@ -7,6 +7,24 @@ urlpatterns = [
     path('auth/logout', views.logout),
     path('auth/me', views.auth_me),
     path('auth/onboarding', views.onboarding),
+    path('support/tickets', support_views.support_tickets),
+    path('support/tickets/<int:ticket_id>', support_views.support_ticket_detail),
+    path('support/tickets/<int:ticket_id>/messages', support_views.support_ticket_messages),
+    path('admin/me', admin_views.admin_me),
+    path('admin/dashboard', admin_views.admin_dashboard),
+    path('admin/users', admin_views.admin_users),
+    path('admin/users/<int:user_id>', admin_views.admin_user_detail),
+    path('admin/users/<int:user_id>/subscriptions/activate', admin_views.admin_subscription_activate),
+    path('admin/users/<int:user_id>/subscriptions/extend', admin_views.admin_subscription_extend),
+    path('admin/users/<int:user_id>/subscriptions/change-plan', admin_views.admin_subscription_change_plan),
+    path('admin/users/<int:user_id>/subscriptions/cancel', admin_views.admin_subscription_cancel),
+    path('admin/support/tickets', admin_views.admin_support_tickets),
+    path('admin/support/tickets/<int:ticket_id>/reply', admin_views.admin_support_reply),
+    path('admin/support/tickets/<int:ticket_id>', admin_views.admin_support_update),
+    path('admin/api-usage', admin_views.admin_api_usage),
+    path('admin/errors', admin_views.admin_errors),
+    path('admin/audit-logs', admin_views.admin_audit_logs),
+    path('admin/providers', admin_views.admin_providers),
     path('planner/today', views.today_plan),
     path('planner/tasks', views.create_task),
     path('planner/tasks/<int:task_id>', views.update_task),

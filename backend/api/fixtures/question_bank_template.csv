@@ -1,4 +1,2 @@
-major,lesson,grade,question_text,option_1,option_2,option_3,option_4,correct_answer
-ریاضی,حسابان,دوازدهم,"اگر تابع $f(x)=x^2+3x$ باشد، مقدار مشتق در $x=2$ کدام است؟","۷","۵","۴","۲",1
-تجربی,زیست,دوازدهم,"کدام بخش بیشترین نقش را در جذب مواد غذایی دارد؟","روده باریک","مری","معده","روده بزرگ",1
-مشترک,فیزیک,mixed,"اگر سرعت جسمی ثابت باشد، شتاب آن کدام است؟","صفر","ثابت و غیرصفر","افزایشی","کاهشی",1
+major,lesson,grade,question_image,correct_answer,topic,explanation,difficulty
+تجربی,زیست,جامع,practice_questions/biology/mixed/q001.png,3,,,

@@ -96,3 +96,17 @@ def require_auth(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapper
+
+
+def require_admin(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        user = get_user_from_request(request)
+        if not user:
+            return Response({"error": "لطفاً ابتدا وارد حساب کاربری خود شوید."}, status=401)
+        if not getattr(user, "is_admin", False):
+            return Response({"error": "دسترسی ادمین برای این بخش لازم است."}, status=403)
+        request.mentora_user = user
+        return view_func(request, *args, **kwargs)
+
+    return wrapper

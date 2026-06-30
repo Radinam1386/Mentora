@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { useApp } from "../context/AppContext";
-import { apiJson, authHeaders } from "../utils/api";
+import { apiJson, authHeaders, resolveMediaUrl } from "../utils/api";
 
 const defaultProfile = {
   major: "ریاضی",
@@ -90,6 +90,8 @@ export default function Tutor() {
   const fileInputRef = useRef(null);
   const historyLoaded = useRef(false);
   const shouldStickToBottomRef = useRef(true);
+  const imagePreviewRef = useRef("");
+  const sentImagePreviewUrlsRef = useRef(new Set());
 
   const welcomeMessage = welcomeMessageFactory();
 
@@ -158,12 +160,23 @@ export default function Tutor() {
   }, [messages, loading]);
 
   useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
+    imagePreviewRef.current = imagePreview;
   }, [imagePreview]);
+
+  useEffect(() => {
+    const sentPreviewUrls = sentImagePreviewUrlsRef.current;
+
+    return () => {
+      const currentPreview = imagePreviewRef.current;
+      if (currentPreview && !sentPreviewUrls.has(currentPreview)) {
+        URL.revokeObjectURL(currentPreview);
+      }
+      sentPreviewUrls.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
+      sentPreviewUrls.clear();
+    };
+  }, []);
 
   const handleScroll = () => {
     const isNearBottom = checkIfNearBottom();
@@ -180,7 +193,7 @@ export default function Tutor() {
       return;
     }
 
-    if (imagePreview) {
+    if (imagePreview && !sentImagePreviewUrlsRef.current.has(imagePreview)) {
       URL.revokeObjectURL(imagePreview);
     }
 
@@ -190,8 +203,12 @@ export default function Tutor() {
     setUploadProgress(0);
   };
 
-  const clearSelectedImage = () => {
-    if (imagePreview) {
+  const clearSelectedImage = ({ revoke = true } = {}) => {
+    if (
+      revoke &&
+      imagePreview &&
+      !sentImagePreviewUrlsRef.current.has(imagePreview)
+    ) {
       URL.revokeObjectURL(imagePreview);
     }
     setSelectedImage(null);
@@ -297,7 +314,10 @@ export default function Tutor() {
         formData.append("image", imageToSend);
       }
 
-      clearSelectedImage();
+      if (previewToSend) {
+        sentImagePreviewUrlsRef.current.add(previewToSend);
+      }
+      clearSelectedImage({ revoke: false });
 
       const data = await sendWithProgress({ formData });
 
@@ -455,7 +475,8 @@ export default function Tutor() {
           <div className="d-flex flex-column gap-3">
             {messages.map((m) => {
               const isModel = m.role === "model";
-              const imageSrc = m.imageUrl || m.imagePreview;
+              const rawImageSrc = m.imageUrl || m.imagePreview;
+              const imageSrc = resolveMediaUrl(rawImageSrc);
 
               return (
                 <div
