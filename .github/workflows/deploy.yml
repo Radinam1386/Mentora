@@ -15,6 +15,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
             cd /root/project/Mentora
             git pull origin main
 
@@ -29,10 +30,15 @@ jobs:
 
             # Frontend
             cd "mentora frontend"
-            npm install
+            npm ci
             npm run build
             cd ..
 
+            # Sync frontend build to nginx root
+            rm -rf /var/www/mentora/build/*
+            cp -r "mentora frontend/build/." /var/www/mentora/build/
+            chown -R www-data:www-data /var/www/mentora/build
+
             # Restart services
             systemctl restart mentora
-            systemctl restart nginx
+            systemctl reload nginx
