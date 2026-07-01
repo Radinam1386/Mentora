@@ -41,10 +41,9 @@ export default function AppSidebar({ open, onClose }) {
         { key: "/reports", label: "گزارش‌ها", icon: <BarChart3 size={18} /> },
         { key: "/exams", label: "نهایی", icon: <NotebookTabs size={18} /> },
         { key: "/focustimer", label: "تایمر فوکوس", icon: <Hourglass size={18} /> },
-        { key: "/support", label: "پشتیبانی", icon: <LifeBuoy size={18} /> },
         { key: "/blog", label: "بلاگ", icon: <TextIcon size={18} /> },
         { key: "/subscription", label: "اشتراک", icon: <ShoppingBasket size={18} /> },
-        ...(isAdmin ? [{ key: "/admin-console", label: "کنسول ادمین", icon: <ShieldCheck size={18} /> }] : []),
+        ...(isAdmin ? [{ key: "/admin/console", label: "کنسول ادمین", icon: <ShieldCheck size={18} /> }] : []),
         { key: "/profile", label: "پروفایل", icon: <UserCircle2 size={18} /> },
     ];
 

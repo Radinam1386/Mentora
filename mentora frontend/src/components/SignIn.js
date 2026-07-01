@@ -146,9 +146,8 @@ const Signin = () => {
         </form>
 
         <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
-          <span style={{ color: "#64748b", fontSize: "14px" }}>قبلاً حساب ساخته‌اید؟</span>
           <Link to="/login" className="btn btn-link p-0 fw-bold text-decoration-none" style={{ color: "#2563eb", fontSize: "14px" }}>
-            ورود
+            قبلاً حساب ساخته‌اید؟ ورود
           </Link>
         </div>
       </div>

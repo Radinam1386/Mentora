@@ -46,13 +46,12 @@ export default function Reports() {
     <div
       className="container py-4"
       style={{
-        maxWidth: "860px",
+        maxWidth: "1200px",
         direction: "rtl",
         fontFamily: "Vazir, Tahoma, Arial, sans-serif",
       }}
     >
       <div className="d-flex flex-column gap-3">
-        {/* Overview statistics */}
         <div
           className="bg-white border shadow-sm text-end"
           style={{
@@ -152,7 +151,6 @@ export default function Reports() {
           </div>
         </div>
 
-        {/* Heatmap / Subject breakdown list */}
         <div
           className="bg-white border shadow-sm text-end"
           style={{
@@ -169,7 +167,7 @@ export default function Reports() {
               تخمین پایداری مباحث تحصیلی
               <Book size={15} color="#6255f5" />
             </h3>
-                        <div
+            <div
               className="d-flex gap-3 flex-wrap"
               style={{ fontSize: "10px", fontWeight: 700 }}
             >
@@ -264,8 +262,6 @@ export default function Reports() {
             ))}
           </div>
         </div>
-
-        {/* Recommendation Card */}
         <div
           className="d-flex gap-3 text-end"
           style={{
@@ -275,8 +271,8 @@ export default function Reports() {
             padding: "18px",
           }}
         >
-          <div style={{ color: "#e11d48", paddingTop: "2px" }}>
-            <AlertTriangle size={20} />
+          <div style={{ color: "#e11d48", paddingTop: "2px" }} className=" d-flex align-itens-center justify-content-center ">
+            <AlertTriangle size={50} />
           </div>
 
           <div className="flex-grow-1">
@@ -287,8 +283,8 @@ export default function Reports() {
                 color: "#9f1239",
               }}
             >
-              توصیه فوری هوش مصنوعی منتورا
               <Sparkles size={12} />
+              توصیه فوری هوش مصنوعی منتورا
             </h4>
 
             <p

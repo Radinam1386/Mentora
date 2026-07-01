@@ -8,6 +8,7 @@ import {
   Target,
   TimerReset,
   Wand2,
+  Clock10Icon
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { apiJson } from "../utils/api";
@@ -649,11 +650,11 @@ export default function PlanningAssistant() {
               <div className="col-12 col-md-4">
                 <label className="w-100" style={boxStyle}>
                   <span
-                    className="d-flex align-items-center justify-content-end gap-1 mb-2 fw-bold text-muted"
+                    className="d-flex align-items-center justify-content-start gap-1 mb-2 fw-bold text-muted"
                     style={{ fontSize: "11px" }}
                   >
-                    مدت هر پارت مطالعاتی
                     <TimerReset size={12} />
+                    مدت هر پارت مطالعاتی
                   </span>
                   <input
                     type="number"
@@ -669,7 +670,9 @@ export default function PlanningAssistant() {
 
               <div className="col-12 col-md-4">
                 <label className="w-100" style={boxStyle}>
-                  <span className="d-block mb-2 fw-bold text-muted" style={{ fontSize: "11px" }}>
+                  <span className="d-flex align-items-center justify-content-start gap-1 mb-2 fw-bold text-muted"
+                    style={{ fontSize: "11px" }}>
+                    <Clock10Icon size={12} />
                     استراحت بین پارت‌ها
                   </span>
                   <input
@@ -742,12 +745,12 @@ export default function PlanningAssistant() {
                       }}
                     >
                       <div className="d-flex justify-content-between align-items-center gap-2 mb-3">
-                        <span className="text-muted fw-bold" style={{ fontSize: "11px" }}>
-                          سختی پایه {item.baseDifficulty}/۵
-                        </span>
                         <h4 className="mb-0 fw-bold text-dark" style={{ fontSize: "15px" }}>
                           {item.name}
                         </h4>
+                        <span className="text-muted fw-bold" style={{ fontSize: "11px" }}>
+                          سختی پایه {item.baseDifficulty}/۵
+                        </span>
                       </div>
 
                       <div className="row g-2">

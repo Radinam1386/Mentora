@@ -32,6 +32,8 @@ import AboutUs from './components/AboutUs';
 import Testimonials from './components/Testimonials'
 import Support from './components/Support';
 import AdminConsole from './components/AdminConsole';
+import SupportWidget from './components/SupportWidget';
+import FeatureIntroModal from './components/FeatureIntroModal';
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
   const { profile } = useApp();
@@ -95,7 +97,7 @@ function App() {
           <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/support" element={<Support />} />
-          <Route path="/admin-console" element={<AdminConsole />} />
+          <Route path="/admin/console" element={<AdminConsole />} />
           <Route path="/loading" element={<StudyLoading />} />
           <Route path="/exams" element={<ComingSoon />} />
           <Route path="/blog" element={<BlogList />} />
@@ -103,6 +105,8 @@ function App() {
         </Route>
 
       </Routes>
+      <FeatureIntroModal />
+      <SupportWidget />
     </Router>
   );
 }

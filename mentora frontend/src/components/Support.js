@@ -1,205 +1,318 @@
 import React, { useEffect, useState } from "react";
-import { LifeBuoy, MessageCircle, Plus, RefreshCw, Send } from "lucide-react";
+import { LifeBuoy, MessageCircle, Plus, Send, RefreshCw, Logs } from "lucide-react";
 import { apiJson } from "../utils/api";
-import "./Support.css";
-
-const statusLabels = {
-  open: "باز",
-  in_progress: "در حال پیگیری",
-  resolved: "حل شده",
-  closed: "بسته",
-};
 
 export default function Support() {
   const [tickets, setTickets] = useState([]);
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(null);
   const [message, setMessage] = useState("");
-  const [form, setForm] = useState({ title: "", category: "عمومی", body: "" });
-  const [error, setError] = useState("");
+  const [form, setForm] = useState({
+    title: "",
+    category: "عمومی",
+    body: "",
+  });
 
+  /* --- Load all tickets --- */
   const loadTickets = async () => {
-    setLoading(true);
-    setError("");
     try {
-      const { response, data } = await apiJson("/api/support/tickets");
-      if (!response.ok) throw new Error(data.error || "دریافت تیکت‌ها ناموفق بود.");
-      setTickets(data.tickets || []);
-      if (!selectedTicket && data.tickets?.length) {
-        await loadTicket(data.tickets[0].id);
+      const { response, data } = await apiJson("/api/tickets");
+      if (response.ok) setTickets(data.tickets || []);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  /* --- Load single ticket --- */
+  const loadTicket = async (id) => {
+    try {
+      const { response, data } = await apiJson(`/api/tickets/${id}`);
+      if (response.ok) setSelected(data.ticket);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  /* --- Create new ticket --- */
+  const createTicket = async (e) => {
+    e.preventDefault();
+    try {
+      const { response } = await apiJson("/api/tickets", {
+        method: "POST",
+        body: form,
+      });
+
+      if (response.ok) {
+        setForm({ title: "", category: "عمومی", body: "" });
+        loadTickets();
       }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  const loadTicket = async (ticketId) => {
-    setError("");
-    const { response, data } = await apiJson(`/api/support/tickets/${ticketId}`);
-    if (!response.ok) {
-      setError(data.error || "دریافت جزئیات تیکت ناموفق بود.");
-      return;
-    }
-    setSelectedTicket(data.ticket);
-  };
+  /* --- Send message --- */
+  const sendMessage = async () => {
+    if (!selected || !message.trim()) return;
 
-  const createTicket = async (event) => {
-    event.preventDefault();
-    setError("");
-    const { response, data } = await apiJson("/api/support/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    if (!response.ok) {
-      setError(data.error || "ثبت تیکت ناموفق بود.");
-      return;
-    }
-    setForm({ title: "", category: "عمومی", body: "" });
-    setSelectedTicket(data.ticket);
-    await loadTickets();
-  };
+    try {
+      const { response } = await apiJson(`/api/tickets/${selected.id}/reply`, {
+        method: "POST",
+        body: { body: message },
+      });
 
-  const sendMessage = async (event) => {
-    event.preventDefault();
-    if (selectedTicket?.status === "closed") return;
-    if (!selectedTicket || !message.trim()) return;
-    setError("");
-    const { response, data } = await apiJson(`/api/support/tickets/${selectedTicket.id}/messages`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body: message }),
-    });
-    if (!response.ok) {
-      setError(data.error || "ارسال پیام ناموفق بود.");
-      return;
+      if (response.ok) {
+        setMessage("");
+        loadTicket(selected.id);
+      }
+    } catch (e) {
+      console.error(e);
     }
-    setMessage("");
-    setSelectedTicket(data.ticket);
-    await loadTickets();
   };
 
   useEffect(() => {
     loadTickets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="support-page">
-      <div className="support-header">
-        <div>
-          <span className="support-kicker">پشتیبانی منتورا</span>
-          <h1>درخواست‌ها و گزارش مشکل</h1>
-        </div>
-        <button type="button" onClick={loadTickets} className="support-icon-button" disabled={loading}>
-          <RefreshCw size={18} />
-        </button>
-      </div>
+    <div
+      className="container py-4"
+      style={{
+        maxWidth: "1200px",
+        direction: "rtl",
+        fontFamily: "Vazir, Tahoma",
+      }}
+    >
+      <div className="d-flex flex-column gap-3">
 
-      {error && <div className="support-alert">{error}</div>}
-
-      <div className="support-layout">
-        <section className="support-panel support-new">
-          <div className="support-panel-title">
-            <Plus size={18} />
-            <span>تیکت جدید</span>
-          </div>
-          <form onSubmit={createTicket} className="support-form">
-            <input
-              value={form.title}
-              onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
-              placeholder="عنوان کوتاه مشکل"
-            />
-            <select
-              value={form.category}
-              onChange={(event) => setForm((prev) => ({ ...prev, category: event.target.value }))}
+        {/* --- HEADER --- */}
+        <div
+          className="bg-white border shadow-sm"
+          style={{
+            borderRadius: "28px",
+            padding: "20px",
+            borderColor: "#f1f3f5",
+          }}
+        >
+          <div className="d-flex justify-content-between align-items-center">
+            <h2
+              className="fw-bold text-dark mb-0 d-flex align-items-center gap-2"
+              style={{ fontSize: "14px" }}
             >
-              <option value="عمومی">عمومی</option>
-              <option value="اشتراک">اشتراک</option>
-              <option value="مربی هوشمند">مربی هوشمند</option>
-              <option value="برنامه‌ریزی">برنامه‌ریزی</option>
-              <option value="گزارش باگ">گزارش باگ</option>
-            </select>
-            <textarea
-              value={form.body}
-              onChange={(event) => setForm((prev) => ({ ...prev, body: event.target.value }))}
-              placeholder="چه اتفاقی افتاده؟ هر جزئیاتی که کمک می‌کند را بنویس."
-              rows={5}
-            />
-            <button type="submit" className="support-primary">
-              <Send size={17} />
-              ثبت درخواست
+              <LifeBuoy size={16} color="#6255f5" />
+              سامانه پشتیبانی منتورا
+            </h2>
+
+            <button
+              className="btn btn-light rounded-pill d-flex justify-content-center align-items-center"
+              onClick={loadTickets}
+              style={{
+                background: "#f8fafc",
+                borderColor: "#e2e8f0",
+                width: "50px",
+                height: "50px"
+              }}
+            >
+              <RefreshCw size={18} />
             </button>
-          </form>
-        </section>
-
-        <section className="support-panel support-list">
-          <div className="support-panel-title">
-            <LifeBuoy size={18} />
-            <span>درخواست‌های من</span>
           </div>
-          <div className="support-ticket-list">
-            {tickets.length === 0 && <div className="support-empty">هنوز تیکتی ثبت نشده است.</div>}
-            {tickets.map((ticket) => (
-              <button
-                type="button"
-                key={ticket.id}
-                className={`support-ticket-row ${selectedTicket?.id === ticket.id ? "active" : ""}`}
-                onClick={() => loadTicket(ticket.id)}
+        </div>
+
+        <div className="row g-4">
+
+          <div className="col-12 col-md-4">
+            <div
+              className="bg-white border shadow-sm text-end h-100"
+              style={{
+                borderRadius: "28px",
+                padding: "20px",
+                borderColor: "#f1f3f5",
+              }}
+            >
+              <h3
+                className="fw-bold d-flex align-items-center gap-2 mb-3"
+                style={{ fontSize: "12px", color: "#1f2937" }}
               >
-                <span>{ticket.title}</span>
-                <small>{statusLabels[ticket.status] || ticket.status}</small>
-              </button>
-            ))}
-          </div>
-        </section>
+                <Plus size={15} color="#6255f5" />
+                ثبت تیکت جدید
+              </h3>
 
-        <section className="support-panel support-thread">
-          <div className="support-panel-title">
-            <MessageCircle size={18} />
-            <span>{selectedTicket ? selectedTicket.title : "گفتگو"}</span>
+              <form onSubmit={createTicket}>
+                <input
+                  className="form-control mb-3"
+                  placeholder="عنوان مشکل"
+                  value={form.title}
+                  onChange={(e) =>
+                    setForm({ ...form, title: e.target.value })
+                  }
+                  style={{
+                    background: "#f9fafb",
+                    borderRadius: "18px",
+                    borderColor: "#e5e7eb",
+                  }}
+                />
+
+                <select
+                  className="form-select mb-3"
+                  value={form.category}
+                  onChange={(e) =>
+                    setForm({ ...form, category: e.target.value })
+                  }
+                  style={{
+                    background: "#f9fafb",
+                    borderRadius: "18px",
+                    borderColor: "#e5e7eb",
+                  }}
+                >
+                  <option>عمومی</option>
+                  <option>مربی هوشمند</option>
+                  <option>برنامه‌ریزی</option>
+                  <option>آزمون‌ها</option>
+                </select>
+
+                <textarea
+                  className="form-control mb-3"
+                  rows="4"
+                  placeholder="توضیحات بیشتر..."
+                  value={form.body}
+                  onChange={(e) =>
+                    setForm({ ...form, body: e.target.value })
+                  }
+                  style={{
+                    background: "#f9fafb",
+                    borderRadius: "18px",
+                    borderColor: "#e5e7eb",
+                  }}
+                ></textarea>
+
+                <button
+                  className="btn w-100 fw-bold text-center d-flex justify-content-center align-items-center p-2"
+                  style={{
+                    background: "#6255f5",
+                    borderRadius: "18px",
+                    color: "white",
+                  }}
+                  type="submit"
+                >
+                  ارسال تیکت
+                  <Send size={15} className="m-2 d-flex" />
+
+                </button>
+              </form>
+            </div>
           </div>
-          {!selectedTicket ? (
-            <div className="support-empty">یک تیکت را انتخاب کن.</div>
-          ) : (
-            <>
-              {selectedTicket.status === "closed" && (
-                <div className="support-closed-note">
-                  این تیکت بسته شده و امکان ارسال پاسخ جدید ندارد.
-                </div>
+
+          {/* --- TICKET LIST --- */}
+          <div className="col-12 col-md-4">
+            <div
+              className="bg-white border shadow-sm text-end h-100"
+              style={{
+                borderRadius: "28px",
+                padding: "20px",
+                borderColor: "#f1f3f5",
+              }}
+            >
+              <h3
+                className="fw-bold d-flex align-items-center gap-2 mb-3"
+                style={{ fontSize: "12px", color: "#1f2937" }}
+              >
+                <Logs size={15} color="#6255f5" />
+                درخواست‌های شما
+              </h3>
+
+              {tickets.length === 0 && (
+                <p className="text-secondary small">
+                  هیچ تیکتی ثبت نشده است.
+                </p>
               )}
-              <div className="support-thread-meta">
-                <span>{selectedTicket.category}</span>
-                <span>{statusLabels[selectedTicket.status] || selectedTicket.status}</span>
-              </div>
-              <div className="support-messages">
-                {(selectedTicket.messages || []).map((item) => (
-                  <div key={item.id} className={`support-message ${item.senderRole}`}>
-                    <div>{item.body}</div>
-                    <small>{item.senderRole === "admin" ? "پشتیبانی منتورا" : "شما"}</small>
+
+              {tickets.map((t) => (
+                <button
+                  key={t.id}
+                  className="btn w-100 text-end mb-2"
+                  onClick={() => loadTicket(t.id)}
+                  style={{
+                    background:
+                      selected?.id === t.id ? "#eef2ff" : "#f9fafb",
+                    borderRadius: "18px",
+                    borderColor: "#e5e7eb",
+                    padding: "12px",
+                  }}
+                >
+                  <div className="fw-bold">{t.title}</div>
+                  <small className="text-secondary">{t.status}</small>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* --- CHAT / REPLIES --- */}
+          <div className="col-12 col-md-4">
+            <div
+              className="bg-white border shadow-sm text-end h-100 d-flex flex-column"
+              style={{
+                borderRadius: "28px",
+                padding: "20px",
+                borderColor: "#f1f3f5",
+              }}
+            >
+              <h3
+                className="fw-bold d-flex align-items-center gap-2 mb-3"
+                style={{ fontSize: "12px", color: "#1f2937" }}
+              >
+                <MessageCircle size={15} color="#6255f5" />
+                {selected ? selected.title : "گفتگو"}
+              </h3>
+
+              <div className="flex-grow-1 overflow-auto mb-3">
+                {selected?.messages?.map((m) => (
+                  <div
+                    key={m.id}
+                    className="p-2 mb-2"
+                    style={{
+                      borderRadius: "18px",
+                      width: "75%",
+                      marginLeft: m.senderRole === "user" ? "auto" : "",
+                      background:
+                        m.senderRole === "user"
+                          ? "#6255f5"
+                          : "#f3f4f6",
+                      color: m.senderRole === "user" ? "white" : "#1f2937",
+                    }}
+                  >
+                    {m.body}
                   </div>
                 ))}
               </div>
-              <form onSubmit={sendMessage} className="support-reply">
+
+              <div className="input-group">
                 <input
+                  className="form-control"
+                  placeholder="پیام خود را بنویسید..."
                   value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                  placeholder={selectedTicket.status === "closed" ? "این تیکت بسته شده است" : "پاسخ یا توضیح جدید..."}
-                  disabled={selectedTicket.status === "closed"}
+                  onChange={(e) => setMessage(e.target.value)}
+                  style={{
+                    background: "#f9fafb",
+                    borderRadius: "18px",
+                    borderColor: "#e5e7eb",
+                  }}
                 />
                 <button
-                  type="submit"
-                  className="support-icon-button"
-                  disabled={selectedTicket.status === "closed" || !message.trim()}
+                  className="btn"
+                  onClick={sendMessage}
+                  style={{
+                    background: "#6255f5",
+                    borderRadius: "18px",
+                    color: "white",
+                    width: "40px",
+                    height: "40px"
+                  }}
                 >
-                  <Send size={18} />
+                  <Send size={18} style={{ transform: "scaleX(-1)" }} />
                 </button>
-              </form>
-            </>
-          )}
-        </section>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
