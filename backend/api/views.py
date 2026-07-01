@@ -469,9 +469,12 @@ def practice_topics_for_selection(major, lesson, grade):
 def serialize_practice_question(question, request=None):
     image_url = ""
     if question.question_image:
-        image_url = f"{settings.MEDIA_URL}{question.question_image}"
-        if request is not None:
-            image_url = request.build_absolute_uri(image_url)
+        if question.question_image.startswith(("http://", "https://", "data:")):
+            image_url = question.question_image
+        else:
+            image_url = f"{settings.MEDIA_URL}{question.question_image.lstrip('/')}"
+            if request is not None:
+                image_url = request.build_absolute_uri(image_url)
 
     payload = {
         "id": question.id,
