@@ -4,13 +4,11 @@ import { Sparkles, ArrowLeft, Calendar, Brain } from "lucide-react";
 
 export default function FeatureIntroModal() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true);
-  const [isHoveredBtn, setIsHoveredBtn] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const hasSeenIntro = localStorage.getItem("hasSeenAIIntro");
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
     if (isLoggedIn && !hasSeenIntro) {
       const timer = setTimeout(() => {
         setIsOpen(true);
@@ -27,185 +25,116 @@ export default function FeatureIntroModal() {
   const handleNavigate = () => {
     localStorage.setItem("hasSeenAIIntro", "true");
     setIsOpen(false);
-    navigate("/planning-assistant");
+    navigate("/planningassistant");
   };
 
   if (!isOpen) return null;
 
   return (
     <div
+      className="modal fade show d-block"
+      tabIndex="-1"
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
         backgroundColor: "rgba(15, 23, 42, 0.6)",
         backdropFilter: "blur(8px)",
-        zIndex: 10000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-        animation: "fadeIn 0.3s ease-out forwards",
+        zIndex: 10050
       }}
     >
-      {/* بدنه اصلی کارت پاپ‌آپ با استایل شیشه‌ای (Glassmorphism) */}
-      <div
-        style={{
-          background: "rgba(255, 255, 255, 0.85)",
-          backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255, 255, 255, 0.4)",
-          borderRadius: "24px",
-          width: "100%",
-          maxWidth: "480px",
-          padding: "32px",
-          textAlign: "center",
-          boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.15), 0 0 50px 0 rgba(98, 85, 245, 0.1)",
-          position: "relative",
-          direction: "rtl",
-          fontFamily: "Vazir, Tahoma, sans-serif",
-          animation: "scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        }}
-      >
-        {/* نشان و آیکون هوش مصنوعی بالای پاپ‌آپ */}
+      <div className="modal-dialog modal-dialog-centered modal-md px-3">
+        {/* استایل شیشه‌ای هماهنگ با طراحی کل سایت (منتورا کارت) */}
         <div
+          className="modal-content border-0 shadow-lg p-4 text-center"
           style={{
-            width: "72px",
-            height: "72px",
-            background: "linear-gradient(135deg, #6255f5 0%, #4f46e5 100%)",
-            borderRadius: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto 20px auto",
-            boxShadow: "0 8px 20px rgba(98, 85, 245, 0.3)",
-            position: "relative",
+            background: "rgba(255, 255, 255, 0.85)",
+            backdropFilter: "blur(20px)",
+            borderRadius: "24px",
+            direction: "rtl",
+            fontFamily: "Vazir, Tahoma, sans-serif"
           }}
         >
-          <Brain size={32} color="#ffffff" />
-          <div
-            style={{
-              position: "absolute",
-              top: "-5px",
-              right: "-5px",
-              background: "#10B981",
-              borderRadius: "50%",
-              padding: "4px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "2px solid #ffffff",
-            }}
-          >
-            <Sparkles size={12} color="#ffffff" />
+          {/* دکمه بستن */}
+          <div className="modal-header border-0 d-flex justify-content-end pb-0">
+            <button
+              type="button"
+              className="btn-close m-0"
+              onClick={handleClose}
+              aria-label="Close"
+            ></button>
           </div>
-        </div>
 
-        <h3
-          style={{
-            fontWeight: 800,
-            fontSize: "20px",
-            color: "#1e1b4b",
-            marginBottom: "12px",
-          }}
-        >
-          برنامه‌ریزی هوشمند با قدرت AI ⚡
-        </h3>
-        
-        <p
-          style={{
-            fontSize: "14px",
-            color: "#475569",
-            lineHeight: "1.7",
-            marginBottom: "24px",
-          }}
-        >
-          سلام! به منتورا خوش آمدید. ما برای شما یک دستیار برنامه‌ریز اختصاصی طراحی کرده‌ایم. با این ابزار می‌توانید برنامه‌های درسی و اهداف روزانه خود را بر اساس هوش مصنوعی شخصی‌سازی کنید.
-        </p>
+          <div className="modal-body px-3 pb-3 pt-1">
+            {/* لوگو / آیکون هوش مصنوعی */}
+            <div
+              className="d-flex align-items-center justify-content-center mx-auto mb-4 position-relative"
+              style={{
+                width: "72px",
+                height: "72px",
+                background: "linear-gradient(135deg, #6255f5 0%, #4f46e5 100%)",
+                borderRadius: "50%",
+                boxShadow: "0 8px 20px rgba(98, 85, 245, 0.3)"
+              }}
+            >
+              <Brain size={32} color="#ffffff" />
+              <div
+                className="position-absolute translate-middle-y start-0 bg-success rounded-circle p-1 border border-2 border-white d-flex align-items-center justify-content-center"
+                style={{ top: "15px" }}
+              >
+                <Sparkles size={12} color="#ffffff" />
+              </div>
+            </div>
 
-        <div
-          style={{
-            background: "rgba(98, 85, 245, 0.05)",
-            border: "1px solid rgba(98, 85, 245, 0.1)",
-            borderRadius: "16px",
-            padding: "12px 16px",
-            marginBottom: "28px",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            textAlign: "right",
-          }}
-        >
-          <Calendar size={24} color="#6255f5" style={{ flexShrink: 0 }} />
-          <div>
-            <div style={{ fontWeight: 700, fontSize: "13px", color: "#1e1b4b" }}>تقویم تحصیلی و شخصی خودکار</div>
-            <div style={{ fontSize: "11px", color: "#64748b" }}>تنظیم اهداف، توزیع هوشمند دروس و زمان‌بندی دقیق در چند ثانیه</div>
+            <h4 className="fw-extrabold mb-3" style={{ color: "#1e1b4b" }}>
+              برنامه‌ریزی هوشمند با قدرت AI ⚡
+            </h4>
+
+            <p className="text-secondary small lh-lg mb-4">
+              سلام! به منتورا خوش آمدید. ما برای شما یک دستیار برنامه‌ریز اختصاصی طراحی کرده‌ایم. با این ابزار می‌توانید برنامه‌های درسی و اهداف روزانه خود را بر اساس هوش مصنوعی شخصی‌سازی کنید.
+            </p>
+
+            <div
+              className="d-flex align-items-center text-start p-3 mb-4 rounded-3 border"
+              style={{
+                backgroundColor: "rgba(98, 85, 245, 0.05)",
+                borderColor: "rgba(98, 85, 245, 0.1)"
+              }}
+            >
+              <div className="ms-3">
+                <Calendar size={24} style={{ color: "#6255f5" }} />
+              </div>
+              <div>
+                <h6 className="fw-bold mb-1" style={{ fontSize: "14px", color: "#1e1b4b" }}>
+                  تقویم تحصیلی و شخصی خودکار
+                </h6>
+                <p className="text-muted mb-0" style={{ fontSize: "11px" }}>
+                  تنظیم اهداف، توزیع هوشمند دروس و زمان‌بندی دقیق در چند ثانیه
+                </p>
+              </div>
+            </div>
+
+            <div className="d-grid gap-2">
+              <button
+                onClick={handleNavigate}
+                className="btn py-3 text-white fw-bold d-flex align-items-center justify-content-center gap-2 border-0"
+                style={{
+                  background: "linear-gradient(135deg, #6255f5 0%, #4f46e5 100%)",
+                  borderRadius: "14px",
+                  boxShadow: "0 4px 14px rgba(98, 85, 245, 0.3)"
+                }}
+              >
+                <span>شروع برنامه‌ریزی هوشمند</span>
+                <ArrowLeft size={16} style={{ transform: "rotate(180deg)" }} />
+              </button>
+
+              <button
+                onClick={handleClose}
+                className="btn btn-link text-decoration-none text-secondary fw-semibold py-2"
+              >
+                بعداً می‌بینم
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <button
-            onClick={handleNavigate}
-            onMouseEnter={() => setIsHoveredBtn(true)}
-            onMouseLeave={() => setIsHoveredBtn(false)}
-            style={{
-              width: "100%",
-              padding: "14px",
-              background: "linear-gradient(135deg, #6255f5 0%, #4f46e5 100%)",
-              color: "#ffffff",
-              border: "none",
-              borderRadius: "14px",
-              fontWeight: 700,
-              fontSize: "14px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-              boxShadow: isHoveredBtn 
-                ? "0 10px 20px -5px rgba(98, 85, 245, 0.4)" 
-                : "0 4px 10px rgba(98, 85, 245, 0.2)",
-              transform: isHoveredBtn ? "translateY(-2px)" : "translateY(0)",
-              transition: "all 0.25s ease",
-            }}
-          >
-            شروع برنامه‌ریزی هوشمند
-            <ArrowLeft size={16} />
-          </button>
-
-          <button
-            onClick={handleClose}
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "transparent",
-              color: "#64748b",
-              border: "none",
-              borderRadius: "14px",
-              fontWeight: 600,
-              fontSize: "13px",
-              cursor: "pointer",
-              transition: "background 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.target.style.background = "rgba(0, 0, 0, 0.04)")}
-            onMouseLeave={(e) => (e.target.style.background = "transparent")}
-          >
-            بعداً می‌بینم
-          </button>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scaleUp {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
     </div>
   );
 }

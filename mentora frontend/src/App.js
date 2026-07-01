@@ -1,8 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import './index.css';
 
+// Components
 import Onboarding from './components/OnBoarding';
 import Tutor from './components/Tutor';
 import Today from './components/Today';
@@ -15,29 +16,54 @@ import Login from './components/Login';
 import FocusTimer from './components/FocusTimer';
 import Home from './components/Home';
 import LandingPage from './components/LandingPage';
-import { useState, useEffect } from 'react';
 import AppNavbar from './components/Navbar';
 import AppSidebar from './components/SideBar';
 import AppFooter from './components/Footer';
 import SubscriptionPlans from './components/SubscriptionPlans';
 import Subscription from './components/Subscription';
-import NotFound from './components/NotFound'
+import NotFound from './components/NotFound';
 import BlogPost from './components/blogpost';
 import BlogList from './components/Bloglist';
-import StudyLoading from './components/StudyLoading'
-import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup'
+import StudyLoading from './components/StudyLoading';
+import SubscriptionSuccessPopup from './components/SubscriptionSuccessPopup';
 import { useApp } from './context/AppContext';
 import ComingSoon from './components/ComingSoon';
 import AboutUs from './components/AboutUs';
-import Testimonials from './components/Testimonials'
+import Testimonials from './components/Testimonials';
 import Support from './components/Support';
 import AdminConsole from './components/AdminConsole';
 import SupportWidget from './components/SupportWidget';
 import FeatureIntroModal from './components/FeatureIntroModal';
+
+const ProtectedRoute = ({ isAuthenticated, isLoading }) => {
+  const location = useLocation();
+
+  if (isLoading) {
+    return <StudyLoading />;
+  }
+
+  return isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/signin" state={{ from: location }} replace />
+  );
+};
+
+const PublicRoute = ({ isAuthenticated, isLoading }) => {
+  if (isLoading) return <StudyLoading />;
+  
+  return !isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/home" replace />
+  );
+};
+
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState();
   const { profile } = useApp();
   const hasActiveSubscription = Boolean(profile?.subscriptionActive);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 992) {
@@ -74,37 +100,45 @@ function AppLayout() {
 }
 
 function App() {
+  const { isAuthenticated, loading } = useApp();
+
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={<LandingPage />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/testimonials" element={<Testimonials />} />
-        <Route element={<AppLayout />}>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/tutor" element={<Tutor />} />
-          <Route path="/today" element={<Today />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/planningassistant" element={<PlanningAssistant />} />
-          <Route path="/focustimer" element={<FocusTimer />} />
-          <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/admin/console" element={<AdminConsole />} />
-          <Route path="/loading" element={<StudyLoading />} />
-          <Route path="/exams" element={<ComingSoon />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
+
+        <Route element={<PublicRoute isAuthenticated={isAuthenticated} isLoading={loading} />}>
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/login" element={<Login />} />
         </Route>
 
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} isLoading={loading} />}>
+          <Route element={<AppLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/tutor" element={<Tutor />} />
+            <Route path="/today" element={<Today />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/practice" element={<Practice />} />
+            <Route path="/planningassistant" element={<PlanningAssistant />} />
+            <Route path="/focustimer" element={<FocusTimer />} />
+            <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/admin/console" element={<AdminConsole />} />
+            <Route path="/loading" element={<StudyLoading />} />
+            <Route path="/exams" element={<ComingSoon />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+          </Route>
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
+
       <FeatureIntroModal />
       <SupportWidget />
     </Router>

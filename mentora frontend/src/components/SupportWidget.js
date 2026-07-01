@@ -7,7 +7,9 @@ export default function SupportWidget() {
     const location = useLocation();
     const [isHovered, setIsHovered] = useState(false);
 
-    if (location.pathname === "/support") {
+    const hiddenRoutes = ["/support", "/login", "/signin", "/"];
+
+    if (hiddenRoutes.some(route => location.pathname.startsWith(route))) {
         return null;
     }
 
