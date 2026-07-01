@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { Eye, EyeClosed } from "lucide-react";
@@ -7,13 +7,20 @@ import StudyLoading from "./StudyLoading";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useApp();
+  const { login, isAuthenticated, loading: globalLoading } = useApp();
 
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  // ✅ اگر کاربر لاگین است، اجازه ورود به این صفحه نده
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const goAfterAuth = (data) => {
     const from = location.state?.from || "/home";
@@ -29,16 +36,24 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      setLoading(true);
+      setSubmitting(true);
       setError("");
-      const data = await login(phone, password);
+
+      const cleanPhone = phone.replace(/\D/g, ""); // فقط عدد
+      const data = await login(cleanPhone, password);
+
       goAfterAuth(data);
     } catch (err) {
       setError(err.message || "ورود ناموفق بود.");
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
+
+  // ✅ اگر هنوز وضعیت احراز هویت در حال چک شدن است
+  if (globalLoading) {
+    return <StudyLoading />;
+  }
 
   return (
     <div
@@ -64,7 +79,11 @@ const Login = () => {
           </p>
         </div>
 
-        {error && <div className="alert alert-danger py-2 small">{error}</div>}
+        {error && (
+          <div className="alert alert-danger py-2 small text-center">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handlePasswordLogin}>
           <div className="mb-3">
@@ -95,14 +114,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword((p) => !p)}
-                style={{
-                  position: "absolute",
-                  left: "15px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  border: "none",
-                  background: "transparent",
-                }}
+                style={eyeButtonStyle}
               >
                 {showPassword ? <EyeClosed size={18} /> : <Eye size={18} />}
               </button>
@@ -111,16 +123,30 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={loading}
-            className="btn w-100 fw-bold"
-            style={primaryButton}
+            disabled={submitting}
+            className="btn w-100 fw-bold d-flex align-items-center justify-content-center gap-2"
+            style={{
+              ...primaryButton,
+              opacity: submitting ? 0.8 : 1,
+              cursor: submitting ? "not-allowed" : "pointer",
+            }}
           >
-            {loading ? <StudyLoading/>: "ورود"}
+            {submitting ? (
+              <>
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                />
+                در حال ورود...
+              </>
+            ) : (
+              "ورود"
+            )}
           </button>
         </form>
 
-        <div className="d-flex align-items-center justify-content-center">
-          <Link to="/signin" className="btn btn-link mt-2">
+        <div className="text-center mt-3">
+          <Link to="/signin" className="btn btn-link">
             حساب کاربری ندارید؟ ثبت‌نام کنید
           </Link>
         </div>
@@ -142,6 +168,17 @@ const primaryButton = {
   borderRadius: "14px",
   background: "#2563eb",
   color: "#fff",
+  border: "none",
+};
+
+const eyeButtonStyle = {
+  position: "absolute",
+  left: "15px",
+  top: "50%",
+  transform: "translateY(-50%)",
+  border: "none",
+  background: "transparent",
+  cursor: "pointer",
 };
 
 export default Login;

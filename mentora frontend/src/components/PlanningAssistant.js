@@ -26,7 +26,7 @@ const defaultCourseInput = () => ({
 });
 
 export default function PlanningAssistant() {
-  const { profile, latestWeeklyPlan, refresh, loadMe } = useApp();
+  const { profile, latestWeeklyPlan, refresh, loadMe, loading: globalLoading } = useApp();
 
   const [studentName, setStudentName] = useState("دانش‌آموز منتورا");
   const [grade, setGrade] = useState((profile && profile.grade) || "دوازدهم");
@@ -199,6 +199,11 @@ export default function PlanningAssistant() {
     setPlan(null);
     setError("");
   };
+
+  // ۱. لودینگ کل صفحه در صورتی که هنوز داده‌های پروفایل گلوبال در حال دریافت است
+  if (globalLoading) {
+    return <StudyLoading />;
+  }
 
   if (plan && !creatingNewPlan) {
     const courseSummary = Array.isArray(plan.courseSummary) ? plan.courseSummary : [];
@@ -716,19 +721,20 @@ export default function PlanningAssistant() {
               وضعیت درس‌ها
             </h3>
 
+            {/* ۲. اضافه کردن لودینگ زیباتر برای دریافت کاتالوگ درس‌ها */}
             {loadingCatalog ? (
               <div
-                className="text-center"
+                className="text-center py-5 d-flex flex-column align-items-center justify-content-center"
                 style={{
-                  border: "1px dashed #d1d5db",
+                  border: "1px dashed rgba(98,85,245,0.3)",
                   borderRadius: "16px",
-                  padding: "24px",
-                  color: "#9ca3af",
-                  fontSize: "12px",
-                  fontWeight: 700,
+                  background: "rgba(98,85,245,0.02)",
                 }}
               >
-                در حال دریافت فهرست درس‌ها...
+                <div className="spinner-border text-primary mb-3" role="status" style={{ width: '2rem', height: '2rem' }}></div>
+                <div className="text-secondary fw-bold" style={{ fontSize: "13px" }}>
+                  در حال دریافت لیست درس‌های متناسب با رشته شما...
+                </div>
               </div>
             ) : (
               <div className="d-flex flex-column gap-3">
@@ -825,25 +831,25 @@ export default function PlanningAssistant() {
               </div>
             )}
 
+            {/* ۳. اعمال استیل لودینگ و غیرفعال شدن روی دکمه تولید برنامه */}
             <button
               type="button"
               onClick={handleGenerate}
               disabled={generating || loadingCatalog}
-              className="btn w-100 mt-4 d-inline-flex align-items-center justify-content-center gap-2 fw-bold text-white"
+              className="btn w-100 mt-4 d-inline-flex align-items-center justify-content-center gap-2 fw-bold text-white transition-all"
               style={{
                 borderRadius: "14px",
-                background: "#6255f5",
+                background: generating ? "#8c82f8" : "#6255f5",
                 border: "none",
                 padding: "14px 16px",
                 fontSize: "14px",
+                cursor: (generating || loadingCatalog) ? "not-allowed" : "pointer"
               }}
             >
               {generating ? (
                 <>
-                  <StudyLoading props={{
-                    title: "در حال برنامه ریزی", subtitle: "لطفاً کمی صبر کنید",
-                    fullScreen: true,
-                  }} />
+                  <div className="spinner-border spinner-border-sm" role="status"></div>
+                  در حال آنالیز درس‌ها و تولید برنامه هفتگی هوشمند...
                 </>
               ) : (
                 <>
