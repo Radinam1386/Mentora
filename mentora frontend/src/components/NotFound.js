@@ -9,10 +9,11 @@ const NotFound = () => {
   return (
     <div
       
-      className=" col-md-12 d-flex align-items-center justify-content-center h-100"
+      className=" col-md-12 d-flex align-items-center justify-content-center h-100 "
       style={{
         direction: "rtl",
-        fontFamily: "Vazir, sans-serif"
+        fontFamily: "Vazir, sans-serif",
+        paddingTop:"100px"
       }}
     >
       <div className="d-flex w-100 justify-content-center">

@@ -19,7 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import { apiJson, resolveMediaUrl } from "../utils/api";
+import { apiJson, resolveMediaUrl } from "../utils/api"; // فرض می‌کنیم resolveMediaUrl درست کار می‌کند
 
 const ALL_TOPICS = "همه مباحث";
 const MAJORS = ["تجربی", "ریاضی"];
@@ -776,24 +776,35 @@ export default function Practice() {
                     />
                   </div>
 
+                  {/* ✅ نمایش تصویر سوال یا پیام جایگزین */}
                   <div className="text-end fw-bold mb-3" style={{ fontSize: "15px", lineHeight: "2", color: "#111827" }}>
-                    {currentQuestion.questionImage && (
+                    {currentQuestion.questionImage ? (
                       <img
                         src={resolveMediaUrl(currentQuestion.questionImage)}
                         alt={`Question ${currentIndex + 1}`}
                         style={{
                           width: "100%",
-                          maxHeight: "640px",
-                          objectFit: "contain",
+                          maxHeight: "640px", // حداکثر ارتفاع برای جلوگیری از بزرگ شدن بیش از حد
+                          objectFit: "contain", // حفظ نسبت تصویر
                           borderRadius: "14px",
                           border: "1px solid #e5e7eb",
                           background: "#fff",
                         }}
+                        onError={(e) => {
+                          // اگر عکس لود نشد، پیام خطا نمایش داده شود
+                          e.target.onerror = null; // جلوگیری از لوپ بی‌نهایت
+                          e.target.style.display = "none"; // مخفی کردن img
+                          // یک المان برای نمایش پیام خطا اضافه کنید (اختیاری)
+                          const errorDiv = document.createElement("div");
+                          errorDiv.style.color = "#991b1b";
+                          errorDiv.style.fontSize = "13px";
+                          errorDiv.textContent = "تصویر سوال قابل بارگذاری نیست.";
+                          e.target.parentNode.appendChild(errorDiv);
+                        }}
                       />
-                    )}
-                    {!currentQuestion.questionImage && (
+                    ) : (
                       <div style={{ color: "#991b1b", fontSize: "13px" }}>
-                        تصویر سوال برای این ردیف پیدا نشد.
+                        تصویر سوال برای این مورد یافت نشد.
                       </div>
                     )}
                   </div>
