@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { Eye, EyeClosed } from "lucide-react";
+import StudyLoading from "./StudyLoading";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ const Login = () => {
             className="btn w-100 fw-bold"
             style={primaryButton}
           >
-            {loading ? "در حال پردازش..." : "ورود"}
+            {loading ? <StudyLoading/>: "ورود"}
           </button>
         </form>
 

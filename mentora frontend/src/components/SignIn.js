@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import StudyLoading from "./StudyLoading";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -141,7 +142,7 @@ const Signin = () => {
           </div>
 
           <button type="submit" disabled={loading} className="btn w-100 fw-bold mt-2" style={btnStyle}>
-            {loading ? "در حال ثبت‌نام..." : "ثبت‌نام"}
+            {loading ? <StudyLoading /> : "ثبت‌نام"}
           </button>
         </form>
 

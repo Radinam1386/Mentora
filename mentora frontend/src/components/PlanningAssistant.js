@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { apiJson } from "../utils/api";
+import StudyLoading from "./StudyLoading";
 
 const DAYS = ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"];
 
@@ -839,12 +840,10 @@ export default function PlanningAssistant() {
             >
               {generating ? (
                 <>
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  در حال تولید برنامه هفتگی...
+                  <StudyLoading props={{
+                    title: "در حال برنامه ریزی", subtitle: "لطفاً کمی صبر کنید",
+                    fullScreen: true,
+                  }} />
                 </>
               ) : (
                 <>

@@ -8,6 +8,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { apiJson } from "../utils/api";
+import StudyLoading from "./StudyLoading";
 
 export default function Subscription() {
   const [subscription, setSubscription] = useState(null);
@@ -74,7 +75,7 @@ export default function Subscription() {
                 وضعیت اشتراک شما
               </div>
               <h2 style={{ margin: 0, fontWeight: 900 }}>
-                {loading ? "در حال دریافت..." : safeSubscription.planName}
+                {loading ? <StudyLoading/> : safeSubscription.planName}
               </h2>
               <div style={{ marginTop: "10px", fontSize: "14px", opacity: 0.92 }}>
                 مدیریت وضعیت، زمان باقی‌مانده و جزئیات پلن
