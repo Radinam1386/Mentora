@@ -725,15 +725,24 @@ export default function LandingPage() {
                   width: "48px",
                   height: "48px",
                   borderRadius: "16px",
-                  background: "linear-gradient(135deg, #6255f5, #8b7bff)",
+                  background: "rgba(255,255,255,.82)",
+                  border: "1px solid rgba(98,85,245,.1)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#fff",
                   boxShadow: "0 10px 30px rgba(98,85,245,0.25)",
                 }}
               >
-                <Sparkles size={22} />
+                <img
+                  src="/logo-mark.png"
+                  alt="منتورا"
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    objectFit: "contain",
+                    display: "block",
+                  }}
+                />
               </div>
 
               <div>

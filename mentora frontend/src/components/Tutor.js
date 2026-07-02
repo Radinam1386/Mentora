@@ -13,6 +13,9 @@ import {
   X,
   ChevronDown,
   Paperclip,
+  Plus,
+  MessageSquare,
+  Trash2,
 } from "lucide-react";
 import "katex/dist/katex.min.css";
 import { useApp } from "../context/AppContext";
@@ -27,6 +30,20 @@ const formatTime = (date = new Date()) =>
     hour: "numeric",
     minute: "numeric",
   });
+
+const formatSessionDate = (value) => {
+  if (!value) return "";
+  try {
+    return new Date(value).toLocaleDateString("fa-IR", {
+      month: "short",
+      day: "numeric",
+    });
+  } catch {
+    return "";
+  }
+};
+
+const TUTOR_REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
 
 const welcomeMessageFactory = () => ({
   id: "welcome",
@@ -82,9 +99,13 @@ export default function Tutor() {
   const [input, setInput] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [pendingSessionIds, setPendingSessionIds] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [sessions, setSessions] = useState([]);
+  const [activeSession, setActiveSession] = useState(null);
+  const [sessionsLoading, setSessionsLoading] = useState(false);
+  const [sessionError, setSessionError] = useState("");
 
   const scrollRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -92,8 +113,166 @@ export default function Tutor() {
   const shouldStickToBottomRef = useRef(true);
   const imagePreviewRef = useRef("");
   const sentImagePreviewUrlsRef = useRef(new Set());
+  const activeSessionRef = useRef(null);
 
-  const welcomeMessage = welcomeMessageFactory();
+  const sessionKey = (sessionId) => String(sessionId || "");
+  const isSessionPending = (sessionId) =>
+    Boolean(sessionId) && pendingSessionIds.includes(sessionKey(sessionId));
+  const activeSessionIsPending = isSessionPending(activeSession?.id);
+
+  const markSessionPending = (sessionId, pending) => {
+    const key = sessionKey(sessionId);
+    if (!key) return;
+    setPendingSessionIds((prev) => {
+      if (pending) {
+        return prev.includes(key) ? prev : [...prev, key];
+      }
+      return prev.filter((item) => item !== key);
+    });
+  };
+
+  const mapServerMessage = (m) => ({
+    id: String(m.id),
+    role: m.role,
+    content: m.content || "",
+    timestamp: m.timestamp ? formatTime(new Date(m.timestamp)) : formatTime(),
+    imagePreview: m.imagePreview || m.image || "",
+    imageUrl: m.imageUrl || m.image || "",
+    sources: m.sources || [],
+    sourceCount: m.sourceCount || 0,
+  });
+
+  const sortSessions = (items) =>
+    [...(items || [])].sort(
+      (a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0)
+    );
+
+  const replaceSessionInList = (session) => {
+    if (!session) return;
+    setSessions((prev) => {
+      const withoutCurrent = prev.filter((item) => item.id !== session.id);
+      return sortSessions([session, ...withoutCurrent]);
+    });
+  };
+
+  const loadSession = async (sessionId) => {
+    if (!sessionId) return null;
+    setSessionError("");
+    try {
+      const { response, data } = await apiJson(`/api/tutor/sessions/${sessionId}`);
+      if (!response.ok) {
+        throw new Error(data.error || "بارگذاری گفتگو ناموفق بود.");
+      }
+      const loadedSession = data.session;
+      activeSessionRef.current = loadedSession;
+      setActiveSession(loadedSession);
+      setMessages([
+        welcomeMessageFactory(),
+        ...(loadedSession.messages || []).map(mapServerMessage),
+      ]);
+      replaceSessionInList(loadedSession);
+      shouldStickToBottomRef.current = true;
+      return loadedSession;
+    } catch (err) {
+      setSessionError(err instanceof Error ? err.message : "بارگذاری گفتگو ناموفق بود.");
+      return null;
+    }
+  };
+
+  const loadSessions = async ({ selectFirst = true } = {}) => {
+    setSessionsLoading(true);
+    setSessionError("");
+    try {
+      const { response, data } = await apiJson("/api/tutor/sessions");
+      if (!response.ok) {
+        throw new Error(data.error || "بارگذاری گفتگوها ناموفق بود.");
+      }
+
+      const loadedSessions = sortSessions(data.sessions || []);
+      setSessions(loadedSessions);
+
+      if (selectFirst && loadedSessions.length > 0 && !activeSession) {
+        await loadSession(loadedSessions[0].id);
+      }
+
+      if (loadedSessions.length === 0) {
+        activeSessionRef.current = null;
+        setActiveSession(null);
+        setMessages([welcomeMessageFactory()]);
+      }
+
+      return loadedSessions;
+    } catch (err) {
+      setSessionError(err instanceof Error ? err.message : "بارگذاری گفتگوها ناموفق بود.");
+      return [];
+    } finally {
+      setSessionsLoading(false);
+    }
+  };
+
+  const createSession = async (title = "") => {
+    setSessionError("");
+    const { response, data } = await apiJson("/api/tutor/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+    if (!response.ok) {
+      throw new Error(data.error || "ساخت گفتگوی جدید ناموفق بود.");
+    }
+    const session = data.session;
+    activeSessionRef.current = session;
+    setActiveSession(session);
+    setMessages([welcomeMessageFactory()]);
+    replaceSessionInList(session);
+    shouldStickToBottomRef.current = true;
+    return session;
+  };
+
+  const startNewSession = async () => {
+    try {
+      await createSession();
+      setInput("");
+      clearSelectedImage();
+    } catch (err) {
+      setSessionError(err instanceof Error ? err.message : "ساخت گفتگوی جدید ناموفق بود.");
+    }
+  };
+
+  const deleteSession = async (sessionId) => {
+    if (!sessionId || isSessionPending(sessionId)) return;
+    const confirmed = window.confirm("این گفتگو حذف شود؟");
+    if (!confirmed) return;
+
+    setSessionError("");
+    try {
+      const { response, data } = await apiJson(`/api/tutor/sessions/${sessionId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(data.error || "حذف گفتگو ناموفق بود.");
+      }
+
+      const remaining = sessions.filter((item) => item.id !== sessionId);
+      setSessions(remaining);
+      if (activeSession?.id === sessionId) {
+        if (remaining.length > 0) {
+          await loadSession(remaining[0].id);
+        } else {
+          activeSessionRef.current = null;
+          setActiveSession(null);
+          setMessages([welcomeMessageFactory()]);
+        }
+      }
+    } catch (err) {
+      setSessionError(err instanceof Error ? err.message : "حذف گفتگو ناموفق بود.");
+    }
+  };
+
+  const ensureActiveSession = async () => {
+    if (activeSession) return activeSession;
+    return createSession();
+  };
 
   const scrollToBottom = (smooth = true) => {
     if (!scrollRef.current) return;
@@ -113,35 +292,13 @@ export default function Tutor() {
   useEffect(() => {
     if (historyLoaded.current) return;
     historyLoaded.current = true;
-
-    const loadHistory = async () => {
-      try {
-        const { response, data } = await apiJson("/api/tutor/history");
-        if (
-          response.ok &&
-          Array.isArray(data.messages) &&
-          data.messages.length > 0
-        ) {
-          setMessages([
-            welcomeMessage,
-            ...data.messages.map((m) => ({
-              id: String(m.id),
-              role: m.role,
-              content: m.content || "",
-              timestamp: m.timestamp ? formatTime(new Date(m.timestamp)) : formatTime(),
-              imagePreview: m.imagePreview || m.image || "",
-              imageUrl: m.imageUrl || m.image || "",
-            })),
-          ]);
-        }
-      } catch (err) {
-        console.error("خطا در بارگذاری تاریخچه چت:", err);
-      }
-    };
-
-    loadHistory();
+    loadSessions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    activeSessionRef.current = activeSession;
+  }, [activeSession]);
 
   useEffect(() => {
     if (initialQuestion) {
@@ -157,7 +314,7 @@ export default function Tutor() {
     if (shouldStickToBottomRef.current) {
       scrollToBottom(false);
     }
-  }, [messages, loading]);
+  }, [messages, activeSessionIsPending]);
 
   useEffect(() => {
     imagePreviewRef.current = imagePreview;
@@ -223,6 +380,7 @@ export default function Tutor() {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/api/tutor/chat");
+      xhr.timeout = TUTOR_REQUEST_TIMEOUT_MS;
 
       const headers = authHeaders?.() || {};
       Object.entries(headers).forEach(([key, value]) => {
@@ -257,6 +415,14 @@ export default function Tutor() {
         reject(new Error("ارتباط با سرور برقرار نشد."));
       };
 
+      xhr.ontimeout = () => {
+        reject(new Error("پاسخ مربی بیش از حد طول کشید. دوباره ارسال کن یا یک گفتگوی دیگر را ادامه بده."));
+      };
+
+      xhr.onabort = () => {
+        reject(new Error("درخواست متوقف شد."));
+      };
+
       xhr.send(formData);
     });
   };
@@ -267,7 +433,18 @@ export default function Tutor() {
     const previewToSend = action ? "" : imagePreview;
 
     if (!userText && !action && !imageToSend) return;
-    if (loading) return;
+    if (activeSessionIsPending) return;
+
+    let sessionForSend = activeSession;
+    try {
+      sessionForSend = await ensureActiveSession();
+    } catch (err) {
+      setSessionError(err instanceof Error ? err.message : "ساخت گفتگو ناموفق بود.");
+      return;
+    }
+
+    const sendingSessionId = sessionForSend.id;
+    if (isSessionPending(sendingSessionId)) return;
 
     const userMsgId = `user-${Date.now()}`;
 
@@ -290,7 +467,7 @@ export default function Tutor() {
     setMessages(updatedMessages);
     setInput("");
     shouldStickToBottomRef.current = true;
-    setLoading(true);
+    markSessionPending(sendingSessionId, true);
     setUploadProgress(imageToSend ? 0 : 100);
 
     try {
@@ -304,6 +481,7 @@ export default function Tutor() {
 
       const formData = new FormData();
       formData.append("message", userText);
+      formData.append("sessionId", sessionForSend.id);
       formData.append("history", JSON.stringify(historyPayload));
 
       if (action) {
@@ -323,32 +501,62 @@ export default function Tutor() {
 
       setUploadProgress(100);
 
-      setMessages((prev) => [
-        ...prev,
-        {
+      if (data.session) {
+        replaceSessionInList(data.session);
+        if (activeSessionRef.current?.id === sendingSessionId) {
+          activeSessionRef.current = data.session;
+          setActiveSession(data.session);
+        }
+      }
+
+      if (data.userMessage && activeSessionRef.current?.id === sendingSessionId) {
+        const savedUserMessage = mapServerMessage(data.userMessage);
+        setMessages((prev) =>
+          prev.map((message) =>
+            message.id === userMsgId
+              ? {
+                ...savedUserMessage,
+                imagePreview: previewToSend || savedUserMessage.imagePreview,
+              }
+              : message
+          )
+        );
+      }
+
+      const assistantMessage = data.assistantMessage
+        ? mapServerMessage(data.assistantMessage)
+        : {
           id: `model-${Date.now()}`,
           role: "model",
           content: data.reply || "پاسخی از سرور دریافت نشد.",
           timestamp: formatTime(),
           imagePreview: data.imageUrl || data.image || "",
           imageUrl: data.imageUrl || data.image || "",
-        },
-      ]);
+        };
+
+      if (activeSessionRef.current?.id === sendingSessionId) {
+        setMessages((prev) => [
+          ...prev,
+          assistantMessage,
+        ]);
+      }
     } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `model-error-${Date.now()}`,
-          role: "model",
-          content:
-            err instanceof Error
-              ? err.message
-              : "متاسفانه خطایی در دریافت پاسخ مربی به وجود آمد.",
-          timestamp: formatTime(),
-        },
-      ]);
+      if (activeSessionRef.current?.id === sendingSessionId) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `model-error-${Date.now()}`,
+            role: "model",
+            content:
+              err instanceof Error
+                ? err.message
+                : "متاسفانه خطایی در دریافت پاسخ مربی به وجود آمد.",
+            timestamp: formatTime(),
+          },
+        ]);
+      }
     } finally {
-      setLoading(false);
+      markSessionPending(sendingSessionId, false);
       setTimeout(() => setUploadProgress(0), 600);
     }
   };
@@ -357,8 +565,8 @@ export default function Tutor() {
     handleSendMessage("", type);
   };
 
-  const canUseActions = !loading && messages.length >= 2;
-  const canSubmit = !loading && (input.trim() || selectedImage);
+  const canUseActions = !activeSessionIsPending && messages.length >= 2;
+  const canSubmit = !activeSessionIsPending && (input.trim() || selectedImage);
 
   return (
     <div
@@ -378,6 +586,50 @@ export default function Tutor() {
         boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
       }}
     >
+      <style>
+        {`
+          .tutor-session-shell {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+          }
+
+          .tutor-session-panel {
+            width: 280px;
+            flex-shrink: 0;
+            border-left: 1px solid #f1f2f6;
+          }
+
+          .tutor-session-list {
+            overflow-y: auto;
+          }
+
+          @media (max-width: 768px) {
+            .tutor-session-shell {
+              flex-direction: column;
+            }
+
+            .tutor-session-panel {
+              width: 100%;
+              max-height: 190px;
+              border-left: 0;
+              border-bottom: 1px solid #f1f2f6;
+            }
+
+            .tutor-session-list {
+              display: flex;
+              gap: 8px;
+              overflow-x: auto;
+              overflow-y: hidden;
+              padding-bottom: 2px;
+            }
+
+            .tutor-session-item {
+              min-width: 190px;
+            }
+          }
+        `}
+      </style>
       <div
         className="bg-white d-flex align-items-center justify-content-between"
         style={{
@@ -452,6 +704,196 @@ export default function Tutor() {
         </div>
       </div>
 
+      <div className="tutor-session-shell">
+        <aside
+          className="tutor-session-panel bg-white d-flex flex-column"
+          style={{
+            padding: "14px",
+            minHeight: 0,
+          }}
+        >
+          <button
+            type="button"
+            onClick={startNewSession}
+            disabled={sessionsLoading}
+            className="btn d-flex align-items-center justify-content-center gap-2"
+            style={{
+              background: "#6255f5",
+              color: "#ffffff",
+              borderRadius: "14px",
+              fontSize: "12px",
+              fontWeight: 900,
+              padding: "11px 12px",
+              border: 0,
+              flexShrink: 0,
+            }}
+          >
+            <Plus size={16} />
+            گفتگوی جدید
+          </button>
+
+          {sessionError && (
+            <div
+              className="mt-3"
+              style={{
+                borderRadius: "12px",
+                background: "#fff1f2",
+                color: "#be123c",
+                border: "1px solid #ffe4e6",
+                padding: "9px 10px",
+                fontSize: "11px",
+                lineHeight: 1.8,
+              }}
+            >
+              {sessionError}
+            </div>
+          )}
+
+          <div
+            className="d-flex align-items-center justify-content-between mt-3 mb-2"
+            style={{ flexShrink: 0 }}
+          >
+            <div
+              className="d-flex align-items-center gap-2"
+              style={{ color: "#374151", fontSize: "12px", fontWeight: 900 }}
+            >
+              <MessageSquare size={15} color="#6255f5" />
+              گفتگوها
+            </div>
+            <button
+              type="button"
+              onClick={() => loadSessions({ selectFirst: false })}
+              disabled={sessionsLoading}
+              className="btn d-flex align-items-center justify-content-center"
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "10px",
+                border: "1px solid #eef2f7",
+                background: "#f8fafc",
+                color: "#6255f5",
+                padding: 0,
+              }}
+              title="به‌روزرسانی گفتگوها"
+            >
+              <RefreshCw size={14} />
+            </button>
+          </div>
+
+          <div className="tutor-session-list d-flex flex-column gap-2" style={{ minHeight: 0 }}>
+            {sessionsLoading && sessions.length === 0 && (
+              <div className="text-secondary small text-center py-3">
+                در حال بارگذاری...
+              </div>
+            )}
+
+            {!sessionsLoading && sessions.length === 0 && (
+              <div
+                className="text-center"
+                style={{
+                  border: "1px dashed #d8dcf0",
+                  borderRadius: "14px",
+                  padding: "18px 12px",
+                  color: "#9ca3af",
+                  fontSize: "12px",
+                  lineHeight: 1.8,
+                }}
+              >
+                هنوز گفتگویی نداری.
+              </div>
+            )}
+
+            {sessions.map((session) => {
+              const active = activeSession?.id === session.id;
+              const pending = isSessionPending(session.id);
+              return (
+                <button
+                  key={session.id}
+                  type="button"
+                  onClick={() => !active && loadSession(session.id)}
+                  className="tutor-session-item btn text-end"
+                  style={{
+                    borderRadius: "14px",
+                    border: active ? "1px solid rgba(98,85,245,0.35)" : "1px solid #eef2f7",
+                    background: active ? "rgba(98,85,245,0.08)" : "#f9fafb",
+                    padding: "11px",
+                    color: "#111827",
+                    boxShadow: active ? "0 8px 18px rgba(98,85,245,0.08)" : "none",
+                  }}
+                >
+                  <div className="d-flex align-items-start gap-2">
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 900,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {session.title || "گفتگوی جدید"}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "10px",
+                          color: "#9ca3af",
+                          marginTop: "4px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {pending ? "در حال پاسخ..." : (session.lastMessagePreview || "آماده شروع")}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "10px",
+                        color: pending ? "#6255f5" : "#a1a1aa",
+                          marginTop: "5px",
+                        }}
+                      >
+                        {formatSessionDate(session.updatedAt)}
+                      </div>
+                    </div>
+
+                    <span
+                      role="button"
+                      tabIndex={0}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        deleteSession(session.id);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          deleteSession(session.id);
+                        }
+                      }}
+                      className="d-flex align-items-center justify-content-center"
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "10px",
+                        color: "#ef4444",
+                        background: active ? "#fff" : "#fff7f7",
+                        border: "1px solid #fee2e2",
+                        flexShrink: 0,
+                      }}
+                      title="حذف گفتگو"
+                    >
+                      <Trash2 size={13} />
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <div className="d-flex flex-column flex-grow-1" style={{ minWidth: 0, minHeight: 0 }}>
       <div
         className="position-relative d-flex flex-column"
         style={{
@@ -547,7 +989,15 @@ export default function Tutor() {
                               background: "#f8fafc",
                               cursor: "pointer",
                             }}
-                            onClick={() => window.open(imageSrc, "_blank")}
+                            onError={(event) => {
+                              const fallbackSrc = resolveMediaUrl(m.imagePreview);
+                              if (fallbackSrc && event.currentTarget.src !== fallbackSrc) {
+                                event.currentTarget.src = fallbackSrc;
+                              }
+                            }}
+                            onClick={(event) =>
+                              window.open(event.currentTarget.currentSrc || event.currentTarget.src || imageSrc, "_blank")
+                            }
                           />
                         </div>
                       )}
@@ -681,7 +1131,7 @@ export default function Tutor() {
               );
             })}
 
-            {loading && (
+            {activeSessionIsPending && (
               <div className="d-flex gap-2 justify-content-start">
                 <div
                   className="d-flex align-items-center justify-content-center flex-shrink-0"
@@ -954,7 +1404,7 @@ export default function Tutor() {
               onClick={() =>
                 fileInputRef.current && fileInputRef.current.click()
               }
-              disabled={loading}
+              disabled={activeSessionIsPending}
               className="btn d-flex align-items-center justify-content-center"
               style={{
                 width: "46px",
@@ -978,7 +1428,7 @@ export default function Tutor() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
+              disabled={activeSessionIsPending}
               placeholder="سوال درسی جدید خود را بپرسید..."
               className="form-control"
               style={{
@@ -1015,6 +1465,8 @@ export default function Tutor() {
               <Send size={18} style={{ transform: "scaleX(-1)" }} />
             </button>
           </form>
+        </div>
+      </div>
         </div>
       </div>
     </div>

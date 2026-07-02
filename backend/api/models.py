@@ -82,10 +82,32 @@ class UserSubscription(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class ChatSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chat_sessions")
+    title = models.CharField(max_length=255, default="گفتگوی جدید")
+    is_deleted = models.BooleanField(default=False, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-updated_at", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "is_deleted", "updated_at"]),
+        ]
+
+
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chat_messages")
+    session = models.ForeignKey(
+        ChatSession,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="messages",
+    )
     role = models.CharField(max_length=20)
     content = models.TextField()
+    metadata = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

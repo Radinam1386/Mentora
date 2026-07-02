@@ -1,48 +1,46 @@
 import json
-import mimetypes
-import os
-import re
 import time
 from pathlib import Path
 
-try:
-    from google.genai import types
-except ImportError:
-    types = None
-
+from .casual_chat import answer_casual_chat
 from .model_providers import ModelProviderConfigError, generate_google_content
+from .non_study_question import answer_non_study_question
+from .question_router import (
+    CASUAL_ROUTE,
+    NON_STUDY_ROUTE,
+    STUDY_ROUTE,
+    SUPPORT_ROUTE,
+    UNSAFE_ROUTE,
+    QuestionRouterConfigError,
+    answer_support_or_account,
+    answer_unsafe,
+    classify_question,
+)
+from .rag_common import (
+    GOOGLE_API_VERSION,
+    GOOGLE_BASE_URL,
+    MAX_RETRIES,
+    MODEL_NAME,
+    RAG_DIR,
+    RUNTIME_PROMPTS_DIR,
+    conversation_context_text,
+    env_bool,
+    env_int,
+    image_part as common_image_part,
+    load_json as common_load_json,
+    load_text as common_load_text,
+    question_with_context,
+    response_text,
+)
 
-REPO_DIR = Path(__file__).resolve().parents[2]
-RAG_DIR = REPO_DIR / "RAG"
-
-
-def env_int(name: str, default: int, minimum: int = 0) -> int:
-    try:
-        return max(minimum, int(os.environ.get(name, str(default))))
-    except ValueError:
-        return default
-
-
-def env_bool(name: str, default: bool = False) -> bool:
-    value = os.environ.get(name)
-    if value is None:
-        return default
-    return value.strip().lower() in {"1", "true", "yes", "on"}
-
-
-MODEL_NAME = os.environ.get("RAG_MODEL_NAME", "gemma-4-31b-it")
-GOOGLE_BASE_URL = os.environ.get("RAG_GOOGLE_BASE_URL", "").strip()
-GOOGLE_API_VERSION = os.environ.get("RAG_GOOGLE_API_VERSION", "").strip()
 MAX_CARDS_PER_SUBSUBJECT = env_int("RAG_MAX_CARDS_PER_SUBSUBJECT", 10000)
 MAX_SOURCE_CHARS = env_int("RAG_MAX_SOURCE_CHARS", 10000000)
-INCLUDE_SOURCE_IMAGES = os.environ.get("RAG_INCLUDE_SOURCE_IMAGES", "true").lower() in {"1", "true", "yes"}
+INCLUDE_SOURCE_IMAGES = env_bool("RAG_INCLUDE_SOURCE_IMAGES", True)
 MAX_SOURCE_IMAGES = env_int("RAG_MAX_SOURCE_IMAGES", 10000)
-MAX_RETRIES = env_int("RAG_MAX_RETRIES", env_int("RAG_MAX_RETRY", 2))
 RAG_DEBUG = env_bool("RAG_DEBUG", False)
+SOURCE_IMAGE_SUBJECTS = {"biology", "chemistry"}
 
-TOPIC_PROMPT_PATH = RAG_DIR / "Topic-Classifier-Prompt.txt"
-SOLVE_PROMPT_PATH = RAG_DIR / "Solve-Question-Prompt.txt"
-TOPICS_PATH = RAG_DIR / "Topics" / "all-topics.json"
+SOLVE_PROMPT_PATH = RUNTIME_PROMPTS_DIR / "study-solver.txt"
 INDEX_FILES = {
     "math": RAG_DIR / "math-subsubject-index.json",
     "physics": RAG_DIR / "physics-subsubject-index.json",
@@ -67,46 +65,11 @@ def debug_log(message: str, **fields) -> None:
 
 
 def load_text(path: Path) -> str:
-    if not path.exists():
-        raise QuestionSolverConfigError(f"Missing RAG file: {path}")
-    return path.read_text(encoding="utf-8")
+    return common_load_text(path, error_cls=QuestionSolverConfigError)
 
 
 def load_json(path: Path) -> dict:
-    return json.loads(load_text(path))
-
-
-def clean_json_response(text: str) -> dict:
-    text = text.strip()
-    if text.startswith("```"):
-        text = re.sub(r"^```(?:json)?\s*", "", text)
-        text = re.sub(r"\s*```$", "", text)
-
-    start = text.find("{")
-    end = text.rfind("}")
-    if start == -1 or end == -1:
-        raise ValueError(f"No JSON object found in model response:\n{text}")
-
-    return json.loads(text[start : end + 1])
-
-
-def response_text(response) -> str:
-    text = getattr(response, "text", None)
-    if text:
-        return text
-
-    texts = []
-    for candidate in getattr(response, "candidates", []) or []:
-        content = getattr(candidate, "content", None)
-        for part in getattr(content, "parts", []) or []:
-            part_text = getattr(part, "text", None)
-            if part_text:
-                texts.append(part_text)
-
-    if texts:
-        return "\n".join(texts)
-
-    raise ValueError(f"Google API returned no text. Raw response: {response}")
+    return common_load_json(path, error_cls=QuestionSolverConfigError)
 
 
 def resolve_rag_path(path_text: str) -> Path:
@@ -134,54 +97,7 @@ def resolve_rag_path(path_text: str) -> Path:
 
 
 def image_part(image_bytes: bytes, mime_type: str | None, file_name: str = ""):
-    if types is None:
-        raise QuestionSolverConfigError("google-genai is not installed. Run: pip install -r backend/requirements.txt")
-    detected_mime = mime_type or mimetypes.guess_type(file_name)[0] or "image/png"
-    return types.Part.from_bytes(data=image_bytes, mime_type=detected_mime)
-
-
-def classify_question(question_text: str, image_bytes: bytes | None, mime_type: str | None, file_name: str) -> dict:
-    topics_json = load_text(TOPICS_PATH)
-    prompt = load_text(TOPIC_PROMPT_PATH).replace("{TOPICS_JSON}", topics_json)
-    contents = [prompt]
-
-    if image_bytes:
-        contents.append(image_part(image_bytes, mime_type, file_name))
-    if question_text.strip():
-        contents.append("Student question:\n" + question_text.strip())
-
-    debug_log(
-        "classification prepared",
-        text_chars=len(question_text.strip()),
-        has_image=bool(image_bytes),
-        file_name=file_name or "-",
-        content_parts=len(contents),
-    )
-
-    try:
-        response = generate_google_content(
-            operation="classify_question",
-            model=MODEL_NAME,
-            contents=contents,
-            base_url=GOOGLE_BASE_URL,
-            api_version=GOOGLE_API_VERSION,
-            max_retries=MAX_RETRIES,
-            metadata={
-                "hasImage": bool(image_bytes),
-                "textChars": len(question_text.strip()),
-                "contentParts": len(contents),
-            },
-        )
-    except ModelProviderConfigError as exc:
-        raise QuestionSolverConfigError(str(exc))
-
-    result = clean_json_response(response_text(response))
-    debug_log(
-        "classification result",
-        main_subject=result.get("main_subject"),
-        subsubjects=len(result.get("subsubjects", []) or []),
-    )
-    return result
+    return common_image_part(image_bytes, mime_type, file_name, error_cls=QuestionSolverConfigError)
 
 
 def selected_subsubjects(classified_topics: dict) -> list[str]:
@@ -299,6 +215,13 @@ def cards_to_text(cards: list[dict]) -> tuple[str, list[dict]]:
     return sources_text, used_sources
 
 
+def source_images_for_model(classified_topics: dict, image_paths: list[str]) -> list[str]:
+    subject = str(classified_topics.get("main_subject") or "").strip().lower()
+    if not INCLUDE_SOURCE_IMAGES or subject not in SOURCE_IMAGE_SUBJECTS:
+        return []
+    return image_paths
+
+
 def solve_with_sources(
     question_text: str,
     image_bytes: bytes | None,
@@ -307,13 +230,15 @@ def solve_with_sources(
     classified_topics: dict,
     cards: list[dict],
     image_paths: list[str],
+    conversation_history: list[dict] | None = None,
 ) -> tuple[str, list[dict]]:
     sources_text, used_sources = cards_to_text(cards)
+    question_for_model = question_with_context(question_text, conversation_history)
     prompt = (
         load_text(SOLVE_PROMPT_PATH)
         .replace("{CLASSIFIED_TOPICS}", json.dumps(classified_topics, ensure_ascii=False, indent=2))
         .replace("{SOURCES}", sources_text or "No relevant source cards were found.")
-        .replace("{QUESTION_TEXT}", question_text.strip())
+        .replace("{QUESTION_TEXT}", question_for_model)
     )
 
     contents = [prompt]
@@ -321,18 +246,20 @@ def solve_with_sources(
         contents.append(image_part(image_bytes, mime_type, file_name))
 
     attached_images = 0
-    if INCLUDE_SOURCE_IMAGES:
-        for image_path_text in image_paths:
-            source_path = resolve_rag_path(image_path_text)
-            if source_path.exists():
-                contents.append(image_part(source_path.read_bytes(), None, source_path.name))
-                attached_images += 1
+    selected_image_paths = source_images_for_model(classified_topics, image_paths)
+    for image_path_text in selected_image_paths:
+        source_path = resolve_rag_path(image_path_text)
+        if source_path.exists():
+            contents.append(image_part(source_path.read_bytes(), None, source_path.name))
+            attached_images += 1
 
     debug_log(
         "solve prompt prepared",
         prompt_chars=len(prompt),
+        context_chars=len(conversation_context_text(conversation_history)),
         used_sources=len(used_sources),
         source_image_candidates=len(image_paths),
+        source_image_allowed=bool(selected_image_paths),
         attached_source_images=attached_images,
         content_parts=len(contents),
     )
@@ -348,6 +275,7 @@ def solve_with_sources(
             metadata={
                 "hasImage": bool(image_bytes),
                 "usedSources": len(used_sources),
+                "contextMessages": len(conversation_history or []),
                 "attachedSourceImages": attached_images,
                 "contentParts": len(contents),
             },
@@ -360,7 +288,7 @@ def solve_with_sources(
     return answer, used_sources
 
 
-def solve_student_question(question_text: str, uploaded_file=None) -> dict:
+def solve_student_question(question_text: str, uploaded_file=None, conversation_history: list[dict] | None = None) -> dict:
     started_at = time.perf_counter()
     image_bytes = None
     mime_type = None
@@ -377,6 +305,7 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
     debug_log(
         "student question solve started",
         text_chars=len(question_text.strip()),
+        context_messages=len(conversation_history or []),
         has_image=bool(image_bytes),
         image_bytes=len(image_bytes) if image_bytes else 0,
         mime_type=mime_type or "-",
@@ -384,7 +313,71 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
         max_retries=MAX_RETRIES,
     )
 
-    classified_topics = classify_question(question_text, image_bytes, mime_type, file_name)
+    try:
+        classified_topics = classify_question(question_text, image_bytes, mime_type, file_name, conversation_history)
+    except QuestionRouterConfigError as exc:
+        raise QuestionSolverConfigError(str(exc))
+
+    route = classified_topics.get("route") or STUDY_ROUTE
+    debug_log(
+        "student message routed",
+        route=route,
+        main_subject=classified_topics.get("main_subject") or "-",
+        confidence=classified_topics.get("confidence"),
+    )
+
+    if route == CASUAL_ROUTE:
+        try:
+            answer = answer_casual_chat(question_text, conversation_history=conversation_history)
+        except QuestionRouterConfigError as exc:
+            raise QuestionSolverConfigError(str(exc))
+        return {
+            "reply": answer,
+            "classified_topics": classified_topics,
+            "sources": [],
+            "source_count": 0,
+            "route": route,
+        }
+
+    if route == SUPPORT_ROUTE:
+        answer = answer_support_or_account()
+        return {
+            "reply": answer,
+            "classified_topics": classified_topics,
+            "sources": [],
+            "source_count": 0,
+            "route": route,
+        }
+
+    if route == UNSAFE_ROUTE:
+        answer = answer_unsafe()
+        return {
+            "reply": answer,
+            "classified_topics": classified_topics,
+            "sources": [],
+            "source_count": 0,
+            "route": route,
+        }
+
+    if route == NON_STUDY_ROUTE:
+        try:
+            answer = answer_non_study_question(
+                question_text,
+                image_bytes=image_bytes,
+                mime_type=mime_type,
+                file_name=file_name,
+                conversation_history=conversation_history,
+            )
+        except QuestionRouterConfigError as exc:
+            raise QuestionSolverConfigError(str(exc))
+        return {
+            "reply": answer,
+            "classified_topics": classified_topics,
+            "sources": [],
+            "source_count": 0,
+            "route": route,
+        }
+
     cards, image_paths = load_relevant_cards(classified_topics)
     answer, sources = solve_with_sources(
         question_text,
@@ -394,6 +387,7 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
         classified_topics,
         cards,
         image_paths,
+        conversation_history,
     )
 
     result = {
@@ -401,6 +395,7 @@ def solve_student_question(question_text: str, uploaded_file=None) -> dict:
         "classified_topics": classified_topics,
         "sources": sources,
         "source_count": len(sources),
+        "route": route,
     }
     debug_log(
         "student question solve finished",

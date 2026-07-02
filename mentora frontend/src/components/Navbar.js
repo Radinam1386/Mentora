@@ -1,4 +1,4 @@
-import {Sparkles, LogOut, Menu, Crown } from "lucide-react";
+import { LogOut, Menu, Crown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import NotificationDropdown from "./NotificationDropdown";
@@ -42,9 +42,13 @@ export default function AppNavbar({ onToggleSidebar }) {
                     </button>
 
                     <div className="d-flex align-items-center gap-2">
-                        <Link to="/home" className="d-flex align-items-center justify-content-center text-white"
-                            style={{ width: "38px", height: "38px", borderRadius: "12px", background: "linear-gradient(135deg, #6255f5, #4f46e5)" }}>
-                            <Sparkles size={18} />
+                        <Link to="/home" aria-label="منتورا" className="d-flex align-items-center justify-content-center"
+                            style={{ width: "40px", height: "40px", borderRadius: "12px", background: "#fff", border: "1px solid #eef2f7", boxShadow: "0 8px 20px rgba(98,85,245,0.12)" }}>
+                            <img
+                                src="/logo-mark.png"
+                                alt="منتورا"
+                                style={{ width: "34px", height: "34px", objectFit: "contain", display: "block" }}
+                            />
                         </Link>
                         <div className="d-flex">
                             <div style={{ fontSize: "14px", fontWeight: 800, color: "#111827" }}>منتورا</div>

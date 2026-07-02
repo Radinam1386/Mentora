@@ -29,7 +29,7 @@ except NameError:
     if not RAG_DIR.exists():
         RAG_DIR = Path.cwd()
 
-PROMPT_PATH = RAG_DIR / "Topic-Classifier-Prompt.txt"
+PROMPT_PATH = RAG_DIR / "prompts" / "legacy" / "topic-classifier.txt"
 TOPICS_PATH = RAG_DIR / "Topics" / "all-topics.json"
 
 

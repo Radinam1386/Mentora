@@ -128,7 +128,7 @@ function App() {
             <Route path="/subscriptionplans" element={<SubscriptionPlans />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/support" element={<Support />} />
-            <Route path="/admin/console" element={<AdminConsole />} />
+            <Route path="/admin-console" element={<AdminConsole />} />
             <Route path="/loading" element={<StudyLoading />} />
             <Route path="/exams" element={<ComingSoon />} />
             <Route path="/blog" element={<BlogList />} />

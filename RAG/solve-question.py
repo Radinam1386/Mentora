@@ -31,7 +31,7 @@ except NameError:
     if not RAG_DIR.exists():
         RAG_DIR = Path.cwd()
 
-PROMPT_PATH = RAG_DIR / "Solve-Question-Prompt.txt"
+PROMPT_PATH = RAG_DIR / "prompts" / "runtime" / "study-solver.txt"
 
 
 def load_json(path: Path) -> dict:
