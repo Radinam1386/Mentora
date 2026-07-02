@@ -2,11 +2,14 @@ import json
 import os
 import re
 import sys
+import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 
 from django.conf import settings
+from django.core.files.storage import default_storage
 from django.db.utils import OperationalError, ProgrammingError
+from django.utils.text import get_valid_filename
 from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -23,7 +26,7 @@ from .auth_utils import (
 )
 from .question_solver import QuestionSolverConfigError, solve_student_question
 
-from .models import ChatMessage, DailyTask, OTPCode, QuizQuestion, SubscriptionPlan, User, UserSubscription, WeeklyPlan
+from .models import ChatMessage, ChatSession, DailyTask, OTPCode, QuizQuestion, SubscriptionPlan, User, UserSubscription, WeeklyPlan
 from .sms import send_otp as sms_send_otp
 
 
@@ -1508,44 +1511,212 @@ def update_task(request, task_id):
     })
 
 
-@api_view(["GET", "POST"])
-@require_auth
-def chat_history(request):
-    user = request.mentora_user
-    if request.method == "GET":
-        messages = user.chat_messages.order_by("created_at")[:100]
-        return Response({
-            "messages": [
-                {
-                    "id": m.id,
-                    "role": "user" if m.role == "user" else "model",
-                    "content": m.content,
-                    "timestamp": m.created_at.isoformat(),
-                }
-                for m in messages
-            ],
-        })
-    return Response({"error": "Method not allowed"}, status=405)
+TUTOR_CONTEXT_MESSAGE_LIMIT = 6
+TUTOR_ACTION_PROMPTS = {
+    "simpler": "لطفاً پاسخ قبلی را ساده‌تر، کوتاه‌تر و مرحله‌به‌مرحله‌تر توضیح بده.",
+    "alternative": "لطفاً یک روش دیگر یا راه تستی سریع‌تر برای همین سوال پیشنهاد بده.",
+}
 
 
-@api_view(["POST"])
-@require_auth
-def chat(request):
+def chat_role_for_client(role):
+    return "user" if role == "user" else "model"
+
+
+def chat_role_for_context(role):
+    return "user" if role == "user" else "assistant"
+
+
+def make_chat_title(text):
+    normalized = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not normalized or normalized == "تصویر سوال ارسال شد.":
+        return "سوال تصویری"
+    return normalized[:42] + ("..." if len(normalized) > 42 else "")
+
+
+def serialize_chat_message(message):
+    metadata = message.metadata or {}
+    image_url = metadata.get("image_url") or metadata.get("image") or ""
+    return {
+        "id": message.id,
+        "role": chat_role_for_client(message.role),
+        "content": message.content,
+        "timestamp": message.created_at.isoformat(),
+        "image": image_url,
+        "imageUrl": image_url,
+        "imageName": metadata.get("image_name") or "",
+        "sources": metadata.get("sources") or [],
+        "sourceCount": metadata.get("source_count") or 0,
+    }
+
+
+def serialize_chat_session(session, include_messages=False):
+    last_message = session.messages.order_by("-created_at").first()
+    payload = {
+        "id": session.id,
+        "title": session.title or "گفتگوی جدید",
+        "createdAt": session.created_at.isoformat(),
+        "updatedAt": session.updated_at.isoformat(),
+        "lastMessagePreview": (last_message.content[:90] if last_message else ""),
+        "messageCount": session.messages.count(),
+    }
+    if include_messages:
+        payload["messages"] = [
+            serialize_chat_message(message)
+            for message in session.messages.order_by("created_at", "id")[:200]
+        ]
+    return payload
+
+
+def get_user_chat_session(user, session_id):
+    try:
+        return user.chat_sessions.get(id=session_id, is_deleted=False)
+    except (ChatSession.DoesNotExist, ValueError, TypeError):
+        return None
+
+
+def create_chat_session_for_user(user, title=""):
+    return ChatSession.objects.create(
+        user=user,
+        title=str(title or "").strip()[:255] or "گفتگوی جدید",
+    )
+
+
+def get_or_create_chat_session(user, session_id=None):
+    if session_id:
+        session = get_user_chat_session(user, session_id)
+        return session, False
+
+    session = user.chat_sessions.filter(is_deleted=False).order_by("-updated_at", "-created_at").first()
+    if session:
+        return session, False
+    return create_chat_session_for_user(user), True
+
+
+def touch_chat_session(session, title_source=""):
+    update_fields = ["updated_at"]
+    if session.title in {"", "گفتگوی جدید", "سوال جدید"}:
+        session.title = make_chat_title(title_source)
+        update_fields.append("title")
+    session.save(update_fields=update_fields)
+
+
+def recent_chat_context(session, exclude_message_id=None):
+    messages = session.messages.order_by("-created_at", "-id")
+    if exclude_message_id:
+        messages = messages.exclude(id=exclude_message_id)
+    recent = list(messages[:TUTOR_CONTEXT_MESSAGE_LIMIT])
+    recent.reverse()
+    return [
+        {
+            "role": chat_role_for_context(message.role),
+            "content": message.content,
+        }
+        for message in recent
+        if message.content
+    ]
+
+
+def client_history_context(request):
+    raw_history = request.data.get("history")
+    if not raw_history:
+        return []
+    try:
+        parsed = json.loads(raw_history)
+    except (TypeError, ValueError):
+        return []
+    if not isinstance(parsed, list):
+        return []
+
+    context = []
+    for item in parsed[-TUTOR_CONTEXT_MESSAGE_LIMIT:]:
+        if not isinstance(item, dict):
+            continue
+        content = str(item.get("content") or "").strip()
+        if not content:
+            continue
+        role = "user" if item.get("role") == "user" else "assistant"
+        context.append({"role": role, "content": content})
+    return context
+
+
+def persist_tutor_upload(user, session, uploaded_file):
+    if uploaded_file is None:
+        return {}
+
+    content_type = str(getattr(uploaded_file, "content_type", "") or "").lower()
+    if content_type and not content_type.startswith("image/"):
+        raise ValueError("فقط فایل تصویری قابل ارسال است.")
+
+    original_name = get_valid_filename(Path(uploaded_file.name or "question-image").name)
+    original_name = original_name[:160] or "question-image"
+    extension = Path(original_name).suffix.lower() or ".png"
+    saved_name = f"{uuid.uuid4().hex}{extension}"
+    saved_path = default_storage.save(
+        f"tutor_uploads/{user.id}/{session.id}/{saved_name}",
+        uploaded_file,
+    )
+    try:
+        uploaded_file.seek(0)
+    except (AttributeError, OSError):
+        pass
+
+    image_url = default_storage.url(saved_path)
+    return {
+        "image": image_url,
+        "image_url": image_url,
+        "image_path": saved_path,
+        "image_name": original_name,
+        "image_content_type": content_type,
+        "image_size": int(getattr(uploaded_file, "size", 0) or 0),
+    }
+
+
+def tutor_message_payload(request, session_id=None):
     user = request.mentora_user
-    action = request.data.get("action", "")
-    message = (request.data.get("message") or "").strip()
+    requested_session_id = session_id or request.data.get("sessionId") or request.data.get("session_id")
+    session, created_session = get_or_create_chat_session(user, requested_session_id)
+    if not session:
+        return Response({"error": "گفتگوی انتخاب‌شده پیدا نشد."}, status=404)
+
+    action = str(request.data.get("action") or "").strip()
+    message = str(request.data.get("message") or "").strip()
     image = request.FILES.get("image")
+    action_prompt = TUTOR_ACTION_PROMPTS.get(action, "")
+    solver_message = message or action_prompt
+    stored_user_content = message or action_prompt or ("تصویر سوال ارسال شد." if image else "")
+    context = recent_chat_context(session) or client_history_context(request)
 
-    if action and not message and image is None:
+    if action and not context and image is None and not message:
         return Response({
-            "reply": "اول یک سوال یا تصویر سوال بفرست، بعد می‌توانم پاسخ را ساده‌تر کنم یا روش دیگری پیشنهاد بدهم."
+            "reply": "اول یک سوال یا تصویر سوال بفرست، بعد می‌توانم پاسخ را ساده‌تر کنم یا روش دیگری پیشنهاد بدهم.",
+            "session": serialize_chat_session(session),
         })
 
-    if message:
-        ChatMessage.objects.create(user=user, role="user", content=message)
+    if not stored_user_content and image is None:
+        return Response({"error": "متن سوال یا تصویر سوال الزامی است."}, status=400)
 
     try:
-        result = solve_student_question(message, image)
+        upload_metadata = persist_tutor_upload(user, session, image)
+    except ValueError as exc:
+        return Response({"error": str(exc)}, status=400)
+
+    user_metadata = {"action": action} if action else {}
+    user_metadata.update(upload_metadata)
+    user_message = ChatMessage.objects.create(
+        user=user,
+        session=session,
+        role="user",
+        content=stored_user_content,
+        metadata=user_metadata,
+    )
+    touch_chat_session(session, stored_user_content)
+
+    try:
+        result = solve_student_question(
+            solver_message or stored_user_content,
+            image,
+            conversation_history=context,
+        )
     except QuestionSolverConfigError as exc:
         return tutor_error_response(friendly_tutor_error(exc, "config"), status=503)
     except ValueError as exc:
@@ -1554,10 +1725,109 @@ def chat(request):
         return tutor_error_response(friendly_tutor_error(exc), status=500)
 
     reply = result.get("reply", "")
+    assistant_message = None
     if reply:
-        ChatMessage.objects.create(user=user, role="assistant", content=reply)
+        assistant_message = ChatMessage.objects.create(
+            user=user,
+            session=session,
+            role="assistant",
+            content=reply,
+            metadata={
+                "route": result.get("route") or (result.get("classified_topics") or {}).get("route"),
+                "classified_topics": result.get("classified_topics") or {},
+                "sources": result.get("sources") or [],
+                "source_count": result.get("source_count") or 0,
+            },
+        )
 
+    touch_chat_session(session, stored_user_content)
+
+    result["session"] = serialize_chat_session(session)
+    result["userMessage"] = serialize_chat_message(user_message)
+    if assistant_message:
+        result["assistantMessage"] = serialize_chat_message(assistant_message)
+    result["createdSession"] = created_session
     return Response(result)
+
+
+@api_view(["GET", "POST"])
+@require_auth
+def chat_sessions(request):
+    user = request.mentora_user
+    if request.method == "GET":
+        sessions = user.chat_sessions.filter(is_deleted=False).order_by("-updated_at", "-created_at")[:50]
+        return Response({
+            "sessions": [serialize_chat_session(session) for session in sessions],
+        })
+
+    title = str(request.data.get("title") or "").strip()
+    session = create_chat_session_for_user(user, title)
+    return Response({"session": serialize_chat_session(session, include_messages=True)}, status=201)
+
+
+@api_view(["GET", "PATCH", "DELETE"])
+@require_auth
+def chat_session_detail(request, session_id):
+    session = get_user_chat_session(request.mentora_user, session_id)
+    if not session:
+        return Response({"error": "گفتگوی انتخاب‌شده پیدا نشد."}, status=404)
+
+    if request.method == "GET":
+        return Response({"session": serialize_chat_session(session, include_messages=True)})
+
+    if request.method == "DELETE":
+        session.is_deleted = True
+        session.save(update_fields=["is_deleted", "updated_at"])
+        return Response({"deleted": True, "sessionId": session_id})
+
+    title = str(request.data.get("title") or "").strip()
+    if not title:
+        return Response({"error": "عنوان گفتگو نمی‌تواند خالی باشد."}, status=400)
+    session.title = title[:255]
+    session.save(update_fields=["title", "updated_at"])
+    return Response({"session": serialize_chat_session(session, include_messages=True)})
+
+
+@api_view(["GET", "POST"])
+@require_auth
+def chat_session_messages(request, session_id):
+    session = get_user_chat_session(request.mentora_user, session_id)
+    if not session:
+        return Response({"error": "گفتگوی انتخاب‌شده پیدا نشد."}, status=404)
+
+    if request.method == "GET":
+        return Response({
+            "session": serialize_chat_session(session),
+            "messages": [
+                serialize_chat_message(message)
+                for message in session.messages.order_by("created_at", "id")[:200]
+            ],
+        })
+
+    return tutor_message_payload(request, session_id=session_id)
+
+
+@api_view(["GET", "POST"])
+@require_auth
+def chat_history(request):
+    user = request.mentora_user
+    if request.method == "GET":
+        session = user.chat_sessions.filter(is_deleted=False).order_by("-updated_at", "-created_at").first()
+        if session:
+            messages = session.messages.order_by("created_at", "id")[:100]
+        else:
+            messages = user.chat_messages.filter(session__isnull=True).order_by("created_at", "id")[:100]
+        return Response({
+            "messages": [serialize_chat_message(message) for message in messages],
+            "session": serialize_chat_session(session) if session else None,
+        })
+    return Response({"error": "Method not allowed"}, status=405)
+
+
+@api_view(["POST"])
+@require_auth
+def chat(request):
+    return tutor_message_payload(request)
 
 
 @api_view(["GET", "PATCH"])

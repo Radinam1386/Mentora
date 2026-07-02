@@ -15,7 +15,7 @@ export default function Support() {
   /* --- Load all tickets --- */
   const loadTickets = async () => {
     try {
-      const { response, data } = await apiJson("/api/tickets");
+      const { response, data } = await apiJson("/api/support/tickets");
       if (response.ok) setTickets(data.tickets || []);
     } catch (e) {
       console.error(e);
@@ -25,7 +25,7 @@ export default function Support() {
   /* --- Load single ticket --- */
   const loadTicket = async (id) => {
     try {
-      const { response, data } = await apiJson(`/api/tickets/${id}`);
+      const { response, data } = await apiJson(`/api/support/tickets/${id}`);
       if (response.ok) setSelected(data.ticket);
     } catch (e) {
       console.error(e);
@@ -36,14 +36,16 @@ export default function Support() {
   const createTicket = async (e) => {
     e.preventDefault();
     try {
-      const { response } = await apiJson("/api/tickets", {
+      const { response, data } = await apiJson("/api/support/tickets", {
         method: "POST",
-        body: form,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
 
       if (response.ok) {
         setForm({ title: "", category: "عمومی", body: "" });
-        loadTickets();
+        if (data.ticket) setSelected(data.ticket);
+        await loadTickets();
       }
     } catch (e) {
       console.error(e);
@@ -55,9 +57,10 @@ export default function Support() {
     if (!selected || !message.trim()) return;
 
     try {
-      const { response } = await apiJson(`/api/tickets/${selected.id}/reply`, {
+      const { response } = await apiJson(`/api/support/tickets/${selected.id}/messages`, {
         method: "POST",
-        body: { body: message },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body: message }),
       });
 
       if (response.ok) {

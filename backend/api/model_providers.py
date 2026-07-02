@@ -28,13 +28,6 @@ class ModelProviderConfigError(Exception):
     pass
 
 
-def env_int(name: str, default: int, minimum: int = 0) -> int:
-    try:
-        return max(minimum, int(os.environ.get(name, str(default))))
-    except ValueError:
-        return default
-
-
 def split_api_keys(value: str) -> list[str]:
     return [part.strip() for part in re.split(r"[\s,;]+", value or "") if part.strip()]
 

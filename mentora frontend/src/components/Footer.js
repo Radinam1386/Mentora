@@ -1,5 +1,5 @@
 import React from "react";
-import { Heart, Sparkles, Instagram, Send, Mail } from "lucide-react";
+import { Heart, Instagram, Send, Mail } from "lucide-react";
 
 export default function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -48,7 +48,12 @@ export default function AppFooter() {
           <div className="footer-grid">
             <div className="footer-section">
               <h2 className="d-flex align-items-center gap-2 mb-2" style={{ fontSize: "18px", fontWeight: 900, color: "#6255f5" }}>
-                <Sparkles size={20} />
+                <img
+                  src="/logo-mark.png"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: "24px", height: "24px", objectFit: "contain" }}
+                />
                 منتورا
               </h2>
               <p style={{ fontSize: "12px", color: "#6b7280", lineHeight: "1.7", margin: 0 }}>
